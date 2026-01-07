@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neorah - Budget</title>
+    <title>Neorah - Pro Budget</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root { --primary: #7f1d1d; --accent: #ef4444; --sidebar-bg: #0f172a; }
         .bg-custom-sidebar { background-color: var(--sidebar-bg) !important; }
         .text-custom-accent { color: var(--accent) !important; }
+        .text-custom-primary { color: var(--primary) !important; }
+        .progress-bg { background-color: #f1f5f9; height: 6px; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; transition: width 0.5s ease; }
         @media (max-width: 1024px) {
             nav { width: 100% !important; height: auto !important; position: relative !important; padding: 15px !important; }
             main { margin-left: 0 !important; padding: 15px !important; }
             .nav-links { display: flex !important; flex-wrap: wrap; gap: 8px; justify-content: center; }
-            .sidebar-footer { display: none !important; }
         }
     </style>
 </head>
@@ -29,58 +31,186 @@
     </nav>
 
     <main class="flex-1 lg:ml-64 p-4 lg:p-10">
-        <header class="mb-6 flex flex-col gap-4">
-            <h2 class="text-2xl font-bold text-slate-800 text-center lg:text-left">Ledger</h2>
-            <div id="mSelect" class="flex flex-wrap gap-1 justify-center lg:justify-start"></div>
-        </header>
-        
-        <div class="grid grid-cols-2 gap-3 mb-6">
-            <div class="bg-white p-4 rounded-2xl border-b-4 border-emerald-500 shadow-sm text-center">
-                <p class="text-[8px] uppercase font-bold text-slate-400">Income</p>
-                <p id="tI" class="text-lg font-bold text-emerald-600">₹0</p>
+        <section class="bg-white p-6 rounded-3xl shadow-sm border mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b pb-4 gap-4">
+                <h2 class="text-xl font-bold text-slate-800">Budget Strategy</h2>
+                <div class="flex items-center gap-2 bg-slate-100 p-2 rounded-xl">
+                    <input id="rNeeds" type="number" oninput="saveRule()" class="w-10 bg-transparent font-bold text-center text-blue-600 outline-none" value="50">
+                    <span class="text-slate-400">/</span>
+                    <input id="rWants" type="number" oninput="saveRule()" class="w-10 bg-transparent font-bold text-center text-purple-600 outline-none" value="30">
+                    <span class="text-slate-400">/</span>
+                    <input id="rSavings" type="number" oninput="saveRule()" class="w-10 bg-transparent font-bold text-center text-emerald-600 outline-none" value="20">
+                </div>
             </div>
-            <div class="bg-white p-4 rounded-2xl border-b-4 border-red-800 shadow-sm text-center">
-                <p class="text-[8px] uppercase font-bold text-slate-400">Expense</p>
-                <p id="tE" class="text-lg font-bold text-red-800">₹0</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="space-y-2">
+                    <div class="flex justify-between items-end">
+                        <p class="text-[9px] font-black text-blue-400 uppercase">Needs</p>
+                        <p id="targetNeeds" class="text-xs font-bold text-blue-700">₹0</p>
+                    </div>
+                    <div class="progress-bg"><div id="fillNeeds" class="progress-fill bg-blue-500"></div></div>
+                    <p id="labelNeeds" class="text-[8px] font-bold text-slate-400">0% Used</p>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-end">
+                        <p class="text-[9px] font-black text-purple-400 uppercase">Wants</p>
+                        <p id="targetWants" class="text-xs font-bold text-purple-700">₹0</p>
+                    </div>
+                    <div class="progress-bg"><div id="fillWants" class="progress-fill bg-purple-500"></div></div>
+                    <p id="labelWants" class="text-[8px] font-bold text-slate-400">0% Used</p>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-end">
+                        <p class="text-[9px] font-black text-emerald-400 uppercase">Savings</p>
+                        <p id="targetSavings" class="text-xs font-bold text-emerald-700">₹0</p>
+                    </div>
+                    <div class="progress-bg"><div id="fillSavings" class="progress-fill bg-emerald-500"></div></div>
+                    <p id="labelSavings" class="text-[8px] font-bold text-slate-400">0% Used</p>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="bg-white rounded-2xl border shadow-sm overflow-x-auto">
-            <table class="w-full text-left text-xs min-w-[400px]">
-                <thead class="bg-slate-50 text-[8px] uppercase font-bold text-slate-400">
-                    <tr><th class="p-3">Day</th><th class="p-3">Note</th><th class="p-3 text-emerald-600">In (+)</th><th class="p-3 text-red-800">Out (-)</th></tr>
-                </thead>
-                <tbody id="ledger" class="divide-y"></tbody>
-            </table>
-        </div>
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+            <div class="bg-slate-900 text-white p-6 rounded-3xl shadow-xl">
+                <h3 class="text-[10px] font-black text-custom-accent uppercase mb-4 tracking-widest">Add Transaction</h3>
+                <div class="space-y-4">
+                    <div class="flex gap-2">
+                        <select id="entryDate" class="bg-slate-800 border-none rounded-xl p-3 text-xs flex-1 outline-none"></select>
+                        <select id="entryType" class="bg-slate-800 border-none rounded-xl p-3 text-xs outline-none">
+                            <option value="income">💰 Income</option>
+                            <option value="need">🏠 Need</option>
+                            <option value="want">🍿 Want</option>
+                            <option value="saving">🏦 Saving</option>
+                        </select>
+                    </div>
+                    <input id="entryDesc" type="text" placeholder="Description" class="w-full bg-slate-800 rounded-xl p-3 text-xs outline-none">
+                    <input id="entryAmt" type="number" placeholder="Amount (₹)" class="w-full bg-slate-800 rounded-xl p-3 text-xs outline-none">
+                    <button onclick="addEntry()" class="w-full bg-custom-primary text-white font-bold py-3 rounded-xl text-xs hover:opacity-90">Add Transaction</button>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl border shadow-sm flex flex-col justify-center">
+                <p class="text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest">Total Monthly Income</p>
+                <p id="totalInc" class="text-4xl font-black text-slate-800 mb-4">₹0</p>
+                <div class="pt-4 border-t">
+                    <div class="flex justify-between text-xs font-bold mb-2">
+                        <span class="text-slate-500">Overall Utilization</span>
+                        <span id="overallLabel" class="text-slate-800">0%</span>
+                    </div>
+                    <div class="progress-bg"><div id="progressFill" class="progress-fill bg-slate-900"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <h3 class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Transaction History</h3>
+        <div id="history" class="space-y-2 pb-10"></div>
     </main>
 
     <script src="global.js"></script>
     <script>
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let curM = new Date().getMonth();
-        function render() {
-            const ms = document.getElementById('mSelect'); ms.innerHTML = '';
-            months.forEach((m, i) => {
-                ms.innerHTML += `<button onclick="curM=${i}; render()" class="px-2 py-1 rounded-lg border text-[9px] font-bold ${curM===i?'bg-slate-900 text-white':'bg-white text-slate-400'}">${m}</button>`;
-            });
-            const l = document.getElementById('ledger'); l.innerHTML = '';
-            const days = new Date(2026, curM+1, 0).getDate();
-            let ti=0, te=0;
-            for(let d=1; d<=days; d++) {
-                const ki=`i-${curM}-${d}`, ke=`e-${curM}-${d}`, kd=`d-${curM}-${d}`;
-                const vi=localStorage.getItem(ki)||'', ve=localStorage.getItem(ke)||'', vd=localStorage.getItem(kd)||'';
-                ti+=parseFloat(vi)||0; te+=parseFloat(ve)||0;
-                l.innerHTML += `<tr>
-                    <td class="p-3 font-bold text-slate-400">${d}</td>
-                    <td class="p-2"><input oninput="localStorage.setItem('${kd}',this.value)" value="${vd}" class="w-full outline-none bg-transparent" placeholder="..."></td>
-                    <td class="p-2"><input type="number" oninput="localStorage.setItem('${ki}',this.value); render()" value="${vi}" class="w-16 outline-none text-emerald-600 font-bold bg-transparent" placeholder="0"></td>
-                    <td class="p-2"><input type="number" oninput="localStorage.setItem('${ke}',this.value); render()" value="${ve}" class="w-16 outline-none text-red-800 font-bold bg-transparent" placeholder="0"></td>
-                </tr>`;
+        let curMonth = new Date().getMonth();
+        let curYear = 2026;
+
+        function init() {
+            document.getElementById('rNeeds').value = localStorage.getItem('ruleNeeds') || 50;
+            document.getElementById('rWants').value = localStorage.getItem('ruleWants') || 30;
+            document.getElementById('rSavings').value = localStorage.getItem('ruleSavings') || 20;
+
+            const dateSel = document.getElementById('entryDate');
+            const days = new Date(curYear, curMonth + 1, 0).getDate();
+            for(let i=1; i<=days; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = `Jan ${i}, 2026`; // Adjust if you want dynamic month labels
+                dateSel.appendChild(opt);
             }
-            document.getElementById('tI').innerText = '₹' + ti; document.getElementById('tE').innerText = '₹' + te;
+            render();
         }
-        window.onload = render;
+
+        function saveRule() {
+            localStorage.setItem('ruleNeeds', document.getElementById('rNeeds').value);
+            localStorage.setItem('ruleWants', document.getElementById('rWants').value);
+            localStorage.setItem('ruleSavings', document.getElementById('rSavings').value);
+            render();
+        }
+
+        function addEntry() {
+            const date = document.getElementById('entryDate').value;
+            const type = document.getElementById('entryType').value;
+            const desc = document.getElementById('entryDesc').value;
+            const amt = parseFloat(document.getElementById('entryAmt').value);
+            if(!desc || !amt) return alert("Please enter description and amount.");
+            const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}`) || "[]");
+            entries.push({ date, type, desc, amt, id: Date.now() });
+            localStorage.setItem(`budget-${curMonth}`, JSON.stringify(entries));
+            document.getElementById('entryDesc').value = '';
+            document.getElementById('entryAmt').value = '';
+            render();
+        }
+
+        function deleteEntry(id) {
+            let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}`) || "[]");
+            entries = entries.filter(e => e.id !== id);
+            localStorage.setItem(`budget-${curMonth}`, JSON.stringify(entries));
+            render();
+        }
+
+        function updateGauge(fillId, labelId, actual, target) {
+            const fill = document.getElementById(fillId);
+            const label = document.getElementById(labelId);
+            const pct = target > 0 ? (actual / target) * 100 : 0;
+            fill.style.width = `${Math.min(pct, 100)}%`;
+            fill.style.backgroundColor = pct > 100 ? '#ef4444' : ''; // Red if over limit
+            label.innerText = `${pct.toFixed(0)}% of target used`;
+        }
+
+        function render() {
+            const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}`) || "[]");
+            const history = document.getElementById('history');
+            history.innerHTML = '';
+            let totals = { income: 0, need: 0, want: 0, saving: 0 };
+            
+            entries.sort((a,b) => b.id - a.id).forEach(e => {
+                totals[e.type] += e.amt;
+                const sym = e.type === 'income' ? '+' : '-';
+                const col = e.type === 'income' ? 'text-emerald-500' : 'text-slate-600';
+                history.innerHTML += `
+                    <div class="bg-white p-4 rounded-2xl flex justify-between items-center border shadow-sm">
+                        <div class="flex flex-col">
+                            <span class="text-[8px] font-black text-slate-400 uppercase">Day ${e.date} • ${e.type}</span>
+                            <span class="text-xs font-bold text-slate-700">${e.desc}</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm font-black ${col}">${sym} ₹${e.amt.toLocaleString()}</span>
+                            <button onclick="deleteEntry(${e.id})" class="text-slate-300 text-xl">×</button>
+                        </div>
+                    </div>`;
+            });
+
+            const rN = parseFloat(document.getElementById('rNeeds').value) / 100;
+            const rW = parseFloat(document.getElementById('rWants').value) / 100;
+            const rS = parseFloat(document.getElementById('rSavings').value) / 100;
+
+            const tN = totals.income * rN;
+            const tW = totals.income * rW;
+            const tS = totals.income * rS;
+
+            document.getElementById('totalInc').innerText = `₹${totals.income.toLocaleString()}`;
+            document.getElementById('targetNeeds').innerText = `₹${tN.toFixed(0)}`;
+            document.getElementById('targetWants').innerText = `₹${tW.toFixed(0)}`;
+            document.getElementById('targetSavings').innerText = `₹${tS.toFixed(0)}`;
+
+            updateGauge('fillNeeds', 'labelNeeds', totals.need, tN);
+            updateGauge('fillWants', 'labelWants', totals.want, tW);
+            updateGauge('fillSavings', 'labelSavings', totals.saving, tS);
+
+            const totalExp = totals.need + totals.want + totals.saving;
+            const overallPct = totals.income > 0 ? (totalExp / totals.income) * 100 : 0;
+            document.getElementById('progressFill').style.width = `${Math.min(overallPct, 100)}%`;
+            document.getElementById('overallLabel').innerText = `${overallPct.toFixed(0)}%`;
+        }
+        window.onload = init;
     </script>
 </body>
 </html>
