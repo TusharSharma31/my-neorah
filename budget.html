@@ -3,15 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neorah - Strategic Budget</title>
+    <title>Neorah - Pro Budget</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Apply theme immediately to prevent "white flash" on load
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
     <style>
         :root { --primary: #7f1d1d; --accent: #ef4444; --sidebar-bg: #0f172a; }
         .bg-custom-sidebar { background-color: var(--sidebar-bg) !important; }
         .text-custom-accent { color: var(--accent) !important; }
-        .progress-bg { background-color: #f1f5f9; height: 8px; border-radius: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         
+        /* Dark Mode Overrides */
+        .dark body { background-color: #020617; }
+        .dark .bg-white { background-color: #1e293b; border-color: #334155; color: #f1f5f9; }
+        .dark .text-slate-800, .dark .text-slate-700 { color: #f1f5f9; }
+        .dark .text-slate-400 { color: #94a3b8; }
+        .dark .border { border-color: #334155; }
+        .dark input, .dark select, .dark textarea { color: #fff; }
+        
+        .progress-bg { background-color: #f1f5f9; height: 8px; border-radius: 10px; overflow: hidden; }
+        .dark .progress-bg { background-color: #334155; }
+        .progress-fill { height: 100%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+
         @media (max-width: 1024px) {
             nav { width: 100% !important; height: auto !important; position: relative !important; padding: 15px !important; }
             main { margin-left: 0 !important; padding: 15px !important; }
@@ -19,15 +35,19 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 flex flex-col lg:flex-row min-h-screen">
+<body class="bg-slate-50 flex flex-col lg:flex-row min-h-screen transition-colors duration-300">
+    
     <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col z-50 no-print">
         <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter">NEORAH</h1>
-        <ul class="nav-links space-y-4">
+        <ul class="nav-links space-y-4 flex-1">
             <li><a href="index.html" class="hover:text-custom-accent block py-2 px-3">🗓️ Roadmap</a></li>
             <li><a href="planner.html" class="hover:text-custom-accent block py-2 px-3">✍️ Journal</a></li>
             <li><a href="budget.html" class="text-custom-accent font-bold underline block py-2 px-3 bg-white/5 rounded-xl">📊 Budget</a></li>
             <li><a href="habits.html" class="hover:text-custom-accent block py-2 px-3">🌿 Habits</a></li>
         </ul>
+        <button onclick="toggleTheme()" class="mt-auto p-3 bg-white/10 rounded-xl flex items-center justify-center gap-2 text-xs font-bold hover:bg-white/20 transition-all">
+            <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+        </button>
     </nav>
 
     <main class="flex-1 lg:ml-64 p-4 lg:p-10">
@@ -45,67 +65,71 @@
         </section>
 
         <section class="bg-white p-6 rounded-3xl shadow-sm border mb-8">
-            <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Step 1: Monthly Financial Plan</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div>
                     <label class="text-xs font-bold text-slate-500 block mb-2">Monthly Take-Home Salary</label>
                     <input id="monthlySalary" type="number" oninput="calculateTargets()" 
-                        class="text-4xl font-black text-slate-800 bg-transparent outline-none w-full border-b-2 border-slate-100 focus:border-custom-primary pb-2" 
-                        placeholder="₹ 0.00">
+                        class="text-4xl font-black bg-transparent outline-none w-full border-b-2 border-slate-100 focus:border-custom-primary pb-2" 
+                        placeholder="₹ 0">
                 </div>
-                <div class="bg-slate-50 p-4 rounded-2xl">
-                    <label class="text-[9px] font-black text-slate-400 uppercase block mb-3">Adjust Allocation %</label>
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl">
                     <div class="flex items-center gap-3">
-                        <div class="flex-1"><span class="text-[10px] text-blue-500 font-bold">Needs</span><input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full bg-white border rounded p-1 font-bold text-xs" value="50"></div>
-                        <div class="flex-1"><span class="text-[10px] text-purple-500 font-bold">Wants</span><input id="rWants" type="number" oninput="calculateTargets()" class="w-full bg-white border rounded p-1 font-bold text-xs" value="30"></div>
-                        <div class="flex-1"><span class="text-[10px] text-emerald-500 font-bold">Savings</span><input id="rSavings" type="number" oninput="calculateTargets()" class="w-full bg-white border rounded p-1 font-bold text-xs" value="20"></div>
+                        <div class="flex-1 text-center"><span class="text-[10px] text-blue-500 font-bold">Needs</span><input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full bg-white dark:bg-slate-700 border-none rounded p-1 font-bold text-xs text-center" value="50"></div>
+                        <div class="flex-1 text-center"><span class="text-[10px] text-purple-500 font-bold">Wants</span><input id="rWants" type="number" oninput="calculateTargets()" class="w-full bg-white dark:bg-slate-700 border-none rounded p-1 font-bold text-xs text-center" value="30"></div>
+                        <div class="flex-1 text-center"><span class="text-[10px] text-emerald-500 font-bold">Savings</span><input id="rSavings" type="number" oninput="calculateTargets()" class="w-full bg-white dark:bg-slate-700 border-none rounded p-1 font-bold text-xs text-center" value="20"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
             <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                <div class="flex justify-between mb-2"><span class="text-[9px] font-black text-blue-400 uppercase">Needs Target</span><span id="labelNeeds" class="text-[10px] font-bold text-slate-400">₹0</span></div>
+                <div class="flex justify-between mb-2"><span class="text-[9px] font-black text-blue-400 uppercase">Needs</span><span id="labelNeeds" class="text-[10px] font-bold">₹0</span></div>
                 <div class="progress-bg"><div id="fillNeeds" class="progress-fill bg-blue-500" style="width:0%"></div></div>
                 <p id="statNeeds" class="text-[9px] mt-2 font-bold text-slate-500">Left: ₹0</p>
             </div>
             <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                <div class="flex justify-between mb-2"><span class="text-[9px] font-black text-purple-400 uppercase">Wants Target</span><span id="labelWants" class="text-[10px] font-bold text-slate-400">₹0</span></div>
+                <div class="flex justify-between mb-2"><span class="text-[9px] font-black text-purple-400 uppercase">Wants</span><span id="labelWants" class="text-[10px] font-bold">₹0</span></div>
                 <div class="progress-bg"><div id="fillWants" class="progress-fill bg-purple-500" style="width:0%"></div></div>
                 <p id="statWants" class="text-[9px] mt-2 font-bold text-slate-500">Left: ₹0</p>
             </div>
             <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                <div class="flex justify-between mb-2"><span class="text-[9px] font-black text-emerald-400 uppercase">Savings Target</span><span id="labelSavings" class="text-[10px] font-bold text-slate-400">₹0</span></div>
+                <div class="flex justify-between mb-2"><span class="text-[9px] font-black text-emerald-400 uppercase">Savings</span><span id="labelSavings" class="text-[10px] font-bold">₹0</span></div>
                 <div class="progress-bg"><div id="fillSavings" class="progress-fill bg-emerald-500" style="width:0%"></div></div>
                 <p id="statSavings" class="text-[9px] mt-2 font-bold text-slate-500">Left: ₹0</p>
             </div>
+        </div>
+
+        <section class="bg-amber-50 dark:bg-amber-900/20 p-6 rounded-3xl border border-amber-200 dark:border-amber-900/50 mb-8">
+            <h3 class="text-[10px] font-black text-amber-800 dark:text-amber-400 uppercase mb-3">Monthly Analysis</h3>
+            <textarea id="monthlyNotes" oninput="saveNotes()" class="w-full bg-transparent border-none outline-none text-xs italic resize-none" rows="2" placeholder="Write reflections here..."></textarea>
         </section>
 
-        <section class="bg-slate-900 text-white p-6 rounded-3xl shadow-xl mb-10">
-            <h3 class="text-[10px] font-black text-custom-accent uppercase mb-4 tracking-widest">Step 2: Log Daily Transactions</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                <select id="entryDate" class="bg-slate-800 rounded-xl p-3 text-xs outline-none"></select>
-                <select id="entryType" class="bg-slate-800 rounded-xl p-3 text-xs outline-none font-bold">
-                    <option value="need">🏠 Need Expense</option>
-                    <option value="want">🍿 Want Expense</option>
-                    <option value="saving">🏦 Saving/Investment</option>
-                </select>
-                <input id="entryDesc" type="text" placeholder="Detail" class="bg-slate-800 rounded-xl p-3 text-xs outline-none">
-                <input id="entryAmt" type="number" placeholder="Amount" class="bg-slate-800 rounded-xl p-3 text-xs outline-none">
-                <button onclick="addEntry()" class="sm:col-span-4 bg-custom-primary text-white font-bold py-3 rounded-xl text-xs hover:scale-[0.98] transition-all">Save Transaction</button>
-            </div>
-        </section>
-
-        <div id="history" class="space-y-2 pb-10"></div>
+        <div id="history" class="space-y-2 pb-24"></div>
     </main>
 
-    <script src="global.js"></script>
     <script>
         let curMonth = new Date().getMonth();
+        let editingId = null;
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeUI();
+        }
+
+        function updateThemeUI() {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
+            document.getElementById('themeText').innerText = isDark ? 'Light Mode' : 'Dark Mode';
+        }
+
+        function saveNotes() {
+            localStorage.setItem(`notes-${curMonth}`, document.getElementById('monthlyNotes').value);
+        }
 
         function calculateTargets() {
-            localStorage.setItem('salary', document.getElementById('monthlySalary').value || 0);
+            localStorage.setItem('salary', document.getElementById('monthlySalary').value);
             localStorage.setItem('rN', document.getElementById('rNeeds').value);
             localStorage.setItem('rW', document.getElementById('rWants').value);
             localStorage.setItem('rS', document.getElementById('rSavings').value);
@@ -115,7 +139,6 @@
         function render() {
             const salary = parseFloat(localStorage.getItem('salary')) || 0;
             const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}`) || "[]");
-            
             const targetN = salary * (parseFloat(localStorage.getItem('rN') || 50) / 100);
             const targetW = salary * (parseFloat(localStorage.getItem('rW') || 30) / 100);
             const targetS = salary * (parseFloat(localStorage.getItem('rS') || 20) / 100);
@@ -124,41 +147,37 @@
             document.getElementById('labelWants').innerText = '₹' + targetW.toLocaleString();
             document.getElementById('labelSavings').innerText = '₹' + targetS.toLocaleString();
 
-            let spentN = 0, spentW = 0, spentS = 0;
+            let spentN = 0, spentW = 0, spentS = 0, ytdS = 0, ytdE = 0;
             const history = document.getElementById('history');
             history.innerHTML = '';
 
-            entries.sort((a,b) => b.id - a.id).forEach(e => {
-                if(e.type === 'need') spentN += e.amt;
-                if(e.type === 'want') spentW += e.amt;
-                if(e.type === 'saving') spentS += e.amt;
+            // YTD Calculation across all months
+            for(let i=0; i<12; i++) {
+                const mData = JSON.parse(localStorage.getItem(`budget-${i}`) || "[]");
+                mData.forEach(e => {
+                    if(e.type === 'saving') ytdS += e.amt;
+                    else ytdE += e.amt;
+                    if(i === curMonth) {
+                        if(e.type === 'need') spentN += e.amt;
+                        if(e.type === 'want') spentW += e.amt;
+                        if(e.type === 'saving') spentS += e.amt;
+                    }
+                });
+            }
 
+            entries.sort((a,b) => b.id - a.id).forEach(e => {
                 history.innerHTML += `
-                    <div class="bg-white p-4 rounded-2xl flex justify-between items-center border shadow-sm">
-                        <div class="flex flex-col"><span class="text-[8px] font-black text-slate-400 uppercase">Day ${e.date} • ${e.type}</span><span class="text-xs font-bold text-slate-700">${e.desc}</span></div>
-                        <span class="text-sm font-black text-slate-800">₹${e.amt.toLocaleString()}</span>
+                    <div onclick="startEdit(${e.id})" class="bg-white p-4 rounded-2xl flex justify-between items-center border shadow-sm cursor-pointer hover:border-blue-400">
+                        <div class="flex flex-col"><span class="text-[8px] font-black text-slate-400 uppercase">Day ${e.date} • ${e.type}</span><span class="text-xs font-bold">${e.desc}</span></div>
+                        <span class="text-sm font-black">₹${e.amt.toLocaleString()}</span>
                     </div>`;
             });
 
+            document.getElementById('ytdSavings').innerText = '₹' + ytdS.toLocaleString();
+            document.getElementById('ytdExpenses').innerText = '₹' + ytdE.toLocaleString();
             updateBar('fillNeeds', 'statNeeds', spentN, targetN);
             updateBar('fillWants', 'statWants', spentW, targetW);
             updateBar('fillSavings', 'statSavings', spentS, targetS);
-            
-            calculateYTD();
-        }
-
-        function calculateYTD() {
-            let totalSaved = 0;
-            let totalSpent = 0;
-            for(let i=0; i<12; i++) {
-                const data = JSON.parse(localStorage.getItem(`budget-${i}`) || "[]");
-                data.forEach(e => {
-                    if(e.type === 'saving') totalSaved += e.amt;
-                    else totalSpent += e.amt;
-                });
-            }
-            document.getElementById('ytdSavings').innerText = '₹' + totalSaved.toLocaleString();
-            document.getElementById('ytdExpenses').innerText = '₹' + totalSpent.toLocaleString();
         }
 
         function updateBar(barId, statId, spent, target) {
@@ -166,36 +185,16 @@
             const bar = document.getElementById(barId);
             bar.style.width = Math.min(pct, 100) + '%';
             bar.style.backgroundColor = pct > 100 ? '#7f1d1d' : '';
-            document.getElementById(statId).innerText = `Left: ₹${Math.max(0, target - spent).toLocaleString()} (${pct.toFixed(0)}% used)`;
-        }
-
-        function addEntry() {
-            const date = document.getElementById('entryDate').value;
-            const type = document.getElementById('entryType').value;
-            const desc = document.getElementById('entryDesc').value;
-            const amt = parseFloat(document.getElementById('entryAmt').value);
-            if(!desc || !amt) return;
-
-            const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}`) || "[]");
-            entries.push({ date, type, desc, amt, id: Date.now() });
-            localStorage.setItem(`budget-${curMonth}`, JSON.stringify(entries));
-            render();
-            document.getElementById('entryDesc').value = '';
-            document.getElementById('entryAmt').value = '';
+            document.getElementById(statId).innerText = `Left: ₹${Math.max(0, target - spent).toLocaleString()} (${pct.toFixed(0)}%)`;
         }
 
         function init() {
+            updateThemeUI();
             document.getElementById('monthlySalary').value = localStorage.getItem('salary') || '';
             document.getElementById('rNeeds').value = localStorage.getItem('rN') || 50;
             document.getElementById('rWants').value = localStorage.getItem('rW') || 30;
             document.getElementById('rSavings').value = localStorage.getItem('rS') || 20;
-
-            const dateSel = document.getElementById('entryDate');
-            for(let i=1; i<=31; i++) {
-                const opt = document.createElement('option');
-                opt.value = i; opt.innerText = `Day ${i}`;
-                dateSel.appendChild(opt);
-            }
+            document.getElementById('monthlyNotes').value = localStorage.getItem(`notes-${curMonth}`) || '';
             render();
         }
         window.onload = init;
