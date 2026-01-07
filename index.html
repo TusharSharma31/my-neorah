@@ -1,68 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Neorah 2026 - Roadmap</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @media (max-width: 768px) {
-    nav { width: 100% !important; height: auto !important; position: relative !important; }
-    main { margin-left: 0 !important; padding: 20px !important; }
-    .flex-col { flex-direction: column !important; }
-    ul { display: flex; flex-wrap: wrap; gap: 10px; }
-}
         :root { --primary: #7f1d1d; --accent: #ef4444; --sidebar-bg: #0f172a; }
         .bg-custom-sidebar { background-color: var(--sidebar-bg) !important; }
         .text-custom-accent { color: var(--accent) !important; }
         .text-custom-primary { color: var(--primary) !important; }
         .bg-custom-primary { background-color: var(--primary) !important; }
         .border-custom-primary { border-color: var(--primary) !important; }
+
+        /* --- MOBILE RESPONSIVE FIXES --- */
+        @media (max-width: 1024px) {
+            nav { width: 100% !important; height: auto !important; position: relative !important; padding: 15px !important; }
+            main { margin-left: 0 !important; padding: 15px !important; }
+            .nav-links { display: flex !important; flex-wrap: wrap; gap: 10px; justify-content: center; }
+            .nav-links li { margin-bottom: 0 !important; }
+            .sidebar-footer { display: none !important; } /* Hide footer on mobile sidebar to save space */
+        }
     </style>
 </head>
-<body class="bg-slate-50 flex min-h-screen">
-    <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col no-print">
-        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter">NEORAH</h1>
-        <ul class="space-y-4">
-            <li><a href="index.html" class="text-custom-accent font-bold underline block">🗓️ Roadmap</a></li>
-            <li><a href="planner.html" class="hover:text-custom-accent block">✍️ Journal</a></li>
-            <li><a href="budget.html" class="hover:text-custom-accent block">📊 Budget</a></li>
-            <li><a href="habits.html" class="hover:text-custom-accent block">🌿 Habits</a></li>
+<body class="bg-slate-50 flex flex-col lg:flex-row min-h-screen">
+    <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col no-print z-50">
+        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter text-center lg:text-left">NEORAH</h1>
+        <ul class="nav-links space-y-4 mb-6">
+            <li><a href="index.html" class="text-custom-accent font-bold underline block py-2 px-3 bg-white/5 rounded-xl">🗓️ Roadmap</a></li>
+            <li><a href="planner.html" class="hover:text-custom-accent block py-2 px-3">✍️ Journal</a></li>
+            <li><a href="budget.html" class="hover:text-custom-accent block py-2 px-3">📊 Budget</a></li>
+            <li><a href="habits.html" class="hover:text-custom-accent block py-2 px-3">🌿 Habits</a></li>
         </ul>
-        <div class="mt-auto border-t border-slate-800 pt-6 space-y-4">
+        
+        <div class="sidebar-footer mt-auto border-t border-slate-800 pt-6 space-y-4">
             <div class="flex gap-2">
-                <button onclick="applyTheme('crimson')" class="w-4 h-4 rounded-full bg-red-800"></button>
-                <button onclick="applyTheme('emerald')" class="w-4 h-4 rounded-full bg-emerald-800"></button>
-                <button onclick="applyTheme('midnight')" class="w-4 h-4 rounded-full bg-blue-800"></button>
-                <button onclick="applyTheme('gold')" class="w-4 h-4 rounded-full bg-amber-700"></button>
+                <button onclick="applyTheme('crimson')" class="w-5 h-5 rounded-full bg-red-800 border border-white/20"></button>
+                <button onclick="applyTheme('emerald')" class="w-5 h-5 rounded-full bg-emerald-800 border border-white/20"></button>
+                <button onclick="applyTheme('midnight')" class="w-5 h-5 rounded-full bg-blue-800 border border-white/20"></button>
             </div>
-            <button onclick="toggleLock()" class="text-slate-400 text-[10px] font-bold block">🔐 LOCK</button>
+            <button onclick="toggleLock()" class="text-slate-400 text-[10px] font-bold block">🔐 LOCK APP</button>
             <button onclick="exportData()" class="text-slate-400 text-[10px] font-bold block">📥 BACKUP</button>
-            <label class="text-slate-400 text-[10px] font-bold cursor-pointer">📤 RESTORE <input type="file" onchange="importData(event)" class="hidden"></label>
         </div>
     </nav>
 
-    <main class="flex-1 ml-64 p-10">
-        <div id="quoteBox" class="mb-8 p-6 bg-white rounded-2xl border-l-4 border-custom-primary italic text-slate-600 text-sm shadow-sm"></div>
+    <main class="flex-1 lg:ml-64 p-4 lg:p-10">
+        <div id="quoteBox" class="mb-6 p-5 bg-white rounded-2xl border-l-4 border-custom-primary italic text-slate-600 text-xs shadow-sm"></div>
         
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-            <div class="lg:col-span-2 bg-custom-sidebar text-white p-8 rounded-3xl shadow-xl border-b-8 border-custom-primary">
-                <h2 class="text-[10px] font-black uppercase text-custom-accent mb-4">2026 Vision Statement</h2>
-                <textarea id="visionBox" oninput="localStorage.setItem('yearVision', this.value)" class="w-full bg-transparent text-2xl font-serif italic outline-none resize-none" rows="2" placeholder="Your theme for the year..."></textarea>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+            <div class="lg:col-span-2 bg-custom-sidebar text-white p-6 lg:p-8 rounded-3xl shadow-xl border-b-8 border-custom-primary">
+                <h2 class="text-[9px] font-black uppercase text-custom-accent mb-3 tracking-widest">2026 Vision Statement</h2>
+                <textarea id="visionBox" oninput="localStorage.setItem('yearVision', this.value)" class="w-full bg-transparent text-xl lg:text-2xl font-serif italic outline-none resize-none" rows="2" placeholder="Your theme..."></textarea>
             </div>
-            <div class="bg-white p-8 rounded-3xl border shadow-sm">
-                <h2 class="text-[10px] font-black uppercase text-slate-400 mb-4">Big 3 Goals</h2>
-                <div class="space-y-3">
-                    <input type="text" id="g1" oninput="localStorage.setItem('g1', this.value)" placeholder="1. Major Goal" class="w-full border-b outline-none py-1 text-sm font-bold">
-                    <input type="text" id="g2" oninput="localStorage.setItem('g2', this.value)" placeholder="2. Habit Goal" class="w-full border-b outline-none py-1 text-sm font-bold">
-                    <input type="text" id="g3" oninput="localStorage.setItem('g3', this.value)" placeholder="3. Life Goal" class="w-full border-b outline-none py-1 text-sm font-bold">
+            <div class="bg-white p-6 lg:p-8 rounded-3xl border shadow-sm">
+                <h2 class="text-[9px] font-black uppercase text-slate-400 mb-4 tracking-widest">Big 3 Goals</h2>
+                <div class="space-y-4">
+                    <input type="text" id="g1" oninput="localStorage.setItem('g1', this.value)" placeholder="1. Major Goal" class="w-full border-b border-slate-100 outline-none py-1 text-sm font-bold">
+                    <input type="text" id="g2" oninput="localStorage.setItem('g2', this.value)" placeholder="2. Habit Goal" class="w-full border-b border-slate-100 outline-none py-1 text-sm font-bold">
+                    <input type="text" id="g3" oninput="localStorage.setItem('g3', this.value)" placeholder="3. Life Goal" class="w-full border-b border-slate-100 outline-none py-1 text-sm font-bold">
                 </div>
             </div>
         </div>
-        <div id="quarterlyGrid" class="space-y-12"></div>
+
+        <div id="quarterlyGrid" class="space-y-8 lg:space-y-12 pb-20"></div>
     </main>
 
     <script src="global.js"></script>
@@ -74,15 +74,21 @@
             document.getElementById('g2').value = localStorage.getItem('g2') || '';
             document.getElementById('g3').value = localStorage.getItem('g3') || '';
 
-            const quotes = ["Action is the foundational key to all success.", "The best time to plant a tree was 20 years ago. The second best time is now.", "Discipline is the bridge between goals and accomplishment."];
+            const quotes = ["Small daily wins lead to giant results.", "Consistency beats intensity.", "Your future is hidden in your routine."];
             document.getElementById('quoteBox').innerText = `"${quotes[new Date().getDate() % quotes.length]}"`;
 
             const grid = document.getElementById('quarterlyGrid');
             for (let q = 0; q < 4; q++) {
-                let html = `<div><h3 class="text-[10px] font-black text-slate-400 mb-6 tracking-[0.3em]">QUARTER 0${q+1}</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-6">`;
+                // Responsive Grid: grid-cols-1 on mobile, grid-cols-3 on desktop
+                let html = `<div><h3 class="text-[9px] font-black text-slate-400 mb-4 tracking-[0.3em] px-2">QUARTER 0${q+1}</h3><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">`;
                 for (let m = 0; m < 3; m++) {
                     const idx = (q * 3) + m;
-                    html += `<div class="bg-white p-6 rounded-2xl border shadow-sm"><h4 class="font-black text-custom-primary text-sm mb-4 uppercase italic">${months[idx]}</h4><textarea oninput="localStorage.setItem('focus_${idx}', this.value)" class="w-full text-xs outline-none h-16 border-b mb-2" placeholder="Focus Area...">${localStorage.getItem('focus_'+idx)||''}</textarea><input oninput="localStorage.setItem('mile_${idx}', this.value)" value="${localStorage.getItem('mile_'+idx)||''}" class="text-xs font-bold w-full outline-none" placeholder="Target Milestone"></div>`;
+                    html += `
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                        <h4 class="font-black text-custom-primary text-xs mb-3 uppercase italic">${months[idx]}</h4>
+                        <textarea oninput="localStorage.setItem('focus_${idx}', this.value)" class="w-full text-xs outline-none h-14 border-b border-slate-50 mb-3 bg-transparent" placeholder="Focus...">${localStorage.getItem('focus_'+idx)||''}</textarea>
+                        <input oninput="localStorage.setItem('mile_${idx}', this.value)" value="${localStorage.getItem('mile_'+idx)||''}" class="text-[10px] font-bold w-full outline-none text-slate-500 bg-transparent" placeholder="📍 Target Milestone">
+                    </div>`;
                 }
                 grid.innerHTML += html + `</div></div>`;
             }
@@ -90,5 +96,4 @@
         window.onload = init;
     </script>
 </body>
-
 </html>
