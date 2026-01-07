@@ -1,53 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Neorah - Habits</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @media (max-width: 768px) {
-    nav { width: 100% !important; height: auto !important; position: relative !important; }
-    main { margin-left: 0 !important; padding: 20px !important; }
-    .flex-col { flex-direction: column !important; }
-    ul { display: flex; flex-wrap: wrap; gap: 10px; }
-}
         :root { --primary: #7f1d1d; --accent: #ef4444; --sidebar-bg: #0f172a; }
         .bg-custom-sidebar { background-color: var(--sidebar-bg) !important; }
         .text-custom-accent { color: var(--accent) !important; }
-        .text-custom-primary { color: var(--primary) !important; }
-        .circle { width:28px; height:28px; border:1px solid #e2e8f0; border-radius:50%; font-size:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; color: #94a3b8; }
+        .circle { width:26px; height:26px; border:1px solid #e2e8f0; border-radius:50%; font-size:9px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; }
         .circle.done { background-color: var(--primary); color: white; border-color: var(--primary); }
+        @media (max-width: 1024px) {
+            nav { width: 100% !important; height: auto !important; position: relative !important; padding: 15px !important; }
+            main { margin-left: 0 !important; padding: 15px !important; }
+            .nav-links { display: flex !important; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 flex min-h-screen">
-    <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col no-print">
-        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter">NEORAH</h1>
-        <ul class="space-y-4">
-            <li><a href="index.html" class="hover:text-custom-accent block">🗓️ Roadmap</a></li>
-            <li><a href="planner.html" class="hover:text-custom-accent block">✍️ Journal</a></li>
-            <li><a href="budget.html" class="hover:text-custom-accent block">📊 Budget</a></li>
-            <li><a href="habits.html" class="text-custom-accent font-bold underline block">🌿 Habits</a></li>
+<body class="bg-slate-50 flex flex-col lg:flex-row min-h-screen">
+    <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col z-50">
+        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter text-center lg:text-left">NEORAH</h1>
+        <ul class="nav-links space-y-4">
+            <li><a href="index.html" class="hover:text-custom-accent block py-2 px-3">🗓️ Roadmap</a></li>
+            <li><a href="planner.html" class="hover:text-custom-accent block py-2 px-3">✍️ Journal</a></li>
+            <li><a href="budget.html" class="hover:text-custom-accent block py-2 px-3">📊 Budget</a></li>
+            <li><a href="habits.html" class="text-custom-accent font-bold underline block py-2 px-3 bg-white/5 rounded-xl">🌿 Habits</a></li>
         </ul>
     </nav>
 
-    <main class="flex-1 ml-64 p-10">
-        <header class="flex justify-between items-end mb-8">
-            <h2 class="text-3xl font-bold text-slate-800">Mindset & Habits</h2>
-            <div class="flex gap-2">
-                <input id="hIn" type="text" placeholder="New Habit..." class="border-b outline-none text-sm p-1 bg-transparent">
-                <button onclick="addH()" class="bg-slate-900 text-white px-4 py-1 rounded text-xs font-bold">Add</button>
+    <main class="flex-1 lg:ml-64 p-4 lg:p-10">
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+            <h2 class="text-2xl font-bold text-slate-800">Habits</h2>
+            <div class="flex gap-2 w-full sm:w-auto">
+                <input id="hIn" type="text" placeholder="New Habit..." class="flex-1 border-b outline-none text-xs p-1 bg-transparent">
+                <button onclick="addH()" class="bg-slate-900 text-white px-4 py-1 rounded-lg text-[10px] font-bold">Add</button>
             </div>
         </header>
-        <div id="hGrid" class="space-y-8 mb-16"></div>
-        
-        <h3 class="text-[10px] font-black text-slate-400 mb-6 tracking-widest uppercase">Gratitude Journal</h3>
-        <div class="bg-white p-8 rounded-3xl border shadow-sm space-y-4">
-            <input id="grat1" oninput="localStorage.setItem('grat1', this.value)" class="w-full border-b outline-none text-sm py-2" placeholder="1. What are you thankful for today?">
-            <input id="grat2" oninput="localStorage.setItem('grat2', this.value)" class="w-full border-b outline-none text-sm py-2" placeholder="2. ...">
+        <div id="hGrid" class="space-y-6 mb-10"></div>
+        <div class="bg-white p-6 rounded-3xl border shadow-sm space-y-4">
+            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Gratitude</p>
+            <input id="grat1" oninput="localStorage.setItem('grat1', this.value)" class="w-full border-b outline-none text-xs py-1" placeholder="Something you're thankful for...">
+            <input id="grat2" oninput="localStorage.setItem('grat2', this.value)" class="w-full border-b outline-none text-xs py-1" placeholder="Another win...">
         </div>
     </main>
 
@@ -61,7 +55,7 @@
             const grid = document.getElementById('hGrid'); grid.innerHTML = '';
             const days = new Date(2026, curM+1, 0).getDate();
             habits.forEach((h, i) => {
-                let html = `<div class="bg-white p-6 rounded-2xl border shadow-sm"><div class="flex justify-between mb-4"><span class="font-bold text-sm text-slate-800 uppercase">${h}</span><button onclick="habits.splice(${i},1); save(); render()" class="text-[9px] text-red-300 uppercase font-bold">Remove</button></div><div class="flex flex-wrap gap-2">`;
+                let html = `<div class="bg-white p-5 rounded-2xl border shadow-sm"><div class="flex justify-between mb-4"><span class="font-bold text-xs uppercase text-slate-800">${h}</span><button onclick="habits.splice(${i},1); save(); render()" class="text-[8px] text-red-300 font-bold">Remove</button></div><div class="flex flex-wrap gap-2">`;
                 for(let d=1; d<=days; d++) {
                     const k = `h-${h}-${curM}-${d}`;
                     const done = localStorage.getItem(k) === 'true' ? 'done' : '';
@@ -75,5 +69,4 @@
         window.onload = render;
     </script>
 </body>
-
 </html>
