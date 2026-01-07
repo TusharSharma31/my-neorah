@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neorah - Strategic Budget OS</title>
+    <title>Neorah - Ultimate Budget OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         if (localStorage.getItem('theme') === 'dark') {
@@ -62,7 +62,7 @@
                     <option value="9">October</option><option value="10">November</option><option value="11">December</option>
                 </select>
                 <select id="selectYear" onchange="changeDate()" class="bg-transparent font-bold text-sm outline-none px-2 cursor-pointer">
-                    <option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option>
+                    <option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option>
                 </select>
             </div>
             <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Viewing: <span id="viewingDateDisplay"></span></p>
@@ -82,26 +82,59 @@
             </div>
         </section>
 
+        <section class="bg-white p-6 rounded-3xl border shadow-sm mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 uppercase block mb-2">Monthly Salary</label>
+                    <input id="monthlySalary" type="number" oninput="calculateTargets()" 
+                        class="text-4xl font-black bg-transparent outline-none w-full border-b-2 border-slate-100 dark:border-slate-700 focus:border-custom-primary pb-2" 
+                        placeholder="₹ 0">
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border dark:border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="flex-1 text-center"><span class="text-[10px] text-blue-500 font-bold">Needs %</span><input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full bg-white dark:bg-slate-700 rounded p-1 font-bold text-xs text-center" value="50"></div>
+                        <div class="flex-1 text-center"><span class="text-[10px] text-purple-500 font-bold">Wants %</span><input id="rWants" type="number" oninput="calculateTargets()" class="w-full bg-white dark:bg-slate-700 rounded p-1 font-bold text-xs text-center" value="30"></div>
+                        <div class="flex-1 text-center"><span class="text-[10px] text-emerald-500 font-bold">Saving %</span><input id="rSavings" type="number" oninput="calculateTargets()" class="w-full bg-white dark:bg-slate-700 rounded p-1 font-bold text-xs text-center" value="20"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
             <div class="bg-white p-5 rounded-3xl border shadow-sm">
                 <div class="flex justify-between mb-2"><span class="text-[10px] font-black text-blue-500 uppercase">Needs</span><span id="labelNeeds" class="text-[10px] font-bold">₹0</span></div>
                 <div class="progress-bg"><div id="fillNeeds" class="progress-fill bg-blue-500" style="width:0%"></div></div>
-                <p id="statNeeds" class="text-[9px] mt-2 font-bold text-slate-400 uppercase tracking-tighter">Left: ₹0</p>
+                <p id="statNeeds" class="text-[9px] mt-2 font-bold text-slate-400 uppercase">Left: ₹0</p>
             </div>
             <div class="bg-white p-5 rounded-3xl border shadow-sm">
                 <div class="flex justify-between mb-2"><span class="text-[10px] font-black text-purple-500 uppercase">Wants</span><span id="labelWants" class="text-[10px] font-bold">₹0</span></div>
                 <div class="progress-bg"><div id="fillWants" class="progress-fill bg-purple-500" style="width:0%"></div></div>
-                <p id="statWants" class="text-[9px] mt-2 font-bold text-slate-400 uppercase tracking-tighter">Left: ₹0</p>
+                <p id="statWants" class="text-[9px] mt-2 font-bold text-slate-400 uppercase">Left: ₹0</p>
             </div>
             <div class="bg-white p-5 rounded-3xl border shadow-sm">
                 <div class="flex justify-between mb-2"><span class="text-[10px] font-black text-emerald-500 uppercase">Savings</span><span id="labelSavings" class="text-[10px] font-bold">₹0</span></div>
                 <div class="progress-bg"><div id="fillSavings" class="progress-fill bg-emerald-500" style="width:0%"></div></div>
-                <p id="statSavings" class="text-[9px] mt-2 font-bold text-slate-400 uppercase tracking-tighter">Left: ₹0</p>
+                <p id="statSavings" class="text-[9px] mt-2 font-bold text-slate-400 uppercase">Left: ₹0</p>
             </div>
         </div>
 
+        <section class="bg-indigo-600 text-white p-6 rounded-3xl shadow-lg mb-8 goal-section">
+            <h3 class="text-[10px] font-black uppercase mb-4 tracking-widest opacity-80">Smart Goal Calculator</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div class="space-y-3">
+                    <input id="goalName" type="text" oninput="saveGoal()" placeholder="Goal Name (e.g. iPhone)" class="w-full bg-white/10 border-none rounded-xl p-3 text-sm placeholder-white/50 outline-none">
+                    <input id="goalAmount" type="number" oninput="saveGoal()" placeholder="Target Amount (₹)" class="w-full bg-white/10 border-none rounded-xl p-3 text-sm placeholder-white/50 outline-none">
+                </div>
+                <div class="bg-white/10 p-4 rounded-2xl text-center">
+                    <p class="text-[10px] uppercase font-bold opacity-70">Estimated Time</p>
+                    <p id="goalResult" class="text-2xl font-black mt-1">— Months</p>
+                    <p class="text-[8px] mt-2 opacity-60">Based on active Monthly Savings Target</p>
+                </div>
+            </div>
+        </section>
+
         <section id="entryForm" class="bg-slate-900 text-white p-6 rounded-3xl shadow-xl mb-8 no-print">
-            <h3 class="text-[10px] font-black text-custom-accent uppercase mb-4 tracking-widest">Add Entry for <span id="formMonthName"></span></h3>
+            <h3 class="text-[10px] font-black text-custom-accent uppercase mb-4 tracking-widest">New Entry for <span id="formMonthName"></span></h3>
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <select id="entryDate" class="bg-slate-800 rounded-xl p-3 text-xs outline-none border-none cursor-pointer"></select>
                 <select id="entryType" class="bg-slate-800 rounded-xl p-3 text-xs outline-none border-none font-bold">
@@ -111,23 +144,12 @@
                 </select>
                 <input id="entryDesc" type="text" placeholder="Description" class="bg-slate-800 rounded-xl p-3 text-xs outline-none border-none">
                 <input id="entryAmt" type="number" placeholder="Amount (₹)" class="bg-slate-800 rounded-xl p-3 text-xs outline-none border-none">
-                <button onclick="addEntry()" class="sm:col-span-4 bg-custom-primary text-white font-bold py-3 rounded-xl text-xs uppercase tracking-widest hover:brightness-110 transition-all">Save Transaction</button>
+                <button onclick="addEntry()" class="sm:col-span-4 bg-custom-primary text-white font-bold py-3 rounded-xl text-xs uppercase tracking-widest">Save Transaction</button>
             </div>
         </section>
 
-        <h3 class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest no-print">Transaction History</h3>
+        <h3 class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest no-print">Recent Activity (Tap to Edit)</h3>
         <div id="history" class="space-y-2 pb-24 no-print"></div>
-
-        <section class="bg-white p-6 rounded-3xl border shadow-sm mb-8 no-print opacity-50 hover:opacity-100 transition-opacity">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <input id="monthlySalary" type="number" oninput="calculateTargets()" placeholder="Set Salary (₹)" class="text-xl font-black bg-transparent outline-none w-full border-b pb-2">
-                <div class="flex gap-2">
-                    <input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full bg-slate-100 dark:bg-slate-700 rounded p-1 text-xs text-center" value="50">
-                    <input id="rWants" type="number" oninput="calculateTargets()" class="w-full bg-slate-100 dark:bg-slate-700 rounded p-1 text-xs text-center" value="30">
-                    <input id="rSavings" type="number" oninput="calculateTargets()" class="w-full bg-slate-100 dark:bg-slate-700 rounded p-1 text-xs text-center" value="20">
-                </div>
-            </div>
-        </section>
     </main>
 
     <div id="monthModal" class="fixed inset-0 bg-slate-900/98 z-[100] p-4 lg:p-10 flex-col overflow-y-auto hidden">
@@ -136,8 +158,8 @@
                 <button onclick="window.print()" class="bg-emerald-600 px-6 py-2 rounded-xl text-xs font-bold uppercase">📄 Save PDF</button>
                 <button onclick="toggleMonthView(false)" class="text-3xl">&times;</button>
             </header>
-            <div id="printArea" class="bg-white rounded-[2rem] p-8 text-slate-900 shadow-2xl">
-                <h2 class="text-2xl font-black mb-6 tracking-tighter uppercase border-b pb-4"><span id="reportTitle"></span> FINANCIAL SUMMARY</h2>
+            <div class="bg-white rounded-[2rem] p-8 text-slate-900 shadow-2xl">
+                <h2 class="text-2xl font-black mb-6 tracking-tighter border-b pb-4"><span id="reportTitle"></span> STATEMENT</h2>
                 <div id="reportSummary" class="grid grid-cols-4 gap-4 mb-10"></div>
                 <table class="w-full text-left">
                     <thead class="bg-slate-100 text-[9px] font-black text-slate-500 uppercase">
@@ -152,7 +174,6 @@
     <script>
         let curMonth = new Date().getMonth();
         let curYear = new Date().getFullYear();
-        let todayDay = new Date().getDate();
         let editingId = null;
 
         function init() {
@@ -160,6 +181,10 @@
             document.getElementById('selectMonth').value = curMonth;
             document.getElementById('selectYear').value = curYear;
             
+            // Goals
+            document.getElementById('goalName').value = localStorage.getItem('goalN') || '';
+            document.getElementById('goalAmount').value = localStorage.getItem('goalA') || '';
+
             setupDateDropdown();
             loadMonthData();
         }
@@ -167,10 +192,11 @@
         function setupDateDropdown() {
             const dateSel = document.getElementById('entryDate');
             dateSel.innerHTML = '';
+            const todayDay = new Date().getDate();
             for(let i=1; i<=31; i++) {
                 const opt = document.createElement('option');
                 opt.value = i; opt.innerText = `Day ${i}`;
-                if(i === todayDay) opt.selected = true; // Auto-select current day
+                if(i === todayDay) opt.selected = true;
                 dateSel.appendChild(opt);
             }
         }
@@ -184,7 +210,6 @@
         function loadMonthData() {
             const key = `config-${curMonth}-${curYear}`;
             const config = JSON.parse(localStorage.getItem(key) || '{"salary":"","rn":50,"rw":30,"rs":20}');
-            
             document.getElementById('monthlySalary').value = config.salary;
             document.getElementById('rNeeds').value = config.rn;
             document.getElementById('rWants').value = config.rw;
@@ -193,20 +218,7 @@
             const monthName = document.getElementById('selectMonth').options[curMonth].text;
             document.getElementById('formMonthName').innerText = monthName;
             document.getElementById('viewingDateDisplay').innerText = `${monthName} ${curYear}`;
-
             render();
-        }
-
-        function toggleTheme() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            updateThemeUI();
-        }
-
-        function updateThemeUI() {
-            const isDark = document.documentElement.classList.contains('dark');
-            document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
-            document.getElementById('themeText').innerText = isDark ? 'Light' : 'Dark';
         }
 
         function calculateTargets() {
@@ -220,10 +232,22 @@
             render();
         }
 
-        function toggleMonthView(show) {
-            const modal = document.getElementById('monthModal');
-            if(show) { modal.classList.replace('hidden', 'flex'); renderFullReport(); }
-            else { modal.classList.replace('flex', 'hidden'); }
+        function saveGoal() {
+            localStorage.setItem('goalN', document.getElementById('goalName').value);
+            localStorage.setItem('goalA', document.getElementById('goalAmount').value);
+            calculateGoalTime();
+        }
+
+        function calculateGoalTime() {
+            const amt = parseFloat(document.getElementById('goalAmount').value) || 0;
+            const salary = parseFloat(document.getElementById('monthlySalary').value) || 0;
+            const savPct = parseFloat(document.getElementById('rSavings').value) || 0;
+            const monthlySaving = salary * (savPct / 100);
+            const res = document.getElementById('goalResult');
+            if(monthlySaving > 0 && amt > 0) {
+                const months = Math.ceil(amt / monthlySaving);
+                res.innerText = months + (months === 1 ? " Month" : " Months");
+            } else { res.innerText = "— Months"; }
         }
 
         function addEntry() {
@@ -231,20 +255,18 @@
             const type = document.getElementById('entryType').value;
             const desc = document.getElementById('entryDesc').value;
             const amt = parseFloat(document.getElementById('entryAmt').value);
-            if(!desc || !amt) return alert("Please fill description and amount.");
+            if(!desc || !amt) return alert("Fill all fields");
 
             const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
             entries.push({ date, type, desc, amt, id: Date.now() });
             localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries));
-            
             document.getElementById('entryDesc').value = '';
             document.getElementById('entryAmt').value = '';
             render();
         }
 
         function render() {
-            const configKey = `config-${curMonth}-${curYear}`;
-            const config = JSON.parse(localStorage.getItem(configKey) || '{"salary":0,"rn":50,"rw":30,"rs":20}');
+            const config = JSON.parse(localStorage.getItem(`config-${curMonth}-${curYear}`) || '{"salary":0,"rn":50,"rw":30,"rs":20}');
             const salary = parseFloat(config.salary) || 0;
             const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
             
@@ -253,16 +275,14 @@
             document.getElementById('labelWants').innerText = '₹' + targetW.toLocaleString();
             document.getElementById('labelSavings').innerText = '₹' + targetS.toLocaleString();
 
-            let spentN = 0, spentW = 0, spentS = 0, totalYtdS = 0, totalYtdE = 0;
-            const history = document.getElementById('history');
-            history.innerHTML = '';
+            let spentN = 0, spentW = 0, spentS = 0, lifeS = 0, lifeE = 0;
+            const history = document.getElementById('history'); history.innerHTML = '';
 
-            // Lifetime aggregation
             for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key.startsWith('budget-')) {
-                    JSON.parse(localStorage.getItem(key)).forEach(e => {
-                        if(e.type === 'saving') totalYtdS += e.amt; else totalYtdE += e.amt;
+                const k = localStorage.key(i);
+                if (k.startsWith('budget-')) {
+                    JSON.parse(localStorage.getItem(k)).forEach(e => {
+                        if(e.type === 'saving') lifeS += e.amt; else lifeE += e.amt;
                     });
                 }
             }
@@ -276,9 +296,9 @@
             entries.sort((a,b) => b.id - a.id).forEach(e => {
                 if (editingId === e.id) {
                     history.innerHTML += `<div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-2xl border-2 border-blue-400 space-y-3">
-                        <div class="grid grid-cols-2 gap-2"><input id="editDate" type="number" value="${e.date}" class="text-xs p-2 rounded" placeholder="Day"><select id="editType" class="text-xs p-2 rounded"><option value="need" ${e.type==='need'?'selected':''}>Need</option><option value="want" ${e.type==='want'?'selected':''}>Want</option><option value="saving" ${e.type==='saving'?'selected':''}>Saving</option></select></div>
+                        <div class="grid grid-cols-2 gap-2"><input id="editDate" type="number" value="${e.date}" class="text-xs p-2 rounded"><select id="editType" class="text-xs p-2 rounded"><option value="need" ${e.type==='need'?'selected':''}>Need</option><option value="want" ${e.type==='want'?'selected':''}>Want</option><option value="saving" ${e.type==='saving'?'selected':''}>Saving</option></select></div>
                         <input id="editDesc" type="text" value="${e.desc}" class="w-full text-xs p-2 rounded"><input id="editAmt" type="number" value="${e.amt}" class="w-full text-xs p-2 rounded">
-                        <div class="flex gap-2"><button onclick="saveEdit(${e.id})" class="flex-1 bg-emerald-600 text-white font-bold p-2 rounded-lg text-xs">SAVE</button><button onclick="deleteEntry(${e.id})" class="flex-1 bg-red-600 text-white font-bold p-2 rounded-lg text-xs">DELETE</button><button onclick="cancelEdit()" class="flex-1 bg-slate-400 text-white font-bold p-2 rounded-lg text-xs">CANCEL</button></div>
+                        <div class="flex gap-2"><button onclick="saveEdit(${e.id})" class="flex-1 bg-emerald-600 text-white font-bold p-2 rounded-lg text-xs uppercase">Save</button><button onclick="deleteEntry(${e.id})" class="flex-1 bg-red-600 text-white font-bold p-2 rounded-lg text-xs uppercase">Delete</button><button onclick="cancelEdit()" class="flex-1 bg-slate-400 text-white font-bold p-2 rounded-lg text-xs uppercase">Exit</button></div>
                     </div>`;
                 } else {
                     history.innerHTML += `<div onclick="startEdit(${e.id})" class="bg-white p-4 rounded-2xl flex justify-between items-center border shadow-sm cursor-pointer hover:border-blue-500">
@@ -288,11 +308,12 @@
                 }
             });
 
-            document.getElementById('ytdSavings').innerText = '₹' + totalYtdS.toLocaleString();
-            document.getElementById('ytdExpenses').innerText = '₹' + totalYtdE.toLocaleString();
+            document.getElementById('ytdSavings').innerText = '₹' + lifeS.toLocaleString();
+            document.getElementById('ytdExpenses').innerText = '₹' + lifeE.toLocaleString();
             updateBar('fillNeeds', 'statNeeds', spentN, targetN);
             updateBar('fillWants', 'statWants', spentW, targetW);
             updateBar('fillSavings', 'statSavings', spentS, targetS);
+            calculateGoalTime();
         }
 
         function updateBar(barId, statId, spent, target) {
@@ -305,7 +326,7 @@
 
         function startEdit(id) { editingId = id; render(); }
         function cancelEdit() { editingId = null; render(); }
-        function deleteEntry(id) { if(confirm("Delete permanently?")) { let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]"); entries = entries.filter(e => e.id !== id); localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries)); editingId = null; render(); } }
+        function deleteEntry(id) { if(confirm("Delete?")) { let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]"); entries = entries.filter(e => e.id !== id); localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries)); editingId = null; render(); } }
         function saveEdit(id) {
             let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
             const idx = entries.findIndex(e => e.id === id);
@@ -314,20 +335,38 @@
             editingId = null; render();
         }
 
+        function toggleMonthView(show) {
+            const modal = document.getElementById('monthModal');
+            if(show) { modal.classList.replace('hidden', 'flex'); renderFullReport(); }
+            else { modal.classList.replace('flex', 'hidden'); }
+        }
+
         function renderFullReport() {
             const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
             const table = document.getElementById('monthTable'); table.innerHTML = '';
             let sums = { need: 0, want: 0, saving: 0 };
             entries.sort((a,b) => a.date - b.date).forEach(e => {
                 sums[e.type] += e.amt;
-                table.innerHTML += `<tr><td class="p-3 font-bold">${e.date}</td><td class="p-3 uppercase text-[9px]">${e.type}</td><td class="p-3">${e.desc}</td><td class="p-3 text-right font-bold">₹${e.amt.toLocaleString()}</td></tr>`;
+                table.innerHTML += `<tr><td class="p-3 font-bold">${e.date}</td><td class="p-3 uppercase text-[9px] font-black">${e.type}</td><td class="p-3">${e.desc}</td><td class="p-3 text-right font-bold">₹${e.amt.toLocaleString()}</td></tr>`;
             });
             document.getElementById('reportTitle').innerText = document.getElementById('selectMonth').options[curMonth].text + " " + curYear;
             document.getElementById('reportSummary').innerHTML = `
-                <div class="p-3 rounded-xl bg-slate-50 border"><p class="text-[7px] font-bold uppercase">Needs</p><p class="text-xs font-black">₹${sums.need.toLocaleString()}</p></div>
-                <div class="p-3 rounded-xl bg-slate-50 border"><p class="text-[7px] font-bold uppercase">Wants</p><p class="text-xs font-black">₹${sums.want.toLocaleString()}</p></div>
-                <div class="p-3 rounded-xl bg-slate-50 border"><p class="text-[7px] font-bold uppercase">Savings</p><p class="text-xs font-black text-emerald-600">₹${sums.saving.toLocaleString()}</p></div>
-                <div class="p-3 rounded-xl bg-slate-900 text-white"><p class="text-[7px] font-bold uppercase">Total</p><p class="text-xs font-black">₹${(sums.need+sums.want+sums.saving).toLocaleString()}</p></div>`;
+                <div class="p-3 rounded-xl bg-slate-50 border text-center"><p class="text-[7px] font-bold uppercase">Needs</p><p class="text-xs font-black">₹${sums.need.toLocaleString()}</p></div>
+                <div class="p-3 rounded-xl bg-slate-50 border text-center"><p class="text-[7px] font-bold uppercase">Wants</p><p class="text-xs font-black">₹${sums.want.toLocaleString()}</p></div>
+                <div class="p-3 rounded-xl bg-slate-50 border text-center"><p class="text-[7px] font-bold uppercase text-emerald-600">Savings</p><p class="text-xs font-black text-emerald-600">₹${sums.saving.toLocaleString()}</p></div>
+                <div class="p-3 rounded-xl bg-slate-900 text-white text-center"><p class="text-[7px] font-bold uppercase">Total</p><p class="text-xs font-black">₹${(sums.need+sums.want+sums.saving).toLocaleString()}</p></div>`;
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeUI();
+        }
+
+        function updateThemeUI() {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
+            document.getElementById('themeText').innerText = isDark ? 'Light' : 'Dark';
         }
 
         window.onload = init;
