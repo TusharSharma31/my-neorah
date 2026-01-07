@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <title>Neorah - Journal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --primary: #7f1d1d; --accent: #ef4444; --sidebar-bg: #0f172a; }
+        .bg-custom-sidebar { background-color: var(--sidebar-bg) !important; }
+        .text-custom-accent { color: var(--accent) !important; }
+        .text-custom-primary { color: var(--primary) !important; }
+        .border-custom-primary { border-color: var(--primary) !important; }
+        .bg-custom-primary { background-color: var(--primary) !important; }
+    </style>
+</head>
+<body class="bg-slate-50 flex min-h-screen">
+    <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col no-print">
+        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter">NEORAH</h1>
+        <ul class="space-y-4">
+            <li><a href="index.html" class="hover:text-custom-accent block">🗓️ Roadmap</a></li>
+            <li><a href="planner.html" class="text-custom-accent font-bold underline block">✍️ Journal</a></li>
+            <li><a href="budget.html" class="hover:text-custom-accent block">📊 Budget</a></li>
+            <li><a href="habits.html" class="hover:text-custom-accent block">🌿 Habits</a></li>
+        </ul>
+        <div class="mt-auto border-t border-slate-800 pt-6">
+            <button onclick="exportData()" class="text-slate-400 text-[10px] font-bold">📥 BACKUP</button>
+        </div>
+    </nav>
+
+    <main class="flex-1 ml-64 p-10">
+        <header class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold text-slate-800">Weekly Reflection</h2>
+            <div class="flex gap-2">
+                <button onclick="changeWeek(-7)" class="p-2 border rounded hover:bg-white transition-colors">←</button>
+                <button onclick="pivot=new Date(); render()" class="px-4 py-2 bg-custom-sidebar text-white rounded text-xs font-bold shadow-lg">Today</button>
+                <button onclick="changeWeek(7)" class="p-2 border rounded hover:bg-white transition-colors">→</button>
+            </div>
+        </header>
+        <div id="weeklyGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6"></div>
+    </main>
+
+    <script src="global.js"></script>
+    <script>
+        let pivot = new Date();
+
+        function render() {
+            const grid = document.getElementById('weeklyGrid');
+            const start = new Date(pivot); 
+            start.setDate(pivot.getDate() - pivot.getDay());
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 7; i++) {
+                const cur = new Date(start); 
+                cur.setDate(start.getDate() + i);
+                const dKey = `${cur.getFullYear()}-${cur.getMonth()}-${cur.getDate()}`;
+                
+                // Retrieve data
+                const win = localStorage.getItem(dKey+'-win') || '';
+                const challenge = localStorage.getItem(dKey+'-challenge') || '';
+                const goal = localStorage.getItem(dKey+'-goal') || '';
+
+                grid.innerHTML += `
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+                        <p class="text-[10px] font-black text-custom-primary uppercase tracking-widest mb-4 border-b pb-2">
+                            ${cur.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-[9px] font-black text-slate-400 uppercase">🏆 Big Win</label>
+                                <textarea oninput="localStorage.setItem('${dKey}-win', this.value)" 
+                                    class="w-full text-xs h-12 outline-none bg-transparent resize-none italic" 
+                                    placeholder="What went well?">${win}</textarea>
+                            </div>
+
+                            <div>
+                                <label class="text-[9px] font-black text-red-400 uppercase">⚠️ Challenges Faced</label>
+                                <textarea oninput="localStorage.setItem('${dKey}-challenge', this.value)" 
+                                    class="w-full text-xs h-12 outline-none bg-transparent resize-none" 
+                                    placeholder="Obstacles encountered...">${challenge}</textarea>
+                            </div>
+
+                            <div class="pt-2 border-t border-dashed">
+                                <label class="text-[9px] font-black text-emerald-500 uppercase">🎯 Goal Progress</label>
+                                <textarea oninput="localStorage.setItem('${dKey}-goal', this.value)" 
+                                    class="w-full text-xs h-12 outline-none bg-transparent resize-none font-bold" 
+                                    placeholder="Did you hit your Big 3?">${goal}</textarea>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        function changeWeek(d) { 
+            pivot.setDate(pivot.getDate() + d); 
+            render(); 
+        }
+
+        window.onload = render;
+    </script>
+</body>
+</html>

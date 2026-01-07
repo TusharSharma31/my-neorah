@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <title>Neorah - Habits</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --primary: #7f1d1d; --accent: #ef4444; --sidebar-bg: #0f172a; }
+        .bg-custom-sidebar { background-color: var(--sidebar-bg) !important; }
+        .text-custom-accent { color: var(--accent) !important; }
+        .text-custom-primary { color: var(--primary) !important; }
+        .circle { width:28px; height:28px; border:1px solid #e2e8f0; border-radius:50%; font-size:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; color: #94a3b8; }
+        .circle.done { background-color: var(--primary); color: white; border-color: var(--primary); }
+    </style>
+</head>
+<body class="bg-slate-50 flex min-h-screen">
+    <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col no-print">
+        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter">NEORAH</h1>
+        <ul class="space-y-4">
+            <li><a href="index.html" class="hover:text-custom-accent block">🗓️ Roadmap</a></li>
+            <li><a href="planner.html" class="hover:text-custom-accent block">✍️ Journal</a></li>
+            <li><a href="budget.html" class="hover:text-custom-accent block">📊 Budget</a></li>
+            <li><a href="habits.html" class="text-custom-accent font-bold underline block">🌿 Habits</a></li>
+        </ul>
+    </nav>
+
+    <main class="flex-1 ml-64 p-10">
+        <header class="flex justify-between items-end mb-8">
+            <h2 class="text-3xl font-bold text-slate-800">Mindset & Habits</h2>
+            <div class="flex gap-2">
+                <input id="hIn" type="text" placeholder="New Habit..." class="border-b outline-none text-sm p-1 bg-transparent">
+                <button onclick="addH()" class="bg-slate-900 text-white px-4 py-1 rounded text-xs font-bold">Add</button>
+            </div>
+        </header>
+        <div id="hGrid" class="space-y-8 mb-16"></div>
+        
+        <h3 class="text-[10px] font-black text-slate-400 mb-6 tracking-widest uppercase">Gratitude Journal</h3>
+        <div class="bg-white p-8 rounded-3xl border shadow-sm space-y-4">
+            <input id="grat1" oninput="localStorage.setItem('grat1', this.value)" class="w-full border-b outline-none text-sm py-2" placeholder="1. What are you thankful for today?">
+            <input id="grat2" oninput="localStorage.setItem('grat2', this.value)" class="w-full border-b outline-none text-sm py-2" placeholder="2. ...">
+        </div>
+    </main>
+
+    <script src="global.js"></script>
+    <script>
+        let habits = JSON.parse(localStorage.getItem('habits')) || ["Mind: Meditation"];
+        const curM = new Date().getMonth();
+        function render() {
+            document.getElementById('grat1').value = localStorage.getItem('grat1') || '';
+            document.getElementById('grat2').value = localStorage.getItem('grat2') || '';
+            const grid = document.getElementById('hGrid'); grid.innerHTML = '';
+            const days = new Date(2026, curM+1, 0).getDate();
+            habits.forEach((h, i) => {
+                let html = `<div class="bg-white p-6 rounded-2xl border shadow-sm"><div class="flex justify-between mb-4"><span class="font-bold text-sm text-slate-800 uppercase">${h}</span><button onclick="habits.splice(${i},1); save(); render()" class="text-[9px] text-red-300 uppercase font-bold">Remove</button></div><div class="flex flex-wrap gap-2">`;
+                for(let d=1; d<=days; d++) {
+                    const k = `h-${h}-${curM}-${d}`;
+                    const done = localStorage.getItem(k) === 'true' ? 'done' : '';
+                    html += `<div onclick="this.classList.toggle('done'); localStorage.setItem('${k}', this.classList.contains('done'))" class="circle ${done}">${d}</div>`;
+                }
+                grid.innerHTML += html + '</div></div>';
+            });
+        }
+        function addH() { const v = document.getElementById('hIn').value; if(v){ habits.push(v); save(); render(); document.getElementById('hIn').value=''; } }
+        function save() { localStorage.setItem('habits', JSON.stringify(habits)); }
+        window.onload = render;
+    </script>
+</body>
+</html>
