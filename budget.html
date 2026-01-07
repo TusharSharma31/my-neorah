@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neorah - Pro Budget</title>
+    <title>Neorah - Strategic Budget</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root { --primary: #7f1d1d; --accent: #ef4444; --sidebar-bg: #0f172a; }
         .bg-custom-sidebar { background-color: var(--sidebar-bg) !important; }
         .text-custom-accent { color: var(--accent) !important; }
-        .text-custom-primary { color: var(--primary) !important; }
-        .progress-bg { background-color: #f1f5f9; height: 6px; border-radius: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; transition: width 0.5s ease; }
+        .progress-bg { background-color: #f1f5f9; height: 8px; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        
         @media (max-width: 1024px) {
             nav { width: 100% !important; height: auto !important; position: relative !important; padding: 15px !important; }
             main { margin-left: 0 !important; padding: 15px !important; }
@@ -20,8 +20,8 @@
     </style>
 </head>
 <body class="bg-slate-50 flex flex-col lg:flex-row min-h-screen">
-    <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col z-50">
-        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter text-center lg:text-left">NEORAH</h1>
+    <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col z-50 no-print">
+        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter">NEORAH</h1>
         <ul class="nav-links space-y-4">
             <li><a href="index.html" class="hover:text-custom-accent block py-2 px-3">🗓️ Roadmap</a></li>
             <li><a href="planner.html" class="hover:text-custom-accent block py-2 px-3">✍️ Journal</a></li>
@@ -31,108 +31,142 @@
     </nav>
 
     <main class="flex-1 lg:ml-64 p-4 lg:p-10">
+        <section class="bg-gradient-to-r from-slate-900 to-slate-800 p-6 rounded-3xl shadow-xl mb-8 text-white">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div>
+                    <p class="text-[10px] font-black text-custom-accent uppercase tracking-widest">Year-to-Date Wealth Growth</p>
+                    <h2 id="ytdSavings" class="text-3xl font-black italic">₹0</h2>
+                </div>
+                <div class="text-right">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase">Total 2026 Spending</p>
+                    <p id="ytdExpenses" class="text-xl font-bold text-red-400">₹0</p>
+                </div>
+            </div>
+        </section>
+
         <section class="bg-white p-6 rounded-3xl shadow-sm border mb-8">
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b pb-4 gap-4">
-                <h2 class="text-xl font-bold text-slate-800">Budget Strategy</h2>
-                <div class="flex items-center gap-2 bg-slate-100 p-2 rounded-xl">
-                    <input id="rNeeds" type="number" oninput="saveRule()" class="w-10 bg-transparent font-bold text-center text-blue-600 outline-none" value="50">
-                    <span class="text-slate-400">/</span>
-                    <input id="rWants" type="number" oninput="saveRule()" class="w-10 bg-transparent font-bold text-center text-purple-600 outline-none" value="30">
-                    <span class="text-slate-400">/</span>
-                    <input id="rSavings" type="number" oninput="saveRule()" class="w-10 bg-transparent font-bold text-center text-emerald-600 outline-none" value="20">
+            <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Step 1: Monthly Financial Plan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <label class="text-xs font-bold text-slate-500 block mb-2">Monthly Take-Home Salary</label>
+                    <input id="monthlySalary" type="number" oninput="calculateTargets()" 
+                        class="text-4xl font-black text-slate-800 bg-transparent outline-none w-full border-b-2 border-slate-100 focus:border-custom-primary pb-2" 
+                        placeholder="₹ 0.00">
                 </div>
-            </div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div class="space-y-2">
-                    <div class="flex justify-between items-end">
-                        <p class="text-[9px] font-black text-blue-400 uppercase">Needs</p>
-                        <p id="targetNeeds" class="text-xs font-bold text-blue-700">₹0</p>
+                <div class="bg-slate-50 p-4 rounded-2xl">
+                    <label class="text-[9px] font-black text-slate-400 uppercase block mb-3">Adjust Allocation %</label>
+                    <div class="flex items-center gap-3">
+                        <div class="flex-1"><span class="text-[10px] text-blue-500 font-bold">Needs</span><input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full bg-white border rounded p-1 font-bold text-xs" value="50"></div>
+                        <div class="flex-1"><span class="text-[10px] text-purple-500 font-bold">Wants</span><input id="rWants" type="number" oninput="calculateTargets()" class="w-full bg-white border rounded p-1 font-bold text-xs" value="30"></div>
+                        <div class="flex-1"><span class="text-[10px] text-emerald-500 font-bold">Savings</span><input id="rSavings" type="number" oninput="calculateTargets()" class="w-full bg-white border rounded p-1 font-bold text-xs" value="20"></div>
                     </div>
-                    <div class="progress-bg"><div id="fillNeeds" class="progress-fill bg-blue-500"></div></div>
-                    <p id="labelNeeds" class="text-[8px] font-bold text-slate-400">0% Used</p>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex justify-between items-end">
-                        <p class="text-[9px] font-black text-purple-400 uppercase">Wants</p>
-                        <p id="targetWants" class="text-xs font-bold text-purple-700">₹0</p>
-                    </div>
-                    <div class="progress-bg"><div id="fillWants" class="progress-fill bg-purple-500"></div></div>
-                    <p id="labelWants" class="text-[8px] font-bold text-slate-400">0% Used</p>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex justify-between items-end">
-                        <p class="text-[9px] font-black text-emerald-400 uppercase">Savings</p>
-                        <p id="targetSavings" class="text-xs font-bold text-emerald-700">₹0</p>
-                    </div>
-                    <div class="progress-bg"><div id="fillSavings" class="progress-fill bg-emerald-500"></div></div>
-                    <p id="labelSavings" class="text-[8px] font-bold text-slate-400">0% Used</p>
                 </div>
             </div>
         </section>
 
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-            <div class="bg-slate-900 text-white p-6 rounded-3xl shadow-xl">
-                <h3 class="text-[10px] font-black text-custom-accent uppercase mb-4 tracking-widest">Add Transaction</h3>
-                <div class="space-y-4">
-                    <div class="flex gap-2">
-                        <select id="entryDate" class="bg-slate-800 border-none rounded-xl p-3 text-xs flex-1 outline-none"></select>
-                        <select id="entryType" class="bg-slate-800 border-none rounded-xl p-3 text-xs outline-none">
-                            <option value="income">💰 Income</option>
-                            <option value="need">🏠 Need</option>
-                            <option value="want">🍿 Want</option>
-                            <option value="saving">🏦 Saving</option>
-                        </select>
-                    </div>
-                    <input id="entryDesc" type="text" placeholder="Description" class="w-full bg-slate-800 rounded-xl p-3 text-xs outline-none">
-                    <input id="entryAmt" type="number" placeholder="Amount (₹)" class="w-full bg-slate-800 rounded-xl p-3 text-xs outline-none">
-                    <button onclick="addEntry()" class="w-full bg-custom-primary text-white font-bold py-3 rounded-xl text-xs hover:opacity-90">Add Transaction</button>
-                </div>
+        <section class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-5 rounded-3xl border shadow-sm">
+                <div class="flex justify-between mb-2"><span class="text-[9px] font-black text-blue-400 uppercase">Needs Target</span><span id="labelNeeds" class="text-[10px] font-bold text-slate-400">₹0</span></div>
+                <div class="progress-bg"><div id="fillNeeds" class="progress-fill bg-blue-500" style="width:0%"></div></div>
+                <p id="statNeeds" class="text-[9px] mt-2 font-bold text-slate-500">Left: ₹0</p>
             </div>
-
-            <div class="bg-white p-6 rounded-3xl border shadow-sm flex flex-col justify-center">
-                <p class="text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest">Total Monthly Income</p>
-                <p id="totalInc" class="text-4xl font-black text-slate-800 mb-4">₹0</p>
-                <div class="pt-4 border-t">
-                    <div class="flex justify-between text-xs font-bold mb-2">
-                        <span class="text-slate-500">Overall Utilization</span>
-                        <span id="overallLabel" class="text-slate-800">0%</span>
-                    </div>
-                    <div class="progress-bg"><div id="progressFill" class="progress-fill bg-slate-900"></div></div>
-                </div>
+            <div class="bg-white p-5 rounded-3xl border shadow-sm">
+                <div class="flex justify-between mb-2"><span class="text-[9px] font-black text-purple-400 uppercase">Wants Target</span><span id="labelWants" class="text-[10px] font-bold text-slate-400">₹0</span></div>
+                <div class="progress-bg"><div id="fillWants" class="progress-fill bg-purple-500" style="width:0%"></div></div>
+                <p id="statWants" class="text-[9px] mt-2 font-bold text-slate-500">Left: ₹0</p>
+            </div>
+            <div class="bg-white p-5 rounded-3xl border shadow-sm">
+                <div class="flex justify-between mb-2"><span class="text-[9px] font-black text-emerald-400 uppercase">Savings Target</span><span id="labelSavings" class="text-[10px] font-bold text-slate-400">₹0</span></div>
+                <div class="progress-bg"><div id="fillSavings" class="progress-fill bg-emerald-500" style="width:0%"></div></div>
+                <p id="statSavings" class="text-[9px] mt-2 font-bold text-slate-500">Left: ₹0</p>
             </div>
         </section>
 
-        <h3 class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Transaction History</h3>
+        <section class="bg-slate-900 text-white p-6 rounded-3xl shadow-xl mb-10">
+            <h3 class="text-[10px] font-black text-custom-accent uppercase mb-4 tracking-widest">Step 2: Log Daily Transactions</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                <select id="entryDate" class="bg-slate-800 rounded-xl p-3 text-xs outline-none"></select>
+                <select id="entryType" class="bg-slate-800 rounded-xl p-3 text-xs outline-none font-bold">
+                    <option value="need">🏠 Need Expense</option>
+                    <option value="want">🍿 Want Expense</option>
+                    <option value="saving">🏦 Saving/Investment</option>
+                </select>
+                <input id="entryDesc" type="text" placeholder="Detail" class="bg-slate-800 rounded-xl p-3 text-xs outline-none">
+                <input id="entryAmt" type="number" placeholder="Amount" class="bg-slate-800 rounded-xl p-3 text-xs outline-none">
+                <button onclick="addEntry()" class="sm:col-span-4 bg-custom-primary text-white font-bold py-3 rounded-xl text-xs hover:scale-[0.98] transition-all">Save Transaction</button>
+            </div>
+        </section>
+
         <div id="history" class="space-y-2 pb-10"></div>
     </main>
 
     <script src="global.js"></script>
     <script>
         let curMonth = new Date().getMonth();
-        let curYear = 2026;
 
-        function init() {
-            document.getElementById('rNeeds').value = localStorage.getItem('ruleNeeds') || 50;
-            document.getElementById('rWants').value = localStorage.getItem('ruleWants') || 30;
-            document.getElementById('rSavings').value = localStorage.getItem('ruleSavings') || 20;
-
-            const dateSel = document.getElementById('entryDate');
-            const days = new Date(curYear, curMonth + 1, 0).getDate();
-            for(let i=1; i<=days; i++) {
-                const opt = document.createElement('option');
-                opt.value = i;
-                opt.innerText = `Jan ${i}, 2026`; // Adjust if you want dynamic month labels
-                dateSel.appendChild(opt);
-            }
+        function calculateTargets() {
+            localStorage.setItem('salary', document.getElementById('monthlySalary').value || 0);
+            localStorage.setItem('rN', document.getElementById('rNeeds').value);
+            localStorage.setItem('rW', document.getElementById('rWants').value);
+            localStorage.setItem('rS', document.getElementById('rSavings').value);
             render();
         }
 
-        function saveRule() {
-            localStorage.setItem('ruleNeeds', document.getElementById('rNeeds').value);
-            localStorage.setItem('ruleWants', document.getElementById('rWants').value);
-            localStorage.setItem('ruleSavings', document.getElementById('rSavings').value);
-            render();
+        function render() {
+            const salary = parseFloat(localStorage.getItem('salary')) || 0;
+            const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}`) || "[]");
+            
+            const targetN = salary * (parseFloat(localStorage.getItem('rN') || 50) / 100);
+            const targetW = salary * (parseFloat(localStorage.getItem('rW') || 30) / 100);
+            const targetS = salary * (parseFloat(localStorage.getItem('rS') || 20) / 100);
+
+            document.getElementById('labelNeeds').innerText = '₹' + targetN.toLocaleString();
+            document.getElementById('labelWants').innerText = '₹' + targetW.toLocaleString();
+            document.getElementById('labelSavings').innerText = '₹' + targetS.toLocaleString();
+
+            let spentN = 0, spentW = 0, spentS = 0;
+            const history = document.getElementById('history');
+            history.innerHTML = '';
+
+            entries.sort((a,b) => b.id - a.id).forEach(e => {
+                if(e.type === 'need') spentN += e.amt;
+                if(e.type === 'want') spentW += e.amt;
+                if(e.type === 'saving') spentS += e.amt;
+
+                history.innerHTML += `
+                    <div class="bg-white p-4 rounded-2xl flex justify-between items-center border shadow-sm">
+                        <div class="flex flex-col"><span class="text-[8px] font-black text-slate-400 uppercase">Day ${e.date} • ${e.type}</span><span class="text-xs font-bold text-slate-700">${e.desc}</span></div>
+                        <span class="text-sm font-black text-slate-800">₹${e.amt.toLocaleString()}</span>
+                    </div>`;
+            });
+
+            updateBar('fillNeeds', 'statNeeds', spentN, targetN);
+            updateBar('fillWants', 'statWants', spentW, targetW);
+            updateBar('fillSavings', 'statSavings', spentS, targetS);
+            
+            calculateYTD();
+        }
+
+        function calculateYTD() {
+            let totalSaved = 0;
+            let totalSpent = 0;
+            for(let i=0; i<12; i++) {
+                const data = JSON.parse(localStorage.getItem(`budget-${i}`) || "[]");
+                data.forEach(e => {
+                    if(e.type === 'saving') totalSaved += e.amt;
+                    else totalSpent += e.amt;
+                });
+            }
+            document.getElementById('ytdSavings').innerText = '₹' + totalSaved.toLocaleString();
+            document.getElementById('ytdExpenses').innerText = '₹' + totalSpent.toLocaleString();
+        }
+
+        function updateBar(barId, statId, spent, target) {
+            const pct = target > 0 ? (spent / target) * 100 : 0;
+            const bar = document.getElementById(barId);
+            bar.style.width = Math.min(pct, 100) + '%';
+            bar.style.backgroundColor = pct > 100 ? '#7f1d1d' : '';
+            document.getElementById(statId).innerText = `Left: ₹${Math.max(0, target - spent).toLocaleString()} (${pct.toFixed(0)}% used)`;
         }
 
         function addEntry() {
@@ -140,75 +174,29 @@
             const type = document.getElementById('entryType').value;
             const desc = document.getElementById('entryDesc').value;
             const amt = parseFloat(document.getElementById('entryAmt').value);
-            if(!desc || !amt) return alert("Please enter description and amount.");
+            if(!desc || !amt) return;
+
             const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}`) || "[]");
             entries.push({ date, type, desc, amt, id: Date.now() });
             localStorage.setItem(`budget-${curMonth}`, JSON.stringify(entries));
+            render();
             document.getElementById('entryDesc').value = '';
             document.getElementById('entryAmt').value = '';
+        }
+
+        function init() {
+            document.getElementById('monthlySalary').value = localStorage.getItem('salary') || '';
+            document.getElementById('rNeeds').value = localStorage.getItem('rN') || 50;
+            document.getElementById('rWants').value = localStorage.getItem('rW') || 30;
+            document.getElementById('rSavings').value = localStorage.getItem('rS') || 20;
+
+            const dateSel = document.getElementById('entryDate');
+            for(let i=1; i<=31; i++) {
+                const opt = document.createElement('option');
+                opt.value = i; opt.innerText = `Day ${i}`;
+                dateSel.appendChild(opt);
+            }
             render();
-        }
-
-        function deleteEntry(id) {
-            let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}`) || "[]");
-            entries = entries.filter(e => e.id !== id);
-            localStorage.setItem(`budget-${curMonth}`, JSON.stringify(entries));
-            render();
-        }
-
-        function updateGauge(fillId, labelId, actual, target) {
-            const fill = document.getElementById(fillId);
-            const label = document.getElementById(labelId);
-            const pct = target > 0 ? (actual / target) * 100 : 0;
-            fill.style.width = `${Math.min(pct, 100)}%`;
-            fill.style.backgroundColor = pct > 100 ? '#ef4444' : ''; // Red if over limit
-            label.innerText = `${pct.toFixed(0)}% of target used`;
-        }
-
-        function render() {
-            const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}`) || "[]");
-            const history = document.getElementById('history');
-            history.innerHTML = '';
-            let totals = { income: 0, need: 0, want: 0, saving: 0 };
-            
-            entries.sort((a,b) => b.id - a.id).forEach(e => {
-                totals[e.type] += e.amt;
-                const sym = e.type === 'income' ? '+' : '-';
-                const col = e.type === 'income' ? 'text-emerald-500' : 'text-slate-600';
-                history.innerHTML += `
-                    <div class="bg-white p-4 rounded-2xl flex justify-between items-center border shadow-sm">
-                        <div class="flex flex-col">
-                            <span class="text-[8px] font-black text-slate-400 uppercase">Day ${e.date} • ${e.type}</span>
-                            <span class="text-xs font-bold text-slate-700">${e.desc}</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <span class="text-sm font-black ${col}">${sym} ₹${e.amt.toLocaleString()}</span>
-                            <button onclick="deleteEntry(${e.id})" class="text-slate-300 text-xl">×</button>
-                        </div>
-                    </div>`;
-            });
-
-            const rN = parseFloat(document.getElementById('rNeeds').value) / 100;
-            const rW = parseFloat(document.getElementById('rWants').value) / 100;
-            const rS = parseFloat(document.getElementById('rSavings').value) / 100;
-
-            const tN = totals.income * rN;
-            const tW = totals.income * rW;
-            const tS = totals.income * rS;
-
-            document.getElementById('totalInc').innerText = `₹${totals.income.toLocaleString()}`;
-            document.getElementById('targetNeeds').innerText = `₹${tN.toFixed(0)}`;
-            document.getElementById('targetWants').innerText = `₹${tW.toFixed(0)}`;
-            document.getElementById('targetSavings').innerText = `₹${tS.toFixed(0)}`;
-
-            updateGauge('fillNeeds', 'labelNeeds', totals.need, tN);
-            updateGauge('fillWants', 'labelWants', totals.want, tW);
-            updateGauge('fillSavings', 'labelSavings', totals.saving, tS);
-
-            const totalExp = totals.need + totals.want + totals.saving;
-            const overallPct = totals.income > 0 ? (totalExp / totals.income) * 100 : 0;
-            document.getElementById('progressFill').style.width = `${Math.min(overallPct, 100)}%`;
-            document.getElementById('overallLabel').innerText = `${overallPct.toFixed(0)}%`;
         }
         window.onload = init;
     </script>
