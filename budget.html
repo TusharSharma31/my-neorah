@@ -1,56 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Neorah - Budget</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @media (max-width: 768px) {
-    nav { width: 100% !important; height: auto !important; position: relative !important; }
-    main { margin-left: 0 !important; padding: 20px !important; }
-    .flex-col { flex-direction: column !important; }
-    ul { display: flex; flex-wrap: wrap; gap: 10px; }
-}
         :root { --primary: #7f1d1d; --accent: #ef4444; --sidebar-bg: #0f172a; }
         .bg-custom-sidebar { background-color: var(--sidebar-bg) !important; }
         .text-custom-accent { color: var(--accent) !important; }
-        .text-custom-primary { color: var(--primary) !important; }
+        @media (max-width: 1024px) {
+            nav { width: 100% !important; height: auto !important; position: relative !important; padding: 15px !important; }
+            main { margin-left: 0 !important; padding: 15px !important; }
+            .nav-links { display: flex !important; flex-wrap: wrap; gap: 8px; justify-content: center; }
+            .sidebar-footer { display: none !important; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 flex min-h-screen">
-    <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col no-print">
-        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter">NEORAH</h1>
-        <ul class="space-y-4">
-            <li><a href="index.html" class="hover:text-custom-accent block">🗓️ Roadmap</a></li>
-            <li><a href="planner.html" class="hover:text-custom-accent block">✍️ Journal</a></li>
-            <li><a href="budget.html" class="text-custom-accent font-bold underline block">📊 Budget</a></li>
-            <li><a href="habits.html" class="hover:text-custom-accent block">🌿 Habits</a></li>
+<body class="bg-slate-50 flex flex-col lg:flex-row min-h-screen">
+    <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col z-50">
+        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter text-center lg:text-left">NEORAH</h1>
+        <ul class="nav-links space-y-4">
+            <li><a href="index.html" class="hover:text-custom-accent block py-2 px-3">🗓️ Roadmap</a></li>
+            <li><a href="planner.html" class="hover:text-custom-accent block py-2 px-3">✍️ Journal</a></li>
+            <li><a href="budget.html" class="text-custom-accent font-bold underline block py-2 px-3 bg-white/5 rounded-xl">📊 Budget</a></li>
+            <li><a href="habits.html" class="hover:text-custom-accent block py-2 px-3">🌿 Habits</a></li>
         </ul>
     </nav>
 
-    <main class="flex-1 ml-64 p-10">
-        <header class="mb-8 flex justify-between">
-            <h2 class="text-3xl font-bold text-slate-800">Ledger</h2>
-            <div id="mSelect" class="flex gap-1"></div>
+    <main class="flex-1 lg:ml-64 p-4 lg:p-10">
+        <header class="mb-6 flex flex-col gap-4">
+            <h2 class="text-2xl font-bold text-slate-800 text-center lg:text-left">Ledger</h2>
+            <div id="mSelect" class="flex flex-wrap gap-1 justify-center lg:justify-start"></div>
         </header>
-        <div class="grid grid-cols-2 gap-6 mb-10">
-            <div class="bg-white p-8 rounded-3xl border-b-8 border-emerald-500 shadow-sm text-center">
-                <p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Total Income</p>
-                <p id="tI" class="text-3xl font-bold text-emerald-600">₹0</p>
+        
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <div class="bg-white p-4 rounded-2xl border-b-4 border-emerald-500 shadow-sm text-center">
+                <p class="text-[8px] uppercase font-bold text-slate-400">Income</p>
+                <p id="tI" class="text-lg font-bold text-emerald-600">₹0</p>
             </div>
-            <div class="bg-white p-8 rounded-3xl border-b-8 border-red-800 shadow-sm text-center">
-                <p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Total Expense</p>
-                <p id="tE" class="text-3xl font-bold text-red-800">₹0</p>
+            <div class="bg-white p-4 rounded-2xl border-b-4 border-red-800 shadow-sm text-center">
+                <p class="text-[8px] uppercase font-bold text-slate-400">Expense</p>
+                <p id="tE" class="text-lg font-bold text-red-800">₹0</p>
             </div>
         </div>
-        <div class="bg-white rounded-3xl border shadow-sm overflow-hidden">
-            <table class="w-full text-left text-sm">
-                <thead class="bg-slate-50 text-[10px] uppercase font-bold text-slate-400">
-                    <tr><th class="p-4">Date</th><th class="p-4">Description</th><th class="p-4 text-emerald-600">Inc (+)</th><th class="p-4 text-red-800">Exp (-)</th></tr>
+
+        <div class="bg-white rounded-2xl border shadow-sm overflow-x-auto">
+            <table class="w-full text-left text-xs min-w-[400px]">
+                <thead class="bg-slate-50 text-[8px] uppercase font-bold text-slate-400">
+                    <tr><th class="p-3">Day</th><th class="p-3">Note</th><th class="p-3 text-emerald-600">In (+)</th><th class="p-3 text-red-800">Out (-)</th></tr>
                 </thead>
                 <tbody id="ledger" class="divide-y"></tbody>
             </table>
@@ -59,12 +57,12 @@
 
     <script src="global.js"></script>
     <script>
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let curM = new Date().getMonth();
         function render() {
             const ms = document.getElementById('mSelect'); ms.innerHTML = '';
             months.forEach((m, i) => {
-                ms.innerHTML += `<button onclick="curM=${i}; render()" class="px-3 py-1 rounded-full border text-[10px] font-bold ${curM===i?'bg-slate-900 text-white':'bg-white text-slate-400'}">${m.substring(0,3)}</button>`;
+                ms.innerHTML += `<button onclick="curM=${i}; render()" class="px-2 py-1 rounded-lg border text-[9px] font-bold ${curM===i?'bg-slate-900 text-white':'bg-white text-slate-400'}">${m}</button>`;
             });
             const l = document.getElementById('ledger'); l.innerHTML = '';
             const days = new Date(2026, curM+1, 0).getDate();
@@ -74,17 +72,15 @@
                 const vi=localStorage.getItem(ki)||'', ve=localStorage.getItem(ke)||'', vd=localStorage.getItem(kd)||'';
                 ti+=parseFloat(vi)||0; te+=parseFloat(ve)||0;
                 l.innerHTML += `<tr>
-                    <td class="p-4 font-bold text-slate-400">${d}</td>
-                    <td class="p-4"><input oninput="localStorage.setItem('${kd}',this.value)" value="${vd}" class="w-full outline-none" placeholder="..."></td>
-                    <td class="p-4"><input type="number" oninput="localStorage.setItem('${ki}',this.value); render()" value="${vi}" class="w-full outline-none text-emerald-600 font-bold" placeholder="0"></td>
-                    <td class="p-4"><input type="number" oninput="localStorage.setItem('${ke}',this.value); render()" value="${ve}" class="w-full outline-none text-red-800 font-bold" placeholder="0"></td>
+                    <td class="p-3 font-bold text-slate-400">${d}</td>
+                    <td class="p-2"><input oninput="localStorage.setItem('${kd}',this.value)" value="${vd}" class="w-full outline-none bg-transparent" placeholder="..."></td>
+                    <td class="p-2"><input type="number" oninput="localStorage.setItem('${ki}',this.value); render()" value="${vi}" class="w-16 outline-none text-emerald-600 font-bold bg-transparent" placeholder="0"></td>
+                    <td class="p-2"><input type="number" oninput="localStorage.setItem('${ke}',this.value); render()" value="${ve}" class="w-16 outline-none text-red-800 font-bold bg-transparent" placeholder="0"></td>
                 </tr>`;
             }
-            document.getElementById('tI').innerText = '₹' + ti.toLocaleString();
-            document.getElementById('tE').innerText = '₹' + te.toLocaleString();
+            document.getElementById('tI').innerText = '₹' + ti; document.getElementById('tE').innerText = '₹' + te;
         }
         window.onload = render;
     </script>
 </body>
-
 </html>
