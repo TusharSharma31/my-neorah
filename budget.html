@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neorah - Pro Financial OS</title>
+    <title>Neorah - Budget OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
@@ -25,37 +25,36 @@
 <body class="bg-slate-50 flex flex-col lg:flex-row min-h-screen transition-colors duration-300">
 
     <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col z-50 no-print hidden lg:flex">
-        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter">NEORAH</h1>
+        <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter italic uppercase">NEORAH</h1>
         <ul class="space-y-4 flex-1">
-            <li><a href="index.html" class="hover:text-custom-accent block py-2 px-3 rounded-xl transition-all">🗓️ Roadmap</a></li>
-            <li><a href="planner.html" class="hover:text-custom-accent block py-2 px-3 rounded-xl transition-all">✍️ Journal</a></li>
-            <li><a href="budget.html" class="text-custom-accent font-bold bg-white/5 block py-2 px-3 rounded-xl">📊 Budget OS</a></li>
-            <li><a href="habits.html" class="hover:text-custom-accent block py-2 px-3 rounded-xl transition-all">🌿 Habits</a></li>
+            <li><a href="index.html" class="hover:text-custom-accent block py-2 px-3 transition-all">🗓️ Roadmap</a></li>
+            <li><a href="planner.html" class="hover:text-custom-accent block py-2 px-3 transition-all">✍️ Journal</a></li>
+            <li><a href="budget.html" class="text-custom-accent font-bold bg-white/5 block py-2 px-3 rounded-xl border-l-4 border-custom-accent">📊 Budget OS</a></li>
+            <li><a href="habits.html" class="hover:text-custom-accent block py-2 px-3 transition-all">🌿 Habits</a></li>
             <hr class="border-white/10 my-4">
-            <li><button onclick="exportData()" class="text-slate-400 hover:text-white text-xs block py-2 px-3">📥 Backup Data</button></li>
-            <li><label class="text-slate-400 hover:text-white text-xs block py-2 px-3 cursor-pointer">📤 Restore<input type="file" id="importFile" onchange="importData(event)" class="hidden"></label></li>
+            <li><button onclick="exportData()" class="text-slate-400 hover:text-white text-[10px] font-black uppercase tracking-widest block py-2 px-3">📥 Backup Data</button></li>
         </ul>
-        <button onclick="toggleTheme()" class="mt-auto p-3 bg-white/10 rounded-xl text-xs font-bold">🌓 Toggle Theme</button>
+        <button onclick="toggleTheme()" class="mt-auto p-3 bg-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-white/20">🌓 Toggle Theme</button>
     </nav>
 
-    <div class="lg:hidden bg-custom-sidebar text-white p-4 flex justify-around items-center no-print">
-        <a href="index.html" class="text-[10px] uppercase font-bold">Roadmap</a>
-        <a href="planner.html" class="text-[10px] uppercase font-bold">Journal</a>
-        <a href="budget.html" class="text-[10px] uppercase font-bold text-custom-accent">Budget</a>
-        <a href="habits.html" class="text-[10px] uppercase font-bold">Habits</a>
+    <div class="lg:hidden bg-custom-sidebar text-white p-4 flex justify-around items-center no-print sticky top-0 z-50">
+        <a href="index.html" class="text-[9px] uppercase font-black">Roadmap</a>
+        <a href="planner.html" class="text-[9px] uppercase font-black">Journal</a>
+        <a href="budget.html" class="text-[9px] uppercase font-black text-custom-accent">Budget</a>
+        <a href="habits.html" class="text-[9px] uppercase font-black">Habits</a>
     </div>
 
     <main class="flex-1 lg:ml-64 p-4 lg:p-8">
         <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 no-print">
             <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border flex items-center justify-between shadow-sm">
-                <select id="selectMonth" onchange="changeDate()" class="font-bold text-sm bg-transparent outline-none cursor-pointer">
+                <select id="selectMonth" onchange="changeDate()" class="font-black text-xs uppercase tracking-widest bg-transparent outline-none cursor-pointer text-slate-600 dark:text-slate-300">
                     <option value="0">January</option><option value="1">February</option><option value="2">March</option>
                     <option value="3">April</option><option value="4">May</option><option value="5">June</option>
                     <option value="6">July</option><option value="7">August</option><option value="8">September</option>
                     <option value="9">October</option><option value="10">November</option><option value="11">December</option>
                 </select>
-                <select id="selectYear" onchange="changeDate()" class="font-bold text-sm bg-transparent outline-none cursor-pointer">
-                    <option value="2025">2025</option><option value="2026">2026</option>
+                <select id="selectYear" onchange="changeDate()" class="font-black text-xs bg-transparent outline-none cursor-pointer text-slate-600 dark:text-slate-300">
+                    <option value="2025">2025</option><option value="2026" selected>2026</option>
                 </select>
             </div>
 
@@ -72,104 +71,128 @@
         </section>
 
         <section class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-8">
-            <div class="bg-slate-900 text-white p-6 rounded-3xl col-span-1 lg:col-span-2 shadow-xl">
-                <p class="text-[10px] text-custom-accent font-black uppercase tracking-widest">Lifetime Savings Engine</p>
+            <div class="bg-slate-900 text-white p-6 rounded-3xl col-span-1 lg:col-span-2 shadow-xl border-b-4 border-custom-accent">
+                <p class="text-[10px] text-custom-accent font-black uppercase tracking-widest">Global Savings Accumulator</p>
                 <h2 id="ytdSavings" class="text-4xl font-black italic mt-2">₹0</h2>
-                <div class="mt-4 flex gap-4 text-[10px] font-bold text-slate-400">
+                <div class="mt-4 flex gap-4 text-[10px] font-bold text-slate-400 border-t border-white/10 pt-4">
                     <span>Total Expense: <span id="ytdExpenses" class="text-red-400">₹0</span></span>
-                    <span id="viewingDateDisplay" class="italic opacity-50 ml-auto"></span>
+                    <span id="viewingDateDisplay" class="italic opacity-50 ml-auto uppercase tracking-tighter"></span>
                 </div>
             </div>
             
-            <div class="bg-white p-6 rounded-3xl border shadow-sm flex flex-col justify-between">
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm flex flex-col justify-between">
                 <div>
-                    <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Goal Status</p>
-                    <h3 id="goalDisplayName" class="text-lg font-bold truncate">Setting Target...</h3>
+                    <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Active Objective</p>
+                    <h3 id="goalDisplayName" class="text-lg font-black truncate text-slate-800 dark:text-white uppercase tracking-tighter">Setting Target...</h3>
                 </div>
-                <p id="goalResult" class="text-xs font-black text-indigo-600">— Months left</p>
+                <p id="goalResult" class="text-xs font-black text-indigo-600 uppercase italic">— Months left</p>
             </div>
 
-            <button onclick="toggleMonthView(true)" class="bg-indigo-600 text-white p-6 rounded-3xl flex items-center justify-center font-black uppercase text-xs hover:scale-105 transition-all shadow-lg">
-                👁️ Full Report
+            <button onclick="toggleMonthView(true)" class="bg-indigo-600 text-white p-6 rounded-3xl flex flex-col items-center justify-center font-black uppercase text-xs hover:scale-105 transition-all shadow-lg group">
+                <span class="text-2xl group-hover:scale-125 transition-transform">👁️</span>
+                <span class="mt-2 tracking-widest">Financial Report</span>
             </button>
         </section>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 no-print">
-            <section class="bg-white p-6 rounded-3xl border shadow-sm">
-                <h4 class="text-[10px] font-black uppercase mb-4 text-slate-400 tracking-widest">1. Income & Strategy</h4>
-                <div class="space-y-4">
-                    <input id="monthlySalary" type="number" oninput="calculateTargets()" placeholder="Enter Salary (₹)" class="text-2xl font-black w-full border-b-2 pb-1 outline-none focus:border-custom-accent">
-                    <div class="flex gap-2">
-                        <div class="flex-1"><p class="text-[8px] font-bold text-blue-500 uppercase">Needs %</p><input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 p-2 rounded-lg text-xs font-bold" value="50"></div>
-                        <div class="flex-1"><p class="text-[8px] font-bold text-purple-500 uppercase">Wants %</p><input id="rWants" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 p-2 rounded-lg text-xs font-bold" value="30"></div>
-                        <div class="flex-1"><p class="text-[8px] font-bold text-emerald-500 uppercase">Saving %</p><input id="rSavings" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 p-2 rounded-lg text-xs font-bold" value="20"></div>
+            <section class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
+                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">1. Income Allocation</h4>
+                <div class="space-y-6">
+                    <div class="relative">
+                        <span class="absolute left-0 bottom-1 text-2xl font-black text-slate-300">₹</span>
+                        <input id="monthlySalary" type="number" oninput="calculateTargets()" placeholder="0.00" class="text-3xl font-black w-full border-b-2 pl-6 pb-1 outline-none focus:border-custom-accent bg-transparent">
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-1"><p class="text-[8px] font-black text-blue-500 uppercase mb-1">Needs %</p><input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold" value="50"></div>
+                        <div class="flex-1"><p class="text-[8px] font-black text-purple-500 uppercase mb-1">Wants %</p><input id="rWants" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold" value="30"></div>
+                        <div class="flex-1"><p class="text-[8px] font-black text-emerald-500 uppercase mb-1">Saving %</p><input id="rSavings" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold" value="20"></div>
                     </div>
                 </div>
             </section>
 
-            <section class="bg-white p-6 rounded-3xl border shadow-sm">
-                <h4 class="text-[10px] font-black uppercase mb-4 text-slate-400 tracking-widest">2. Monthly Recurring (Auto-Deduct)</h4>
-                <div class="flex gap-2 mb-3">
-                    <input id="billDesc" type="text" placeholder="Rent/WiFi/Gym" class="flex-1 bg-slate-50 p-2 rounded-lg text-xs outline-none">
-                    <input id="billAmt" type="number" placeholder="₹" class="w-20 bg-slate-50 p-2 rounded-lg text-xs outline-none font-bold">
-                    <button onclick="addBill()" class="bg-slate-900 text-white px-4 rounded-lg text-xs font-bold hover:bg-custom-accent transition-colors">+</button>
+            <section class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
+                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">2. Fixed Overheads</h4>
+                <div class="flex gap-2 mb-4">
+                    <input id="billDesc" type="text" placeholder="Rent, Subscription..." class="flex-1 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none">
+                    <input id="billAmt" type="number" placeholder="₹" class="w-24 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none font-black">
+                    <button onclick="addBill()" class="bg-slate-900 text-white px-5 rounded-xl text-lg font-black hover:bg-custom-accent transition-colors">+</button>
                 </div>
                 <div id="billList" class="flex flex-wrap gap-2"></div>
             </section>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                <div class="flex justify-between mb-2"><span class="text-[10px] font-black text-blue-500 uppercase">Needs</span><span id="labelNeeds" class="text-[10px] font-bold">₹0</span></div>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
+                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Needs</span><span id="labelNeeds" class="text-[10px] font-black">₹0</span></div>
                 <div class="progress-bg"><div id="fillNeeds" class="progress-fill bg-blue-500" style="width:0%"></div></div>
-                <p id="statNeeds" class="text-[9px] mt-2 font-bold text-slate-400">Used: 0%</p>
+                <p id="statNeeds" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
-            <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                <div class="flex justify-between mb-2"><span class="text-[10px] font-black text-purple-500 uppercase">Wants</span><span id="labelWants" class="text-[10px] font-bold">₹0</span></div>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
+                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-purple-500 uppercase tracking-widest">Wants</span><span id="labelWants" class="text-[10px] font-black">₹0</span></div>
                 <div class="progress-bg"><div id="fillWants" class="progress-fill bg-purple-500" style="width:0%"></div></div>
-                <p id="statWants" class="text-[9px] mt-2 font-bold text-slate-400">Used: 0%</p>
+                <p id="statWants" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
-            <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                <div class="flex justify-between mb-2"><span class="text-[10px] font-black text-emerald-500 uppercase">Savings</span><span id="labelSavings" class="text-[10px] font-bold">₹0</span></div>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
+                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Savings</span><span id="labelSavings" class="text-[10px] font-black">₹0</span></div>
                 <div class="progress-bg"><div id="fillSavings" class="progress-fill bg-emerald-500" style="width:0%"></div></div>
-                <p id="statSavings" class="text-[9px] mt-2 font-bold text-slate-400">Used: 0%</p>
+                <p id="statSavings" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
         </div>
 
-        <section id="entryForm" class="bg-slate-900 text-white p-6 rounded-3xl shadow-xl mb-8 no-print">
+        <section id="entryForm" class="bg-slate-900 text-white p-6 rounded-[2rem] shadow-2xl mb-12 no-print border-b-8 border-indigo-600">
+            <h4 class="text-[10px] font-black uppercase mb-6 text-indigo-400 tracking-[0.3em] text-center">New Transaction Entry</h4>
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                <select id="entryDate" class="bg-slate-800 rounded-xl p-3 text-xs outline-none border-none cursor-pointer"></select>
-                <select id="entryType" class="bg-slate-800 rounded-xl p-3 text-xs outline-none border-none font-bold">
-                    <option value="need">🏠 Need</option><option value="want">🍿 Want</option><option value="saving">🏦 Saving</option>
+                <select id="entryDate" class="bg-slate-800 rounded-xl p-4 text-xs outline-none font-bold cursor-pointer hover:bg-slate-700 transition-colors"></select>
+                <select id="entryType" class="bg-slate-800 rounded-xl p-4 text-xs outline-none font-black uppercase tracking-tighter">
+                    <option value="need">🏠 Essential Need</option>
+                    <option value="want">🍿 Personal Want</option>
+                    <option value="saving">🏦 Asset/Saving</option>
                 </select>
-                <input id="entryDesc" type="text" placeholder="Description" class="bg-slate-800 rounded-xl p-3 text-xs outline-none border-none">
-                <input id="entryAmt" type="number" placeholder="Amount (₹)" class="bg-slate-800 rounded-xl p-3 text-xs outline-none border-none">
-                <button onclick="addEntry()" class="sm:col-span-4 bg-custom-accent py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:brightness-110">Save Entry</button>
+                <input id="entryDesc" type="text" placeholder="Item/Service Description" class="bg-slate-800 rounded-xl p-4 text-xs outline-none">
+                <input id="entryAmt" type="number" placeholder="Value (₹)" class="bg-slate-800 rounded-xl p-4 text-xs outline-none font-black">
+                <button onclick="addEntry()" class="sm:col-span-4 bg-indigo-600 py-4 rounded-xl text-xs font-black uppercase tracking-[0.4em] hover:bg-custom-accent transition-all transform hover:scale-[1.01] active:scale-95">Commit Transaction</button>
             </div>
         </section>
 
-        <section class="bg-indigo-600 text-white p-4 rounded-3xl mb-8 flex flex-col md:flex-row gap-4 items-center no-print shadow-lg">
-            <span class="text-[10px] font-black uppercase whitespace-nowrap tracking-widest">Active Saving Goal:</span>
-            <input id="goalName" oninput="saveGoal()" type="text" placeholder="e.g. Dream House" class="bg-white/10 rounded-lg p-2 text-xs w-full outline-none placeholder:text-white/30">
-            <input id="goalAmount" oninput="saveGoal()" type="number" placeholder="Target ₹" class="bg-white/10 rounded-lg p-2 text-xs w-full outline-none placeholder:text-white/30 font-bold">
+        <section class="bg-indigo-600 text-white p-5 rounded-[2rem] mb-12 flex flex-col md:flex-row gap-4 items-center no-print shadow-lg border-l-8 border-white">
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">Primary Accumulation Goal:</span>
+            <input id="goalName" oninput="saveGoal()" type="text" placeholder="e.g. Real Estate Downpayment" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-bold">
+            <input id="goalAmount" oninput="saveGoal()" type="number" placeholder="Target ₹" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-black">
         </section>
 
-        <h3 class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Transaction History</h3>
-        <div id="history" class="space-y-2 pb-24"></div>
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Audit Trail (Current Month)</h3>
+            <button onclick="if(confirm('Clear month data?')) { localStorage.removeItem('budget-'+curMonth+'-'+curYear); render(); }" class="text-[8px] font-black text-red-400 uppercase hover:underline">Clear History</button>
+        </div>
+        <div id="history" class="space-y-3 pb-24"></div>
     </main>
 
-    <div id="monthModal" class="fixed inset-0 bg-slate-900/98 z-[100] p-4 flex-col overflow-y-auto hidden">
-        <div class="max-w-4xl mx-auto w-full">
+    <div id="monthModal" class="fixed inset-0 bg-slate-900/95 z-[100] p-4 flex-col overflow-y-auto hidden backdrop-blur-sm">
+        <div class="max-w-4xl mx-auto w-full py-10">
             <header class="flex justify-between items-center mb-10 text-white">
-                <button onclick="window.print()" class="bg-emerald-600 px-4 py-2 rounded-xl text-[10px] font-bold">PRINT STATEMENT</button>
-                <button onclick="toggleMonthView(false)" class="text-3xl">&times;</button>
+                <div>
+                    <h2 id="reportTitle" class="text-4xl font-black uppercase tracking-tighter">Budget Report</h2>
+                    <p class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.3em] mt-1">Certified Financial Audit</p>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="window.print()" class="bg-white text-slate-900 px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest">Print PDF</button>
+                    <button onclick="toggleMonthView(false)" class="text-white text-4xl font-light hover:text-custom-accent transition-colors">&times;</button>
+                </div>
             </header>
-            <div class="bg-white rounded-[2rem] p-8 text-slate-900 shadow-2xl">
-                <h2 id="reportTitle" class="text-2xl font-black mb-6 uppercase border-b pb-4">Budget Report</h2>
-                <div id="reportSummary" class="grid grid-cols-4 gap-4 mb-8"></div>
-                <table class="w-full text-left text-xs">
-                    <thead class="bg-slate-100 font-black uppercase"><tr class="border-b"><th class="p-3">Day</th><th class="p-3">Category</th><th class="p-3">Details</th><th class="p-3 text-right">Amount</th></tr></thead>
-                    <tbody id="monthTable" class="divide-y"></tbody>
+            
+            <div class="bg-white rounded-[3rem] p-10 text-slate-900 shadow-2xl border-t-[12px] border-indigo-600">
+                <div id="reportSummary" class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12"></div>
+                
+                <table class="w-full text-left">
+                    <thead class="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                        <tr class="border-b">
+                            <th class="p-4">Timeline</th>
+                            <th class="p-4">Classification</th>
+                            <th class="p-4">Reference</th>
+                            <th class="p-4 text-right">Debit (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="monthTable" class="text-xs font-bold divide-y divide-slate-100"></tbody>
                 </table>
             </div>
         </div>
@@ -193,7 +216,8 @@
             const dateSel = document.getElementById('entryDate');
             dateSel.innerHTML = '';
             const today = new Date().getDate();
-            for(let i=1; i<=31; i++) {
+            const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
+            for(let i=1; i<=daysInMonth; i++) {
                 const opt = document.createElement('option');
                 opt.value = i; opt.innerText = `Day ${i}`;
                 if(i === today) opt.selected = true;
@@ -214,6 +238,7 @@
         function changeDate() {
             curMonth = parseInt(document.getElementById('selectMonth').value);
             curYear = parseInt(document.getElementById('selectYear').value);
+            setupDateDropdown();
             loadMonthData();
         }
 
@@ -244,8 +269,9 @@
             const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]");
             const container = document.getElementById('billList');
             container.innerHTML = bills.map(b => `
-                <div class="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-2">
-                    ${b.desc}: ₹${b.amt} <button onclick="removeBill(${b.id})" class="text-red-500">×</button>
+                <div class="bg-slate-100 dark:bg-slate-700 px-4 py-2 rounded-xl text-[10px] font-black uppercase flex items-center gap-3 border border-slate-200 dark:border-slate-600">
+                    ${b.desc}: <span class="text-indigo-600 dark:text-indigo-400">₹${b.amt.toLocaleString()}</span> 
+                    <button onclick="removeBill(${b.id})" class="text-red-500 font-bold hover:scale-125 transition-transform">×</button>
                 </div>
             `).join('');
         }
@@ -279,14 +305,19 @@
             const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]");
             const billTotal = bills.reduce((sum, b) => sum + b.amt, 0);
 
-            let spentN = billTotal, spentW = 0, spentS = 0, lifeS = 0, lifeE = 0;
+            let spentN = billTotal, spentW = 0, spentS = 0;
+            let lifeS = 0, lifeE = 0;
             
+            // Global Life Accumulator logic
             for(let i=0; i<localStorage.length; i++) {
                 const k = localStorage.key(i);
                 if(k.startsWith('budget-')) {
-                    JSON.parse(localStorage.getItem(k)).forEach(e => {
-                        if(e.type === 'saving') lifeS += e.amt; else lifeE += e.amt;
-                    });
+                    const data = JSON.parse(localStorage.getItem(k));
+                    if(Array.isArray(data)) {
+                        data.forEach(e => {
+                            if(e.type === 'saving') lifeS += e.amt; else lifeE += e.amt;
+                        });
+                    }
                 }
             }
 
@@ -297,11 +328,24 @@
                 else spentS += e.amt;
             });
 
+            // Target calculations
+            const tNeeds = salary * (config.rn/100);
+            const tWants = salary * (config.rw/100);
+            const tSavings = salary * (config.rs/100);
+
+            document.getElementById('labelNeeds').innerText = '₹' + tNeeds.toLocaleString();
+            document.getElementById('labelWants').innerText = '₹' + tWants.toLocaleString();
+            document.getElementById('labelSavings').innerText = '₹' + tSavings.toLocaleString();
+
+            // Safe Daily Logic
             const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
-            const today = new Date().getDate();
-            const daysLeft = Math.max(1, daysInMonth - today + 1);
-            const wantBudget = salary * (config.rw/100);
-            const safeDaily = Math.max(0, (wantBudget - spentW) / daysLeft);
+            const todayDate = new Date();
+            const viewingCurrentMonth = (todayDate.getMonth() === curMonth && todayDate.getFullYear() === curYear);
+            const currentDay = todayDate.getDate();
+            const daysLeft = viewingCurrentMonth ? Math.max(1, daysInMonth - currentDay + 1) : daysInMonth;
+            
+            const remainingWants = tWants - spentW;
+            const safeDaily = remainingWants > 0 ? remainingWants / daysLeft : 0;
             document.getElementById('dailyLimit').innerText = '₹' + Math.floor(safeDaily).toLocaleString();
 
             const totalOutflow = spentN + spentW + spentS;
@@ -310,23 +354,34 @@
             
             document.getElementById('ytdSavings').innerText = '₹' + lifeS.toLocaleString();
             document.getElementById('ytdExpenses').innerText = '₹' + lifeE.toLocaleString();
-            document.getElementById('viewingDateDisplay').innerText = document.getElementById('selectMonth').options[curMonth].text + " " + curYear;
+            document.getElementById('viewingDateDisplay').innerText = document.getElementById('selectMonth').options[curMonth].text + " Audit " + curYear;
 
-            updateBar('fillNeeds', 'statNeeds', spentN, salary * (config.rn/100));
-            updateBar('fillWants', 'statWants', spentW, salary * (config.rw/100));
-            updateBar('fillSavings', 'statSavings', spentS, salary * (config.rs/100));
+            updateBar('fillNeeds', 'statNeeds', spentN, tNeeds);
+            updateBar('fillWants', 'statWants', spentW, tWants);
+            updateBar('fillSavings', 'statSavings', spentS, tSavings);
 
             entries.sort((a,b) => b.id - a.id).forEach(e => {
+                const color = e.type === 'need' ? 'text-blue-500' : e.type === 'want' ? 'text-purple-500' : 'text-emerald-500';
                 if(editingId === e.id) {
-                    history.innerHTML += `<div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-2xl border-2 border-blue-400 space-y-3">
-                        <input id="editDesc" value="${e.desc}" class="w-full p-2 rounded text-xs">
-                        <input id="editAmt" type="number" value="${e.amt}" class="w-full p-2 rounded text-xs">
-                        <div class="flex gap-2"><button onclick="saveEdit(${e.id})" class="flex-1 bg-emerald-600 text-white font-bold py-2 rounded text-[10px]">SAVE</button><button onclick="deleteEntry(${e.id})" class="flex-1 bg-red-600 text-white font-bold py-2 rounded text-[10px]">DELETE</button></div>
+                    history.innerHTML += `
+                    <div class="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-[1.5rem] border-2 border-blue-400 space-y-3">
+                        <input id="editDesc" value="${e.desc}" class="w-full p-3 rounded-xl text-xs font-bold border outline-none">
+                        <input id="editAmt" type="number" value="${e.amt}" class="w-full p-3 rounded-xl text-xs font-black border outline-none">
+                        <div class="flex gap-2">
+                            <button onclick="saveEdit(${e.id})" class="flex-1 bg-emerald-600 text-white font-black py-3 rounded-xl text-[10px] uppercase">Update</button>
+                            <button onclick="deleteEntry(${e.id})" class="flex-1 bg-red-600 text-white font-black py-3 rounded-xl text-[10px] uppercase">Remove</button>
+                        </div>
                     </div>`;
                 } else {
-                    history.innerHTML += `<div onclick="startEdit(${e.id})" class="bg-white p-4 rounded-2xl flex justify-between items-center border shadow-sm cursor-pointer hover:border-indigo-500 transition-all">
-                        <div class="flex flex-col"><span class="text-[8px] font-black text-slate-400 uppercase">Day ${e.date} • ${e.type}</span><span class="text-xs font-bold">${e.desc}</span></div>
-                        <span class="text-sm font-black">₹${e.amt.toLocaleString()}</span>
+                    history.innerHTML += `
+                    <div onclick="startEdit(${e.id})" class="bg-white dark:bg-slate-800 p-5 rounded-[1.5rem] flex justify-between items-center border shadow-sm cursor-pointer hover:border-indigo-500 hover:shadow-md transition-all group">
+                        <div class="flex flex-col">
+                            <span class="text-[8px] font-black uppercase tracking-widest ${color}">Day ${e.date} • ${e.type}</span>
+                            <span class="text-xs font-black text-slate-700 dark:text-slate-200 uppercase mt-1">${e.desc}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-sm font-black text-slate-800 dark:text-white group-hover:text-indigo-600 transition-colors">₹${e.amt.toLocaleString()}</span>
+                        </div>
                     </div>`;
                 }
             });
@@ -337,8 +392,8 @@
             const pct = target > 0 ? (spent / target) * 100 : 0;
             const bar = document.getElementById(barId);
             bar.style.width = Math.min(pct, 100) + '%';
-            bar.className = `progress-fill ${pct > 100 ? 'bg-red-600' : barId.includes('Needs') ? 'bg-blue-500' : barId.includes('Wants') ? 'bg-purple-500' : 'bg-emerald-500'}`;
-            document.getElementById(statId).innerText = `Used: ${pct.toFixed(0)}% (₹${spent.toLocaleString()})`;
+            bar.className = `progress-fill ${pct > 100 ? 'bg-red-600' : (barId.includes('Needs') ? 'bg-blue-500' : (barId.includes('Wants') ? 'bg-purple-500' : 'bg-emerald-500'))}`;
+            document.getElementById(statId).innerText = `Utilized: ${pct.toFixed(0)}% (₹${spent.toLocaleString()})`;
         }
 
         function saveGoal() {
@@ -348,7 +403,7 @@
         }
 
         function calculateGoalTime() {
-            const name = document.getElementById('goalName').value || 'Set a Goal';
+            const name = document.getElementById('goalName').value || 'Set an Asset Goal';
             const amt = parseFloat(document.getElementById('goalAmount').value) || 0;
             const salary = parseFloat(document.getElementById('monthlySalary').value) || 0;
             const savPct = parseFloat(document.getElementById('rSavings').value) || 0;
@@ -357,8 +412,8 @@
             document.getElementById('goalDisplayName').innerText = name;
             const res = document.getElementById('goalResult');
             if(monthlySaving > 0 && amt > 0) {
-                const months = Math.ceil(amt / monthlySaving);
-                res.innerText = months + " Months left";
+                const mo = Math.ceil(amt / monthlySaving);
+                res.innerText = mo + (mo === 1 ? " Month" : " Months") + " to Target";
             } else res.innerText = "— Months left";
         }
 
@@ -366,9 +421,11 @@
         function saveEdit(id) {
             let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
             const idx = entries.findIndex(e => e.id === id);
-            entries[idx].desc = document.getElementById('editDesc').value;
-            entries[idx].amt = parseFloat(document.getElementById('editAmt').value);
-            localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries));
+            if(idx > -1) {
+                entries[idx].desc = document.getElementById('editDesc').value;
+                entries[idx].amt = parseFloat(document.getElementById('editAmt').value);
+                localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries));
+            }
             editingId = null; render();
         }
         function deleteEntry(id) {
@@ -387,16 +444,38 @@
         function renderFullReport() {
             const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
             const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]");
-            const table = document.getElementById('monthTable'); table.innerHTML = '';
+            const config = JSON.parse(localStorage.getItem(`config-${curMonth}-${curYear}`) || '{"salary":0}');
+            const salary = parseFloat(config.salary) || 0;
+            const table = document.getElementById('monthTable'); 
+            table.innerHTML = '';
+            
             let sums = { need: 0, want: 0, saving: 0 };
             
-            bills.forEach(b => { sums.need += b.amt; table.innerHTML += `<tr class="bg-slate-50"><td class="p-3">FIXED</td><td class="p-3">NEED</td><td class="p-3 font-bold">${b.desc}</td><td class="p-3 text-right">₹${b.amt}</td></tr>`; });
+            bills.forEach(b => { 
+                sums.need += b.amt; 
+                table.innerHTML += `<tr class="bg-slate-50"><td class="p-4 opacity-50 font-black">FIXED</td><td class="p-4 text-blue-500">NEED</td><td class="p-4 uppercase">${b.desc}</td><td class="p-4 text-right">₹${b.amt.toLocaleString()}</td></tr>`; 
+            });
+            
             entries.sort((a,b) => a.date - b.date).forEach(e => {
                 sums[e.type] += e.amt;
-                table.innerHTML += `<tr><td class="p-3">${e.date}</td><td class="p-3 uppercase text-[8px] font-black">${e.type}</td><td class="p-3">${e.desc}</td><td class="p-3 text-right font-bold">₹${e.amt.toLocaleString()}</td></tr>`;
+                const color = e.type === 'need' ? 'text-blue-500' : e.type === 'want' ? 'text-purple-500' : 'text-emerald-500';
+                table.innerHTML += `<tr><td class="p-4">Day ${e.date}</td><td class="p-4 uppercase ${color}">${e.type}</td><td class="p-4 uppercase">${e.desc}</td><td class="p-4 text-right">₹${e.amt.toLocaleString()}</td></tr>`;
             });
+            
+            const totalOutflow = sums.need + sums.want + sums.saving;
+            const net = salary - totalOutflow;
+
             document.getElementById('reportTitle').innerText = document.getElementById('selectMonth').options[curMonth].text + " " + curYear;
-            document.getElementById('reportSummary').innerHTML = `<div class="bg-slate-50 p-3 rounded-xl border text-center font-bold text-xs"><p class="text-[8px] opacity-60">TOTAL OUTFLOW</p>₹${(sums.need+sums.want+sums.saving).toLocaleString()}</div>`;
+            document.getElementById('reportSummary').innerHTML = `
+                <div class="bg-slate-900 text-white p-5 rounded-2xl text-center"><p class="text-[8px] opacity-60 uppercase mb-1">Income</p><p class="font-black">₹${salary.toLocaleString()}</p></div>
+                <div class="bg-blue-50 p-5 rounded-2xl text-center"><p class="text-[8px] text-blue-500 uppercase mb-1">Essentials</p><p class="font-black">₹${sums.need.toLocaleString()}</p></div>
+                <div class="bg-purple-50 p-5 rounded-2xl text-center"><p class="text-[8px] text-purple-500 uppercase mb-1">Personal</p><p class="font-black">₹${sums.want.toLocaleString()}</p></div>
+                <div class="bg-emerald-50 p-5 rounded-2xl text-center"><p class="text-[8px] text-emerald-500 uppercase mb-1">Savings</p><p class="font-black">₹${sums.saving.toLocaleString()}</p></div>
+                <div class="md:col-span-4 mt-4 bg-indigo-600 text-white p-5 rounded-2xl flex justify-between items-center font-black">
+                    <span class="text-[10px] uppercase">Net Monthly Delta</span>
+                    <span class="text-2xl">₹${net.toLocaleString()}</span>
+                </div>
+            `;
         }
 
         function exportData() {
@@ -404,18 +483,8 @@
             const blob = new Blob([data], {type: "application/json"});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url; a.download = `neorah_backup_${new Date().toLocaleDateString()}.json`;
+            a.href = url; a.download = `neorah_backup_${new Date().toISOString().split('T')[0]}.json`;
             a.click();
-        }
-
-        function importData(event) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const data = JSON.parse(e.target.result);
-                Object.keys(data).forEach(k => localStorage.setItem(k, data[k]));
-                location.reload();
-            };
-            reader.readAsText(event.target.files[0]);
         }
 
         function toggleTheme() {
