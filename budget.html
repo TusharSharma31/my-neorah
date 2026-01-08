@@ -20,18 +20,19 @@
         .progress-bg { background-color: #f1f5f9; height: 8px; border-radius: 10px; overflow: hidden; }
         .dark .progress-bg { background-color: #334155; }
         .progress-fill { height: 100%; transition: width 0.6s ease; }
-        
-        /* TOUCH-UP: Overspending Glow & Button Success */
-        .alert-glow { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4) !important; border-color: #ef4444 !important; }
-        .btn-success { background-color: #10b981 !important; transform: scale(0.98); }
-        
         .alert-pulse { animation: pulse-red 2s infinite; }
+        
+        /* NEW: Overspending Glow Effect */
+        .alert-glow { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); border-color: #ef4444 !important; }
+        
         @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
 
         @media (max-width: 1024px) {
             .mobile-nav { display: grid !important; grid-template-cols: repeat(4, 1fr); gap: 5px; width: 100%; }
-            .mobile-nav a { font-size: 10px; padding: 8px 2px !important; text-align: center; border-radius: 8px; }
+            .mobile-nav a { font-size: 10px; padding: 8px 2px !important; text-align: center; border-radius: 8px; position: relative; transition: all 0.3s ease; }
+            /* NEW: Active Mobile Tab Indicator */
             .active-mobile { color: var(--accent) !important; background: rgba(255,255,255,0.1); font-weight: 900; }
+            .active-mobile::after { content: ''; position: absolute; bottom: 2px; left: 25%; width: 50%; height: 2px; background: var(--accent); border-radius: 10px; }
             main { margin-top: 10px; }
         }
         @media print { .no-print { display: none !important; } main { margin-left: 0 !important; } }
@@ -74,7 +75,7 @@
                 <select id="selectYear" onchange="changeDate()" class="font-black text-xs bg-transparent outline-none cursor-pointer text-slate-600 dark:text-slate-300">
                     <option value="2026" selected>2026</option>
                     <option value="2027">2027</option>
-                    <option value="2028">2028</option> </select>
+                </select>
             </div>
 
             <div class="bg-emerald-600 text-white p-4 rounded-2xl shadow-lg relative overflow-hidden">
@@ -115,7 +116,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 no-print">
             <section class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">1. Income Allocation</h4>
+                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">1. [cite_start]Income Allocation [cite: 34]</h4>
                 <div class="space-y-6">
                     <div class="relative">
                         <span class="absolute left-0 bottom-1 text-2xl font-black text-slate-300">₹</span>
@@ -130,7 +131,7 @@
             </section>
 
             <section class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">2. Fixed Overheads</h4>
+                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">2. [cite_start]Fixed Overheads [cite: 38]</h4>
                 <div class="flex flex-wrap gap-2 mb-4">
                     <input id="billDesc" type="text" placeholder="Rent, Subscription..." class="flex-1 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none text-slate-900 dark:text-white min-w-[120px]">
                     <input id="billAmt" type="number" placeholder="₹" class="w-24 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none font-black text-slate-900 dark:text-white">
@@ -145,17 +146,17 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-            <div id="cardNeeds" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm transition-all duration-300">
+            <div id="cardNeeds" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
                 <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Needs</span><span id="labelNeeds" class="text-[10px] font-black text-slate-900 dark:text-white">₹0</span></div>
                 <div class="progress-bg"><div id="fillNeeds" class="progress-fill bg-blue-500" style="width:0%"></div></div>
                 <p id="statNeeds" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
-            <div id="cardWants" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm transition-all duration-300">
+            <div id="cardWants" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
                 <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-purple-500 uppercase tracking-widest">Wants</span><span id="labelWants" class="text-[10px] font-black text-slate-900 dark:text-white">₹0</span></div>
                 <div class="progress-bg"><div id="fillWants" class="progress-fill bg-purple-500" style="width:0%"></div></div>
                 <p id="statWants" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
-            <div id="cardSavings" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm transition-all duration-300">
+            <div id="cardSavings" class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
                 <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Savings</span><span id="labelSavings" class="text-[10px] font-black text-slate-900 dark:text-white">₹0</span></div>
                 <div class="progress-bg"><div id="fillSavings" class="progress-fill bg-emerald-500" style="width:0%"></div></div>
                 <p id="statSavings" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
@@ -179,12 +180,51 @@
                 </select>
                 <input id="entryDesc" type="text" placeholder="Description" class="bg-slate-800 rounded-xl p-4 text-xs outline-none">
                 <input id="entryAmt" type="number" placeholder="Value (₹)" class="bg-slate-800 rounded-xl p-4 text-xs outline-none font-black">
-                <button onclick="addEntry()" class="sm:col-span-5 bg-indigo-600 py-4 rounded-xl text-xs font-black uppercase tracking-[0.4em] transition-all duration-300">Commit Transaction</button>
+                <button onclick="addEntry()" class="sm:col-span-5 bg-indigo-600 py-4 rounded-xl text-xs font-black uppercase tracking-[0.4em]">Commit Transaction</button>
             </div>
         </section>
 
+        <section class="bg-indigo-600 text-white p-5 rounded-[2rem] mb-12 flex flex-col md:flex-row gap-4 items-center no-print shadow-lg border-l-8 border-white">
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">Primary Accumulation Goal:</span>
+            <input id="goalName" oninput="saveGoal()" type="text" placeholder="e.g. Real Estate" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-bold text-white">
+            <input id="goalAmount" oninput="saveGoal()" type="number" placeholder="Target ₹" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-black text-white">
+        </section>
+
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Audit Trail (Current Month)</h3>
+            <button onclick="if(confirm('Clear month data?')) { localStorage.removeItem('budget-'+curMonth+'-'+curYear); render(); }" class="text-[8px] font-black text-red-400 uppercase hover:underline">Clear History</button>
+        </div>
         <div id="history" class="space-y-3 pb-24"></div>
     </main>
+
+    <div id="monthModal" class="fixed inset-0 bg-slate-900/95 z-[100] p-4 flex-col overflow-y-auto hidden backdrop-blur-sm">
+        <div class="max-w-4xl mx-auto w-full py-10">
+            <header class="flex justify-between items-center mb-10 text-white">
+                <div>
+                    <h2 id="reportTitle" class="text-4xl font-black uppercase tracking-tighter">Budget Report</h2>
+                    <p class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.3em] mt-1">Certified Financial Audit</p>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="window.print()" class="bg-white text-slate-900 px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest">Print PDF</button>
+                    <button onclick="toggleMonthView(false)" class="text-white text-4xl font-light hover:text-custom-accent transition-colors">&times;</button>
+                </div>
+            </header>
+            
+            <div class="bg-white rounded-[3rem] p-10 text-slate-900 shadow-2xl border-t-[12px] border-indigo-600">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12 items-center">
+                    <div id="reportSummary" class="grid grid-cols-2 gap-4"></div>
+                    <div class="h-64 flex justify-center"><canvas id="allocationChart"></canvas></div>
+                </div>
+                
+                <table class="w-full text-left">
+                    <thead class="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                        <tr class="border-b"><th class="p-4">Timeline</th><th class="p-4">Classification</th><th class="p-4">Reference</th><th class="p-4 text-right">Debit (₹)</th></tr>
+                    </thead>
+                    <tbody id="monthTable" class="text-xs font-bold divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <script>
         let curMonth = new Date().getMonth();
@@ -193,19 +233,11 @@
         let myChart = null;
 
         window.onload = init;
-
         function init() {
             document.getElementById('selectMonth').value = curMonth;
             document.getElementById('selectYear').value = curYear;
             document.getElementById('goalName').value = localStorage.getItem('goalN') || '';
             document.getElementById('goalAmount').value = localStorage.getItem('goalA') || '';
-            
-            // TOUCH-UP: Final UX (Auto-Focus and Key Binding)
-            document.getElementById('entryDesc').focus();
-            document.getElementById('entryAmt').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') addEntry();
-            });
-
             handleRecurringBills();
             setupDateDropdown();
             loadMonthData();
@@ -238,13 +270,7 @@
         }
 
         function loadMonthData() {
-            // TOUCH-UP: Data Persistence (Carry Forward Config)
-            let config = JSON.parse(localStorage.getItem(`config-${curMonth}-${curYear}`));
-            if (!config) {
-                const allKeys = Object.keys(localStorage).filter(k => k.startsWith('config-')).sort().reverse();
-                config = allKeys.length > 0 ? JSON.parse(localStorage.getItem(allKeys[0])) : {"salary":"","rn":50,"rw":30,"rs":20};
-            }
-            
+            const config = JSON.parse(localStorage.getItem(`config-${curMonth}-${curYear}`) || '{"salary":"","rn":50,"rw":30,"rs":20}');
             document.getElementById('monthlySalary').value = config.salary;
             document.getElementById('rNeeds').value = config.rn;
             document.getElementById('rWants').value = config.rw;
@@ -288,6 +314,7 @@
                     localStorage.setItem('recurringBills', JSON.stringify(recurring));
                 }
             }
+
             document.getElementById('billDesc').value = '';
             document.getElementById('billAmt').value = '';
             document.getElementById('billRecurring').checked = false;
@@ -307,12 +334,17 @@
         }
 
         function removeBill(id, desc) {
+            // NEW: Defensive confirmation
+            if(!confirm(`Delete fixed bill "${desc}"?`)) return;
+
             let bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]");
             bills = bills.filter(b => b.id !== id);
             localStorage.setItem(`bills-${curMonth}-${curYear}`, JSON.stringify(bills));
+            
             let recurring = JSON.parse(localStorage.getItem('recurringBills') || "[]");
             recurring = recurring.filter(r => r.desc !== desc);
             localStorage.setItem('recurringBills', JSON.stringify(recurring));
+            
             renderBills();
             render();
         }
@@ -329,24 +361,11 @@
             const desc = document.getElementById('entryDesc').value;
             const amt = parseFloat(document.getElementById('entryAmt').value);
             if(!desc || !amt) return;
-
             const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
             entries.push({ date, type, desc, amt, cat, id: Date.now() });
             localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries));
-
-            // TOUCH-UP: Micro-Interaction (Visual Feedback)
-            const btn = document.querySelector('#entryForm button');
-            const originalText = btn.innerText;
-            btn.classList.add('btn-success');
-            btn.innerText = "COMMITTED ✓";
-            setTimeout(() => {
-                btn.classList.remove('btn-success');
-                btn.innerText = originalText;
-            }, 1000);
-
             document.getElementById('entryDesc').value = '';
             document.getElementById('entryAmt').value = '';
-            document.getElementById('entryDesc').focus(); // UX: Return focus
             render();
         }
 
@@ -365,7 +384,9 @@
                 if(k.startsWith('budget-')) {
                     const data = JSON.parse(localStorage.getItem(k));
                     if(Array.isArray(data)) {
-                        data.forEach(e => { if(e.type === 'saving') lifeS += e.amt; else lifeE += e.amt; });
+                        data.forEach(e => {
+                            if(e.type === 'saving') lifeS += e.amt; else lifeE += e.amt;
+                        });
                     }
                 }
             }
@@ -377,24 +398,23 @@
                 else if(e.type === 'want') spentW += e.amt;
                 else spentS += e.amt;
             });
-
             const tNeeds = salary * (config.rn/100);
             const tWants = salary * (config.rw/100);
             const tSavings = salary * (config.rs/100);
-            
             document.getElementById('labelNeeds').innerText = '₹' + tNeeds.toLocaleString();
             document.getElementById('labelWants').innerText = '₹' + tWants.toLocaleString();
             document.getElementById('labelSavings').innerText = '₹' + tSavings.toLocaleString();
-            
             const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
             const todayDate = new Date();
             const viewingCurrentMonth = (todayDate.getMonth() === curMonth && todayDate.getFullYear() === curYear);
-            const daysLeft = viewingCurrentMonth ? Math.max(1, daysInMonth - todayDate.getDate() + 1) : daysInMonth;
+            const daysLeft = viewingCurrentMonth ?
+                Math.max(1, daysInMonth - todayDate.getDate() + 1) : daysInMonth;
             
             const remainingWants = tWants - spentW;
             const safeDaily = remainingWants > 0 ? remainingWants / daysLeft : 0;
             document.getElementById('dailyLimit').innerText = '₹' + Math.floor(safeDaily).toLocaleString();
             
+            // NEW: Burn Rate Visual Alert
             document.getElementById('dailySafeContainer').className = safeDaily < 100 ? "bg-white dark:bg-slate-800 p-4 rounded-2xl border shadow-sm flex flex-col justify-center border-red-500 alert-pulse" : "bg-white dark:bg-slate-800 p-4 rounded-2xl border shadow-sm flex flex-col justify-center";
             
             const totalOutflow = spentN + spentW + spentS;
@@ -407,7 +427,7 @@
             updateBar('fillNeeds', 'statNeeds', spentN, tNeeds, 'cardNeeds');
             updateBar('fillWants', 'statWants', spentW, tWants, 'cardWants');
             updateBar('fillSavings', 'statSavings', spentS, tSavings, 'cardSavings');
-
+            
             entries.sort((a,b) => b.id - a.id).forEach(e => {
                 const color = e.type === 'need' ? 'text-blue-500' : e.type === 'want' ? 'text-purple-500' : 'text-emerald-500';
                 history.innerHTML += `
@@ -426,18 +446,25 @@
 
         function updateBar(barId, statId, spent, target, cardId) {
             const pct = target > 0 ? (spent / target) * 100 : 0;
+            const remaining = Math.max(0, target - spent); // NEW: Remaining calculation
             const bar = document.getElementById(barId);
             const card = document.getElementById(cardId);
+            
             bar.style.width = Math.min(pct, 100) + '%';
             bar.className = `progress-fill ${pct > 100 ? 'bg-red-600' : (barId.includes('Needs') ? 'bg-blue-500' : (barId.includes('Wants') ? 'bg-purple-500' : 'bg-emerald-500'))}`;
-            document.getElementById(statId).innerText = `Utilized: ${pct.toFixed(0)}% (₹${spent.toLocaleString()})`;
             
-            // TOUCH-UP: Overspending Glow
-            if (pct > 100) {
-                card.classList.add('alert-glow');
+            // NEW: Detailed Badge showing both spent and left
+            document.getElementById(statId).innerHTML = `
+                <div class="flex justify-between w-full">
+                    <span>Used: ${pct.toFixed(0)}%</span>
+                    <span class="${pct > 90 ? 'text-red-500' : 'text-slate-400'}">Left: ₹${remaining.toLocaleString()}</span>
+                </div>`;
+            
+            // NEW: Smart Glow Alert
+            if (pct > 90) {
+                card.className = pct > 100 ? "bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm border-red-600 alert-glow alert-pulse" : "bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm border-red-500 alert-pulse";
             } else {
-                card.classList.remove('alert-glow');
-                card.className = pct > 90 ? "bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm border-red-500 alert-pulse" : "bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm";
+                card.className = "bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm";
             }
         }
 
@@ -487,7 +514,6 @@
             });
             const net = salary - (sums.need + sums.want + sums.saving);
             document.getElementById('reportTitle').innerText = document.getElementById('selectMonth').options[curMonth].text + " " + curYear;
-            
             document.getElementById('reportSummary').innerHTML = `
                 <div class="bg-blue-50 p-4 rounded-xl text-center"><p class="text-[8px] text-blue-500 font-black uppercase">Needs</p><p class="font-black">₹${sums.need.toLocaleString()}</p></div>
                 <div class="bg-purple-50 p-4 rounded-xl text-center"><p class="text-[8px] text-purple-500 font-black uppercase">Wants</p><p class="font-black">₹${sums.want.toLocaleString()}</p></div>
