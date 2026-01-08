@@ -11,11 +11,31 @@
         .text-custom-accent { color: var(--accent) !important; }
         .text-custom-primary { color: var(--primary) !important; }
         
+        /* Consistency Fix for Mobile */
         @media (max-width: 1024px) {
-            nav { width: 100% !important; height: auto !important; position: relative !important; padding: 15px !important; }
+            nav { 
+                width: 100% !important; 
+                height: auto !important; 
+                position: sticky !important; 
+                top: 0;
+                padding: 15px !important; 
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
             main { margin-left: 0 !important; padding: 15px !important; }
-            .nav-links { display: flex !important; flex-wrap: wrap; gap: 8px; justify-content: center; }
+            .nav-links { 
+                display: grid !important; 
+                grid-template-cols: repeat(4, 1fr); 
+                gap: 5px; 
+            }
+            .nav-links li a { 
+                font-size: 10px; 
+                padding: 8px 4px !important; 
+                text-align: center;
+                border-radius: 8px !important;
+                border: none !important;
+            }
             .sidebar-footer { display: none !important; }
+            h1 { margin-bottom: 10px !important; font-size: 1.25rem !important; }
         }
     </style>
 </head>
@@ -56,7 +76,6 @@
         function render() {
             const grid = document.getElementById('weeklyGrid');
             const start = new Date(pivot); 
-            // Normalize start to Monday
             const day = pivot.getDay();
             const diff = pivot.getDate() - day + (day === 0 ? -6 : 1); 
             start.setDate(diff);
@@ -67,7 +86,6 @@
                 cur.setDate(start.getDate() + i);
                 const dKey = `${cur.getFullYear()}-${cur.getMonth()}-${cur.getDate()}`;
                 
-                // Highlight today's card
                 const isToday = new Date().toDateString() === cur.toDateString();
 
                 grid.innerHTML += `
