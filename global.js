@@ -17,10 +17,16 @@ function applyTheme(themeName) {
     localStorage.setItem('neorah_theme', themeName);
 }
 
+// --- 🌓 DARK MODE SYNC ---
+function toggleTheme() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
 // --- 🔐 PRIVACY LOCK ---
 function checkLock() {
     const pin = localStorage.getItem('neorah_pin');
-    // Use sessionStorage to avoid re-prompting on every page change
+    // SessionStorage prevents the prompt from appearing on every page click
     const isAuthenticated = sessionStorage.getItem('neorah_auth');
 
     if (pin && !isAuthenticated) {
@@ -30,9 +36,9 @@ function checkLock() {
         } else {
             document.body.innerHTML = `
                 <div style="background:#020617; color:#ef4444; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:sans-serif; text-align:center; padding:20px;">
-                    <h1 style="font-size:3rem; font-weight:900; letter-spacing:-2px;">LOCKED</h1>
-                    <p style="color:#64748b; font-weight:bold; text-transform:uppercase; font-size:12px; letter-spacing:4px;">Access Denied / Invalid PIN</p>
-                    <button onclick="location.reload()" style="margin-top:20px; background:#ef4444; color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">Retry Login</button>
+                    <h1 style="font-size:3.5rem; font-weight:900; letter-spacing:-2px; margin:0;">LOCKED</h1>
+                    <p style="color:#64748b; font-weight:bold; text-transform:uppercase; font-size:12px; letter-spacing:4px; margin-top:10px;">Biometric or PIN Required</p>
+                    <button onclick="location.reload()" style="margin-top:30px; background:#ef4444; color:white; border:none; padding:15px 30px; border-radius:12px; font-weight:900; text-transform:uppercase; cursor:pointer; letter-spacing:1px;">Retry Unlock</button>
                 </div>`;
         }
     }
@@ -41,19 +47,19 @@ function checkLock() {
 function toggleLock() {
     const cur = localStorage.getItem('neorah_pin');
     if (cur) { 
-        if(confirm("Are you sure you want to remove the security PIN?")) { 
+        if(confirm("Remove security PIN and unlock app for everyone?")) { 
             localStorage.removeItem('neorah_pin'); 
             sessionStorage.removeItem('neorah_auth');
             location.reload(); 
         }
     } else { 
-        const p = prompt("Set a new 4-digit Privacy PIN:"); 
+        const p = prompt("Create a new 4-digit Privacy PIN:"); 
         if (p && p.length === 4 && !isNaN(p)) { 
             localStorage.setItem('neorah_pin', p); 
             sessionStorage.setItem('neorah_auth', 'true');
             alert("✅ Security PIN Enabled!"); 
         } else {
-            alert("❌ Invalid PIN. Must be 4 digits.");
+            alert("❌ Invalid PIN. Must be exactly 4 digits.");
         }
     }
 }
@@ -72,46 +78,37 @@ function exportData() {
         a.click();
         URL.revokeObjectURL(url);
     } catch (e) {
-        alert("Export failed. LocalStorage might be empty or corrupted.");
+        alert("Export failed. Ensure browser permits downloads.");
     }
-}
-
-function importData(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-        try {
-            const data = JSON.parse(evt.target.result);
-            if(confirm("⚠️ CRITICAL: This will overwrite all current data. Proceed with restoration?")) {
-                localStorage.clear();
-                Object.keys(data).forEach(k => localStorage.setItem(k, data[k]));
-                alert("Restoration Complete. System Rebooting...");
-                location.reload();
-            }
-        } catch(err) { 
-            alert("❌ Error: The file is not a valid Neorah backup."); 
-        }
-    };
-    reader.readAsText(file);
 }
 
 // --- 🛠️ SYSTEM INITIALIZATION ---
 (function initSystem() {
-    // 1. Apply Theme
+    // 1. Apply Color Theme
     applyTheme(localStorage.getItem('neorah_theme') || 'crimson');
+
+    // 2. Apply Dark/Light Mode
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    }
     
-    // 2. Run Privacy Check
+    // 3. Run Privacy Check
     checkLock();
 
-    // 3. Highlight active nav item
+    // 4. Smart Navigation Highlighting (for desktop & mobile)
     window.addEventListener('DOMContentLoaded', () => {
         const path = window.location.pathname.split("/").pop() || 'index.html';
-        const links = document.querySelectorAll('.nav-links a, nav a');
+        const links = document.querySelectorAll('.nav-links a, nav a, .mobile-nav a');
+        
         links.forEach(link => {
             if (link.getAttribute('href') === path) {
+                // Desktop Style
                 link.classList.add('text-custom-accent', 'font-bold', 'bg-white/5', 'rounded-xl');
+                // Mobile Style
+                if (link.parentElement.classList.contains('mobile-nav') || link.classList.contains('font-black')) {
+                    link.style.color = 'var(--accent)';
+                    link.style.background = 'rgba(255,255,255,0.1)';
+                }
             }
         });
     });
