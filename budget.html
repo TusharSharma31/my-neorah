@@ -21,18 +21,12 @@
         .dark .progress-bg { background-color: #334155; }
         .progress-fill { height: 100%; transition: width 0.6s ease; }
         .alert-pulse { animation: pulse-red 2s infinite; }
-        
-        /* NEW: Overspending Glow Effect */
-        .alert-glow { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); border-color: #ef4444 !important; }
-        
         @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
 
         @media (max-width: 1024px) {
             .mobile-nav { display: grid !important; grid-template-cols: repeat(4, 1fr); gap: 5px; width: 100%; }
-            .mobile-nav a { font-size: 10px; padding: 8px 2px !important; text-align: center; border-radius: 8px; position: relative; transition: all 0.3s ease; }
-            /* NEW: Active Mobile Tab Indicator */
+            .mobile-nav a { font-size: 10px; padding: 8px 2px !important; text-align: center; border-radius: 8px; }
             .active-mobile { color: var(--accent) !important; background: rgba(255,255,255,0.1); font-weight: 900; }
-            .active-mobile::after { content: ''; position: absolute; bottom: 2px; left: 25%; width: 50%; height: 2px; background: var(--accent); border-radius: 10px; }
             main { margin-top: 10px; }
         }
         @media print { .no-print { display: none !important; } main { margin-left: 0 !important; } }
@@ -116,7 +110,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 no-print">
             <section class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">1. [cite_start]Income Allocation [cite: 34]</h4>
+                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">1. Income Allocation</h4>
                 <div class="space-y-6">
                     <div class="relative">
                         <span class="absolute left-0 bottom-1 text-2xl font-black text-slate-300">₹</span>
@@ -131,7 +125,7 @@
             </section>
 
             <section class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">2. [cite_start]Fixed Overheads [cite: 38]</h4>
+                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">2. Fixed Overheads</h4>
                 <div class="flex flex-wrap gap-2 mb-4">
                     <input id="billDesc" type="text" placeholder="Rent, Subscription..." class="flex-1 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none text-slate-900 dark:text-white min-w-[120px]">
                     <input id="billAmt" type="number" placeholder="₹" class="w-24 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none font-black text-slate-900 dark:text-white">
@@ -233,6 +227,7 @@
         let myChart = null;
 
         window.onload = init;
+        
         function init() {
             document.getElementById('selectMonth').value = curMonth;
             document.getElementById('selectYear').value = curYear;
@@ -307,6 +302,7 @@
             const newBill = { desc, amt, id: Date.now(), recurring: isRec };
             bills.push(newBill);
             localStorage.setItem(`bills-${curMonth}-${curYear}`, JSON.stringify(bills));
+
             if(isRec) {
                 const recurring = JSON.parse(localStorage.getItem('recurringBills') || "[]");
                 if(!recurring.find(r => r.desc === desc)) {
@@ -334,9 +330,6 @@
         }
 
         function removeBill(id, desc) {
-            // NEW: Defensive confirmation
-            if(!confirm(`Delete fixed bill "${desc}"?`)) return;
-
             let bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]");
             bills = bills.filter(b => b.id !== id);
             localStorage.setItem(`bills-${curMonth}-${curYear}`, JSON.stringify(bills));
@@ -404,19 +397,17 @@
             document.getElementById('labelNeeds').innerText = '₹' + tNeeds.toLocaleString();
             document.getElementById('labelWants').innerText = '₹' + tWants.toLocaleString();
             document.getElementById('labelSavings').innerText = '₹' + tSavings.toLocaleString();
+            
             const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
             const todayDate = new Date();
             const viewingCurrentMonth = (todayDate.getMonth() === curMonth && todayDate.getFullYear() === curYear);
-            const daysLeft = viewingCurrentMonth ?
-                Math.max(1, daysInMonth - todayDate.getDate() + 1) : daysInMonth;
+            const daysLeft = viewingCurrentMonth ? Math.max(1, daysInMonth - todayDate.getDate() + 1) : daysInMonth;
             
             const remainingWants = tWants - spentW;
             const safeDaily = remainingWants > 0 ? remainingWants / daysLeft : 0;
             document.getElementById('dailyLimit').innerText = '₹' + Math.floor(safeDaily).toLocaleString();
-            
-            // NEW: Burn Rate Visual Alert
             document.getElementById('dailySafeContainer').className = safeDaily < 100 ? "bg-white dark:bg-slate-800 p-4 rounded-2xl border shadow-sm flex flex-col justify-center border-red-500 alert-pulse" : "bg-white dark:bg-slate-800 p-4 rounded-2xl border shadow-sm flex flex-col justify-center";
-            
+
             const totalOutflow = spentN + spentW + spentS;
             const balance = salary - totalOutflow;
             document.getElementById('accountBalance').innerText = '₹' + balance.toLocaleString();
@@ -427,11 +418,11 @@
             updateBar('fillNeeds', 'statNeeds', spentN, tNeeds, 'cardNeeds');
             updateBar('fillWants', 'statWants', spentW, tWants, 'cardWants');
             updateBar('fillSavings', 'statSavings', spentS, tSavings, 'cardSavings');
-            
+
             entries.sort((a,b) => b.id - a.id).forEach(e => {
                 const color = e.type === 'need' ? 'text-blue-500' : e.type === 'want' ? 'text-purple-500' : 'text-emerald-500';
                 history.innerHTML += `
-                    <div class="bg-white dark:bg-slate-800 p-5 rounded-[1.5rem] flex justify-between items-center border shadow-sm cursor-pointer hover:border-indigo-500 hover:shadow-md transition-all group">
+                    <div onclick="startEdit(${e.id})" class="bg-white dark:bg-slate-800 p-5 rounded-[1.5rem] flex justify-between items-center border shadow-sm cursor-pointer hover:border-indigo-500 hover:shadow-md transition-all group">
                         <div class="flex flex-col">
                             <span class="text-[8px] font-black uppercase tracking-widest ${color}">Day ${e.date} • ${e.type}${e.cat ? ' • ' + e.cat : ''}</span>
                             <span class="text-xs font-black text-slate-700 dark:text-slate-200 uppercase mt-1">${e.desc}</span>
@@ -446,26 +437,11 @@
 
         function updateBar(barId, statId, spent, target, cardId) {
             const pct = target > 0 ? (spent / target) * 100 : 0;
-            const remaining = Math.max(0, target - spent); // NEW: Remaining calculation
             const bar = document.getElementById(barId);
-            const card = document.getElementById(cardId);
-            
             bar.style.width = Math.min(pct, 100) + '%';
             bar.className = `progress-fill ${pct > 100 ? 'bg-red-600' : (barId.includes('Needs') ? 'bg-blue-500' : (barId.includes('Wants') ? 'bg-purple-500' : 'bg-emerald-500'))}`;
-            
-            // NEW: Detailed Badge showing both spent and left
-            document.getElementById(statId).innerHTML = `
-                <div class="flex justify-between w-full">
-                    <span>Used: ${pct.toFixed(0)}%</span>
-                    <span class="${pct > 90 ? 'text-red-500' : 'text-slate-400'}">Left: ₹${remaining.toLocaleString()}</span>
-                </div>`;
-            
-            // NEW: Smart Glow Alert
-            if (pct > 90) {
-                card.className = pct > 100 ? "bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm border-red-600 alert-glow alert-pulse" : "bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm border-red-500 alert-pulse";
-            } else {
-                card.className = "bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm";
-            }
+            document.getElementById(statId).innerText = `Utilized: ${pct.toFixed(0)}% (₹${spent.toLocaleString()})`;
+            document.getElementById(cardId).className = pct > 90 ? "bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm border-red-500 alert-pulse" : "bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm";
         }
 
         function saveGoal() {
