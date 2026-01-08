@@ -3,261 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neorah - Budget OS</title>
+    <title>Neorah - Budget OS PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
     </script>
     <style>
-        :root { --primary: #7f1d1d; --accent: #ef4444; [cite_start]--sidebar-bg: #0f172a; [cite: 130] }
-        [cite_start].bg-custom-sidebar { background-color: var(--sidebar-bg) !important; [cite: 131] }
-        [cite_start].text-custom-accent { color: var(--accent) !important; [cite: 132] }
-        
-        body { background-color: #f8fafc; color: #1e293b; font-family: 'Inter', sans-serif; }
-        [cite_start].dark body { background-color: #020617; color: #f1f5f9; [cite: 133] }
-        [cite_start].dark .bg-white { background-color: #1e293b; border-color: #334155; [cite: 134] }
-        [cite_start].dark .border { border-color: #334155; [cite: 135] }
-
-        /* FIXED: High Visibility for Input text and dates */
-        input, select { 
-            background-color: #ffffff !important; 
-            color: #0f172a !important; 
-            border: 1px solid #cbd5e1 !important;
-        }
-        .dark input, .dark select { 
-            background-color: #0f172a !important; 
-            color: #ffffff !important; 
-            [cite_start]border-color: #334155 !important; [cite: 136] 
-        }
-
-        [cite_start].progress-bg { background-color: #f1f5f9; height: 8px; border-radius: 10px; overflow: hidden; [cite: 137] }
-        [cite_start].dark .progress-bg { background-color: #334155; [cite: 138] }
-        [cite_start].progress-fill { height: 100%; transition: width 0.6s ease; [cite: 139] }
+        :root { --primary: #7f1d1d; --accent: #ef4444; --sidebar-bg: #0f172a; }
+        .bg-custom-sidebar { background-color: var(--sidebar-bg) !important; }
+        .text-custom-accent { color: var(--accent) !important; }
+        .dark body { background-color: #020617; color: #f1f5f9; }
+        .dark .bg-white { background-color: #1e293b; border-color: #334155; }
+        .dark .border { border-color: #334155; }
+        .dark input, .dark select, .dark textarea { background-color: #0f172a; color: #fff; border-color: #334155; }
+        .progress-bg { background-color: #f1f5f9; height: 8px; border-radius: 10px; overflow: hidden; }
+        .dark .progress-bg { background-color: #334155; }
+        .progress-fill { height: 100%; transition: width 0.6s ease; }
 
         @media (max-width: 1024px) {
-            [cite_start].mobile-nav { display: grid !important; grid-template-cols: repeat(4, 1fr); gap: 5px; width: 100%; [cite: 140] }
-            [cite_start].mobile-nav a { font-size: 10px; padding: 8px 2px !important; text-align: center; border-radius: 8px; [cite: 142] }
-            [cite_start].active-mobile { color: var(--accent) !important; background: rgba(255,255,255,0.1); font-weight: 900; [cite: 143] }
+            .mobile-nav { display: grid !important; grid-template-cols: repeat(4, 1fr); gap: 5px; width: 100%; }
+            .mobile-nav a { font-size: 10px; padding: 8px 2px !important; text-align: center; border-radius: 8px; }
+            .active-mobile { color: var(--accent) !important; background: rgba(255,255,255,0.1); font-weight: 900; }
+            main { margin-top: 10px; }
         }
+        @media print { .no-print { display: none !important; } main { margin-left: 0 !important; } }
     </style>
 </head>
-<body class="flex flex-col lg:flex-row min-h-screen transition-colors duration-300">
+<body class="bg-slate-50 flex flex-col lg:flex-row min-h-screen transition-colors duration-300">
 
     <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col z-50 no-print hidden lg:flex">
         <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter italic uppercase text-center lg:text-left">NEORAH</h1>
         <ul class="space-y-4 flex-1">
-            [cite_start]<li><a href="index.html" class="hover:text-custom-accent block py-2 px-3 transition-all">🗓️ Roadmap</a> [cite: 146]</li>
-            [cite_start]<li><a href="planner.html" class="hover:text-custom-accent block py-2 px-3 transition-all">✍️ Journal</a> [cite: 146]</li>
-            [cite_start]<li><a href="budget.html" class="text-custom-accent font-bold bg-white/5 block py-2 px-3 rounded-xl border-l-4 border-custom-accent">📊 Budget OS</a> [cite: 146]</li>
-            [cite_start]<li><a href="habits.html" class="hover:text-custom-accent block py-2 px-3 transition-all">🌿 Habits</a> [cite: 146]</li>
+            <li><a href="index.html" class="hover:text-custom-accent block py-2 px-3 transition-all">🗓️ Roadmap</a></li>
+            <li><a href="planner.html" class="hover:text-custom-accent block py-2 px-3 transition-all">✍️ Journal</a></li>
+            <li><a href="budget.html" class="text-custom-accent font-bold bg-white/5 block py-2 px-3 rounded-xl border-l-4 border-custom-accent">📊 Budget OS</a></li>
+            <li><a href="habits.html" class="hover:text-custom-accent block py-2 px-3 transition-all">🌿 Habits</a></li>
             <hr class="border-white/10 my-4">
-            [cite_start]<li><button onclick="exportData()" class="text-slate-400 hover:text-white text-[10px] font-black uppercase tracking-widest block py-2 px-3">📥 Backup Data</button> [cite: 146]</li>
+            <li><button onclick="exportData()" class="text-slate-400 hover:text-white text-[10px] font-black uppercase tracking-widest block py-2 px-3">📥 Backup Data</button></li>
         </ul>
-        [cite_start]<button onclick="toggleTheme()" class="mt-auto p-3 bg-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-white/20">🌓 Toggle Theme</button> [cite: 147]
+        <button onclick="toggleTheme()" class="mt-auto p-3 bg-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-white/20">🌓 Toggle Theme</button>
     </nav>
 
     <div class="lg:hidden bg-custom-sidebar text-white p-4 no-print sticky top-0 z-50 border-b border-white/10">
-        [cite_start]<h1 class="text-xl font-bold mb-4 text-custom-accent tracking-tighter italic uppercase text-center">NEORAH</h1> [cite: 148]
+        <h1 class="text-xl font-bold mb-4 text-custom-accent tracking-tighter italic uppercase text-center">NEORAH</h1>
         <div class="mobile-nav">
-            [cite_start]<a href="index.html" class="font-black uppercase">Roadmap</a> [cite: 148]
-            [cite_start]<a href="planner.html" class="font-black uppercase">Journal</a> [cite: 148]
-            [cite_start]<a href="budget.html" class="font-black uppercase active-mobile">Budget</a> [cite: 148]
-            [cite_start]<a href="habits.html" class="font-black uppercase">Habits</a> [cite: 148]
+            <a href="index.html" class="font-black uppercase">Roadmap</a>
+            <a href="planner.html" class="font-black uppercase">Journal</a>
+            <a href="budget.html" class="font-black uppercase active-mobile">Budget</a>
+            <a href="habits.html" class="font-black uppercase">Habits</a>
         </div>
     </div>
 
     <main class="flex-1 lg:ml-64 p-4 lg:p-8">
         <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 no-print">
             <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border flex items-center justify-between shadow-sm">
-                <select id="selectMonth" onchange="changeDate()" class="font-black text-xs uppercase tracking-widest bg-transparent outline-none cursor-pointer">
-                    [cite_start]<option value="0">January</option><option value="1">February</option><option value="2">March</option> [cite: 149]
-                    [cite_start]<option value="3">April</option><option value="4">May</option><option value="5">June</option> [cite: 149]
-                    [cite_start]<option value="6">July</option><option value="7">August</option><option value="8">September</option> [cite: 149]
-                    [cite_start]<option value="9">October</option><option value="10">November</option><option value="11">December</option> [cite: 149]
+                <select id="selectMonth" onchange="changeDate()" class="font-black text-xs uppercase tracking-widest bg-transparent outline-none cursor-pointer text-slate-600 dark:text-slate-300">
+                    <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+                    <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+                    <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+                    <option value="9">October</option><option value="10">November</option><option value="11">December</option>
                 </select>
-                <select id="selectYear" onchange="changeDate()" class="font-black text-xs bg-transparent outline-none cursor-pointer">
-                    [cite_start]<option value="2025">2025</option><option value="2026" selected>2026</option> [cite: 150]
+                <select id="selectYear" onchange="changeDate()" class="font-black text-xs bg-transparent outline-none cursor-pointer text-slate-600 dark:text-slate-300">
+                    <option value="2025">2025</option><option value="2026" selected>2026</option>
                 </select>
             </div>
 
             <div class="bg-emerald-600 text-white p-4 rounded-2xl shadow-lg relative overflow-hidden">
-                [cite_start]<p class="text-[9px] font-black uppercase opacity-80 tracking-widest">Available Balance</p> [cite: 151]
-                [cite_start]<h3 id="accountBalance" class="text-2xl font-black">₹0</h3> [cite: 151]
+                <p class="text-[9px] font-black uppercase opacity-80 tracking-widest">Available Balance</p>
+                <h3 id="accountBalance" class="text-2xl font-black">₹0</h3>
+                <div class="absolute right-2 bottom-2 text-[8px] font-bold bg-black/20 px-2 py-1 rounded italic">LIVE DELTA</div>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border shadow-sm">
-                [cite_start]<p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Daily Safe Limit</p> [cite: 152]
-                [cite_start]<h3 id="dailyLimit" class="text-xl font-black text-slate-800 dark:text-white">₹0</h3> [cite: 152]
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border shadow-sm flex flex-col justify-center">
+                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Daily Limit (Wants)</p>
+                <h3 id="dailyLimit" class="text-xl font-black text-slate-800 dark:text-white">₹0</h3>
+                <div id="velocityIndicator" class="text-[8px] font-black uppercase mt-1">Calculating Velocity...</div>
             </div>
         </section>
 
         <section class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-8">
             <div class="bg-slate-900 text-white p-6 rounded-3xl col-span-1 lg:col-span-2 shadow-xl border-b-4 border-custom-accent">
-                [cite_start]<p class="text-[10px] text-custom-accent font-black uppercase tracking-widest">Global Savings Accumulator</p> [cite: 153]
-                [cite_start]<h2 id="ytdSavings" class="text-4xl font-black italic mt-2">₹0</h2> [cite: 153]
+                <p class="text-[10px] text-custom-accent font-black uppercase tracking-widest">Global Savings Accumulator</p>
+                <h2 id="ytdSavings" class="text-4xl font-black italic mt-2">₹0</h2>
                 <div class="mt-4 flex gap-4 text-[10px] font-bold text-slate-400 border-t border-white/10 pt-4">
-                    [cite_start]<span>Total Expense: <span id="ytdExpenses" class="text-red-400">₹0</span></span> [cite: 154]
-                    [cite_start]<span id="viewingDateDisplay" class="italic opacity-50 ml-auto uppercase tracking-tighter"></span> [cite: 154]
+                    <span>Total Expense: <span id="ytdExpenses" class="text-red-400">₹0</span></span>
+                    <span id="viewingDateDisplay" class="italic opacity-50 ml-auto uppercase tracking-tighter"></span>
                 </div>
             </div>
             
             <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm flex flex-col justify-between">
                 <div>
-                    [cite_start]<p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Active Objective</p> [cite: 155]
-                    [cite_start]<h3 id="goalDisplayName" class="text-lg font-black truncate text-slate-800 dark:text-white uppercase tracking-tighter">—</h3> [cite: 155]
+                    <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Active Objective</p>
+                    <h3 id="goalDisplayName" class="text-lg font-black truncate text-slate-800 dark:text-white uppercase tracking-tighter">Setting Target...</h3>
                 </div>
-                [cite_start]<p id="goalResult" class="text-xs font-black text-indigo-600 uppercase italic">— Months left</p> [cite: 155]
+                <p id="goalResult" class="text-xs font-black text-indigo-600 uppercase italic">— Months left</p>
             </div>
 
             <button onclick="toggleMonthView(true)" class="bg-indigo-600 text-white p-6 rounded-3xl flex flex-col items-center justify-center font-black uppercase text-xs hover:scale-105 transition-all shadow-lg group">
-                [cite_start]<span class="text-2xl group-hover:scale-125 transition-transform">👁️</span> [cite: 156]
-                [cite_start]<span class="mt-2 tracking-widest">Financial Report</span> [cite: 156]
+                <span class="text-2xl group-hover:scale-125 transition-transform">👁️</span>
+                <span class="mt-2 tracking-widest">Financial Report</span>
             </button>
         </section>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 no-print">
             <section class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">1. [cite_start]Income Allocation</h4> [cite: 157, 158]
+                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">1. Income Allocation</h4>
                 <div class="space-y-6">
                     <div class="relative">
-                        <span class="absolute left-0 bottom-1 text-2xl font-black text-slate-900 dark:text-white">₹</span>
-                        [cite_start]<input id="monthlySalary" type="number" oninput="calculateTargets()" placeholder="0.00" class="text-3xl font-black w-full border-b-2 pl-6 pb-1 outline-none focus:border-custom-accent bg-transparent !text-slate-900 dark:!text-white"> [cite: 159]
+                        <span class="absolute left-0 bottom-1 text-2xl font-black text-slate-300">₹</span>
+                        <input id="monthlySalary" type="number" oninput="calculateTargets()" placeholder="0.00" class="text-3xl font-black w-full border-b-2 pl-6 pb-1 outline-none focus:border-custom-accent bg-transparent text-slate-900 dark:text-white">
                     </div>
                     <div class="flex gap-4">
-                        [cite_start]<div class="flex-1"><p class="text-[8px] font-black text-blue-500 uppercase mb-1">Needs %</p><input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full p-2 rounded-lg text-xs font-bold" value="50"> [cite: 159]</div>
-                        [cite_start]<div class="flex-1"><p class="text-[8px] font-black text-purple-500 uppercase mb-1">Wants %</p><input id="rWants" type="number" oninput="calculateTargets()" class="w-full p-2 rounded-lg text-xs font-bold" value="30"> [cite: 160]</div>
-                        [cite_start]<div class="flex-1"><p class="text-[8px] font-black text-emerald-500 uppercase mb-1">Saving %</p><input id="rSavings" type="number" oninput="calculateTargets()" class="w-full p-2 rounded-lg text-xs font-bold" value="20"> [cite: 160]</div>
+                        <div class="flex-1"><p class="text-[8px] font-black text-blue-500 uppercase mb-1">Needs %</p><input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold" value="50"></div>
+                        <div class="flex-1"><p class="text-[8px] font-black text-purple-500 uppercase mb-1">Wants %</p><input id="rWants" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold" value="30"></div>
+                        <div class="flex-1"><p class="text-[8px] font-black text-emerald-500 uppercase mb-1">Saving %</p><input id="rSavings" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold" value="20"></div>
                     </div>
                 </div>
             </section>
 
             <section class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">2. [cite_start]Fixed Overheads</h4> [cite: 161, 162]
-                <div class="flex gap-2 mb-4">
-                    [cite_start]<input id="billDesc" type="text" placeholder="Rent, Subscription..." class="flex-1 p-3 rounded-xl text-xs outline-none"> [cite: 162]
-                    [cite_start]<input id="billAmt" type="number" placeholder="₹" class="w-24 p-3 rounded-xl text-xs outline-none font-black"> [cite: 162]
-                    [cite_start]<button onclick="addBill()" class="bg-slate-900 text-white px-5 rounded-xl text-lg font-black hover:bg-custom-accent transition-colors">+</button> [cite: 163]
+                <div class="flex justify-between items-start mb-6">
+                    <h4 class="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em]">2. Fixed Overheads</h4>
+                    <span id="burnRate" class="text-[8px] font-black bg-rose-100 text-rose-600 px-2 py-1 rounded">Burn: 0%</span>
                 </div>
-                [cite_start]<div id="billList" class="flex flex-wrap gap-2"></div> [cite: 163]
+                <div class="flex gap-2 mb-4">
+                    <input id="billDesc" type="text" placeholder="Rent, Subscription..." class="flex-1 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none">
+                    <input id="billAmt" type="number" placeholder="₹" class="w-24 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none font-black">
+                    <button onclick="addBill()" class="bg-slate-900 text-white px-5 rounded-xl text-lg font-black hover:bg-custom-accent transition-colors">+</button>
+                </div>
+                <div id="billList" class="flex flex-wrap gap-2"></div>
             </section>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
             <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                [cite_start]<div class="flex justify-between mb-3"><span class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Needs</span><span id="labelNeeds" class="text-[10px] font-black">₹0</span></div> [cite: 164]
-                [cite_start]<div class="progress-bg"><div id="fillNeeds" class="progress-fill bg-blue-500" style="width:0%"></div></div> [cite: 164]
-                [cite_start]<p id="statNeeds" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p> [cite: 164]
+                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Needs</span><span id="labelNeeds" class="text-[10px] font-black">₹0</span></div>
+                <div class="progress-bg"><div id="fillNeeds" class="progress-fill bg-blue-500" style="width:0%"></div></div>
+                <p id="statNeeds" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
             <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                [cite_start]<div class="flex justify-between mb-3"><span class="text-[10px] font-black text-purple-500 uppercase tracking-widest">Wants</span><span id="labelWants" class="text-[10px] font-black">₹0</span></div> [cite: 165]
-                [cite_start]<div class="progress-bg"><div id="fillWants" class="progress-fill bg-purple-500" style="width:0%"></div></div> [cite: 165]
-                [cite_start]<p id="statWants" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p> [cite: 165]
+                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-purple-500 uppercase tracking-widest">Wants</span><span id="labelWants" class="text-[10px] font-black">₹0</span></div>
+                <div class="progress-bg"><div id="fillWants" class="progress-fill bg-purple-500" style="width:0%"></div></div>
+                <p id="statWants" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
             <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                [cite_start]<div class="flex justify-between mb-3"><span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Savings</span><span id="labelSavings" class="text-[10px] font-black">₹0</span></div> [cite: 166]
-                [cite_start]<div class="progress-bg"><div id="fillSavings" class="progress-fill bg-emerald-500" style="width:0%"></div></div> [cite: 166]
-                [cite_start]<p id="statSavings" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p> [cite: 166]
+                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Savings</span><span id="labelSavings" class="text-[10px] font-black">₹0</span></div>
+                <div class="progress-bg"><div id="fillSavings" class="progress-fill bg-emerald-500" style="width:0%"></div></div>
+                <p id="statSavings" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
         </div>
 
         <section id="entryForm" class="bg-slate-900 text-white p-6 rounded-[2rem] shadow-2xl mb-12 no-print border-b-8 border-indigo-600">
-            [cite_start]<h4 class="text-[10px] font-black uppercase mb-6 text-indigo-400 tracking-[0.3em] text-center">New Transaction Entry</h4> [cite: 167]
+            <h4 class="text-[10px] font-black uppercase mb-6 text-indigo-400 tracking-[0.3em] text-center">New Transaction Entry</h4>
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                [cite_start]<select id="entryDate" class="rounded-xl p-4 text-xs font-bold !bg-white !text-slate-900"></select> [cite: 167]
-                <select id="entryType" class="rounded-xl p-4 text-xs font-black uppercase !bg-white !text-slate-900">
-                    [cite_start]<option value="need">🏠 Essential Need</option> [cite: 168]
-                    [cite_start]<option value="want">🍿 Personal Want</option> [cite: 168]
-                    [cite_start]<option value="saving">🏦 Asset/Saving</option> [cite: 168]
+                <select id="entryDate" class="bg-slate-800 rounded-xl p-4 text-xs outline-none font-bold cursor-pointer hover:bg-slate-700 transition-colors"></select>
+                <select id="entryType" class="bg-slate-800 rounded-xl p-4 text-xs outline-none font-black uppercase tracking-tighter">
+                    <option value="need">🏠 Essential Need</option>
+                    <option value="want">🍿 Personal Want</option>
+                    <option value="saving">🏦 Asset/Saving</option>
                 </select>
-                [cite_start]<input id="entryDesc" type="text" placeholder="Description" class="rounded-xl p-4 text-xs !bg-white !text-slate-900"> [cite: 169]
-                [cite_start]<input id="entryAmt" type="number" placeholder="Value (₹)" class="rounded-xl p-4 text-xs font-black !bg-white !text-slate-900"> [cite: 169]
-                [cite_start]<button onclick="addEntry()" class="sm:col-span-4 bg-indigo-600 py-4 rounded-xl text-xs font-black uppercase tracking-[0.4em] hover:bg-custom-accent transition-all">Commit Transaction</button> [cite: 169]
+                <input id="entryDesc" type="text" oninput="smartTag(this.value)" placeholder="e.g. Netflix, Rent, Food" class="bg-slate-800 rounded-xl p-4 text-xs outline-none border border-transparent focus:border-indigo-400 transition-all">
+                <input id="entryAmt" type="number" placeholder="Value (₹)" class="bg-slate-800 rounded-xl p-4 text-xs outline-none font-black">
+                <button onclick="addEntry()" class="sm:col-span-4 bg-indigo-600 py-4 rounded-xl text-xs font-black uppercase tracking-[0.4em] hover:bg-custom-accent transition-all transform hover:scale-[1.01] active:scale-95">Commit Transaction</button>
             </div>
         </section>
 
         <section class="bg-indigo-600 text-white p-5 rounded-[2rem] mb-12 flex flex-col md:flex-row gap-4 items-center no-print shadow-lg border-l-8 border-white">
-            [cite_start]<span class="text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">Goal:</span> [cite: 170]
-            [cite_start]<input id="goalName" oninput="saveGoal()" type="text" placeholder="Goal Name" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-bold !text-white !border-none"> [cite: 171]
-            [cite_start]<input id="goalAmount" oninput="saveGoal()" type="number" placeholder="Target ₹" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-black !text-white !border-none"> [cite: 171]
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">Goal Objective:</span>
+            <input id="goalName" oninput="saveGoal()" type="text" placeholder="e.g. Real Estate Downpayment" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-bold text-white border-none">
+            <input id="goalAmount" oninput="saveGoal()" type="number" placeholder="Target ₹" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-black text-white border-none">
         </section>
 
         <div class="flex justify-between items-center mb-6">
-            [cite_start]<h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Audit Trail</h3> [cite: 172]
-            [cite_start]<button onclick="if(confirm('Clear history?')) { localStorage.removeItem('budget-'+curMonth+'-'+curYear); render(); }" class="text-[8px] font-black text-red-400 uppercase hover:underline">Clear History</button> [cite: 172]
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Audit Trail (Current Month)</h3>
+            <button onclick="if(confirm('Clear month data?')) { localStorage.removeItem('budget-'+curMonth+'-'+curYear); render(); }" class="text-[8px] font-black text-red-400 uppercase hover:underline">Clear History</button>
         </div>
-        [cite_start]<div id="history" class="space-y-3 pb-24"></div> [cite: 172]
+        <div id="history" class="space-y-3 pb-24"></div>
     </main>
 
     <div id="monthModal" class="fixed inset-0 bg-slate-900/95 z-[100] p-4 flex-col overflow-y-auto hidden backdrop-blur-sm">
         <div class="max-w-4xl mx-auto w-full py-10">
             <header class="flex justify-between items-center mb-10 text-white">
                 <div>
-                    [cite_start]<h2 id="reportTitle" class="text-4xl font-black uppercase tracking-tighter">Budget Report</h2> [cite: 173]
-                    [cite_start]<p class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.3em] mt-1">Audit Report</p> [cite: 173]
+                    <h2 id="reportTitle" class="text-4xl font-black uppercase tracking-tighter">Budget Report</h2>
+                    <p class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.3em] mt-1">Certified Financial Audit</p>
                 </div>
                 <div class="flex gap-4">
-                    [cite_start]<button onclick="window.print()" class="bg-white text-slate-900 px-6 py-2 rounded-xl text-[10px] font-black uppercase">Print</button> [cite: 174]
-                    [cite_start]<button onclick="toggleMonthView(false)" class="text-white text-4xl">&times;</button> [cite: 174]
+                    <button onclick="window.print()" class="bg-white text-slate-900 px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest">Print PDF</button>
+                    <button onclick="toggleMonthView(false)" class="text-white text-4xl font-light hover:text-custom-accent transition-colors">&times;</button>
                 </div>
             </header>
+            
             <div class="bg-white rounded-[3rem] p-10 text-slate-900 shadow-2xl border-t-[12px] border-indigo-600">
-                [cite_start]<div id="reportSummary" class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12"></div> [cite: 175]
+                <div id="reportSummary" class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12"></div>
                 <table class="w-full text-left">
                     <thead class="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                        [cite_start]<tr class="border-b"> [cite: 176]
-                            [cite_start]<th class="p-4">Timeline</th><th class="p-4">Classification</th><th class="p-4">Reference</th><th class="p-4 text-right">Debit (₹)</th> [cite: 177]
+                        <tr class="border-b">
+                            <th class="p-4">Timeline</th>
+                            <th class="p-4">Classification</th>
+                            <th class="p-4">Reference</th>
+                            <th class="p-4 text-right">Debit (₹)</th>
                         </tr>
                     </thead>
-                    [cite_start]<tbody id="monthTable" class="text-xs font-bold divide-y divide-slate-100"></tbody> [cite: 177]
+                    <tbody id="monthTable" class="text-xs font-bold divide-y divide-slate-100"></tbody>
                 </table>
             </div>
         </div>
     </div>
 
     <script>
-        [cite_start]let curMonth = new Date().getMonth(); [cite: 178]
-        [cite_start]let curYear = new Date().getFullYear(); [cite: 179]
+        let curMonth = new Date().getMonth();
+        let curYear = new Date().getFullYear();
         let editingId = null;
 
-        [cite_start]window.onload = init; [cite: 180]
-        
+        window.onload = init;
+
         function init() {
-            [cite_start]document.getElementById('selectMonth').value = curMonth; [cite: 181]
-            [cite_start]document.getElementById('selectYear').value = curYear; [cite: 181]
-            document.getElementById('goalName').value = localStorage.getItem('goalN') || [cite_start]''; [cite: 181]
-            document.getElementById('goalAmount').value = localStorage.getItem('goalA') || [cite_start]''; [cite: 181]
-            [cite_start]setupDateDropdown(); [cite: 181]
-            [cite_start]loadMonthData(); [cite: 181]
+            document.getElementById('selectMonth').value = curMonth;
+            document.getElementById('selectYear').value = curYear;
+            document.getElementById('goalName').value = localStorage.getItem('goalN') || '';
+            document.getElementById('goalAmount').value = localStorage.getItem('goalA') || '';
+            setupDateDropdown();
+            loadMonthData();
+        }
+
+        // Feature 1: Smart Category Tagging Logic
+        function smartTag(val) {
+            const needs = ['rent', 'food', 'petrol', 'gas', 'electric', 'bill', 'grocery', 'medicine', 'hospital'];
+            const wants = ['netflix', 'spotify', 'zomato', 'swiggy', 'movie', 'party', 'clothes', 'game', 'cafe'];
+            const entryType = document.getElementById('entryType');
+            const cleanVal = val.toLowerCase();
+            
+            if (needs.some(word => cleanVal.includes(word))) entryType.value = 'need';
+            else if (wants.some(word => cleanVal.includes(word))) entryType.value = 'want';
         }
 
         function setupDateDropdown() {
-            [cite_start]const dateSel = document.getElementById('entryDate'); [cite: 182]
-            [cite_start]dateSel.innerHTML = ''; [cite: 183]
-            [cite_start]const today = new Date().getDate(); [cite: 183]
-            [cite_start]const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate(); [cite: 183]
+            const dateSel = document.getElementById('entryDate');
+            dateSel.innerHTML = '';
+            const today = new Date().getDate();
+            const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
             for(let i=1; i<=daysInMonth; i++) {
-                [cite_start]const opt = document.createElement('option'); [cite: 184]
-                [cite_start]opt.value = i; opt.innerText = `Day ${i}`; [cite: 185]
-                [cite_start]if(i === today) opt.selected = true; [cite: 185]
-                [cite_start]dateSel.appendChild(opt); [cite: 185]
+                const opt = document.createElement('option');
+                opt.value = i; opt.innerText = `Day ${i}`;
+                if(i === today) opt.selected = true;
+                dateSel.appendChild(opt);
             }
         }
 
         function loadMonthData() {
-            [cite_start]const config = JSON.parse(localStorage.getItem(`config-${curMonth}-${curYear}`) || '{"salary":"","rn":50,"rw":30,"rs":20}'); [cite: 186]
-            [cite_start]document.getElementById('monthlySalary').value = config.salary; [cite: 187]
-            [cite_start]document.getElementById('rNeeds').value = config.rn; [cite: 187]
-            [cite_start]document.getElementById('rWants').value = config.rw; [cite: 187]
-            [cite_start]document.getElementById('rSavings').value = config.rs; [cite: 187]
-            [cite_start]renderBills(); [cite: 187]
-            [cite_start]render(); [cite: 187]
+            const config = JSON.parse(localStorage.getItem(`config-${curMonth}-${curYear}`) || '{"salary":"","rn":50,"rw":30,"rs":20}');
+            document.getElementById('monthlySalary').value = config.salary;
+            document.getElementById('rNeeds').value = config.rn;
+            document.getElementById('rWants').value = config.rw;
+            document.getElementById('rSavings').value = config.rs;
+            renderBills();
+            render();
         }
 
         function changeDate() {
-            [cite_start]curMonth = parseInt(document.getElementById('selectMonth').value); [cite: 188]
-            [cite_start]curYear = parseInt(document.getElementById('selectYear').value); [cite: 189]
-            [cite_start]setupDateDropdown(); [cite: 189]
-            [cite_start]loadMonthData(); [cite: 189]
+            curMonth = parseInt(document.getElementById('selectMonth').value);
+            curYear = parseInt(document.getElementById('selectYear').value);
+            setupDateDropdown();
+            loadMonthData();
         }
 
         function calculateTargets() {
@@ -265,117 +273,133 @@
                 salary: document.getElementById('monthlySalary').value,
                 rn: document.getElementById('rNeeds').value,
                 rw: document.getElementById('rWants').value,
-                [cite_start]rs: document.getElementById('rSavings').value [cite: 189]
+                rs: document.getElementById('rSavings').value
             }));
-            [cite_start]render(); [cite: 191]
+            render();
         }
 
         function addBill() {
-            [cite_start]const desc = document.getElementById('billDesc').value; [cite: 191]
-            [cite_start]const amt = parseFloat(document.getElementById('billAmt').value); [cite: 192]
-            [cite_start]if(!desc || !amt) return; [cite: 192]
-            [cite_start]const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]"); [cite: 192]
-            [cite_start]bills.push({ desc, amt, id: Date.now() }); [cite: 192]
-            [cite_start]localStorage.setItem(`bills-${curMonth}-${curYear}`, JSON.stringify(bills)); [cite: 193]
-            [cite_start]document.getElementById('billDesc').value = ''; [cite: 193]
-            [cite_start]document.getElementById('billAmt').value = ''; [cite: 193]
-            [cite_start]renderBills(); [cite: 193]
-            [cite_start]render(); [cite: 193]
+            const desc = document.getElementById('billDesc').value;
+            const amt = parseFloat(document.getElementById('billAmt').value);
+            if(!desc || !amt) return;
+            const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]");
+            bills.push({ desc, amt, id: Date.now() });
+            localStorage.setItem(`bills-${curMonth}-${curYear}`, JSON.stringify(bills));
+            document.getElementById('billDesc').value = '';
+            document.getElementById('billAmt').value = '';
+            renderBills();
+            render();
         }
 
         function renderBills() {
-            [cite_start]const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]"); [cite: 194]
-            [cite_start]const container = document.getElementById('billList'); [cite: 195]
+            const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]");
+            const container = document.getElementById('billList');
             container.innerHTML = bills.map(b => `
                 <div class="bg-slate-100 dark:bg-slate-700 px-4 py-2 rounded-xl text-[10px] font-black uppercase flex items-center gap-3 border border-slate-200 dark:border-slate-600">
                     ${b.desc}: <span class="text-indigo-600 dark:text-indigo-400">₹${b.amt.toLocaleString()}</span> 
                     <button onclick="removeBill(${b.id})" class="text-red-500 font-bold hover:scale-125 transition-transform">×</button>
-                [cite_start]</div> [cite: 195]
-            [cite_start]`).join(''); [cite: 196]
+                </div>
+            `).join('');
         }
 
         function removeBill(id) {
-            [cite_start]let bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]"); [cite: 197]
-            [cite_start]bills = bills.filter(b => b.id !== id); [cite: 198]
-            [cite_start]localStorage.setItem(`bills-${curMonth}-${curYear}`, JSON.stringify(bills)); [cite: 198]
-            [cite_start]renderBills(); [cite: 198]
-            [cite_start]render(); [cite: 198]
+            let bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]");
+            bills = bills.filter(b => b.id !== id);
+            localStorage.setItem(`bills-${curMonth}-${curYear}`, JSON.stringify(bills));
+            renderBills();
+            render();
         }
 
         function addEntry() {
-            [cite_start]const date = document.getElementById('entryDate').value; [cite: 199]
-            [cite_start]const type = document.getElementById('entryType').value; [cite: 200]
-            [cite_start]const desc = document.getElementById('entryDesc').value; [cite: 200]
-            [cite_start]const amt = parseFloat(document.getElementById('entryAmt').value); [cite: 200]
-            [cite_start]if(!desc || !amt) return; [cite: 200]
-            [cite_start]const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]"); [cite: 201]
-            [cite_start]entries.push({ date, type, desc, amt, id: Date.now() }); [cite: 201]
-            [cite_start]localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries)); [cite: 201]
-            [cite_start]document.getElementById('entryDesc').value = ''; [cite: 201]
-            [cite_start]document.getElementById('entryAmt').value = ''; [cite: 202]
-            [cite_start]render(); [cite: 202]
+            const date = document.getElementById('entryDate').value;
+            const type = document.getElementById('entryType').value;
+            const desc = document.getElementById('entryDesc').value;
+            const amt = parseFloat(document.getElementById('entryAmt').value);
+            if(!desc || !amt) return;
+            const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
+            entries.push({ date, type, desc, amt, id: Date.now() });
+            localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries));
+            document.getElementById('entryDesc').value = '';
+            document.getElementById('entryAmt').value = '';
+            render();
         }
 
         function render() {
-            [cite_start]const config = JSON.parse(localStorage.getItem(`config-${curMonth}-${curYear}`) || '{"salary":0,"rn":50,"rw":30,"rs":20}'); [cite: 202]
-            const salary = parseFloat(config.salary) || [cite_start]0; [cite: 203]
-            [cite_start]const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]"); [cite: 203]
-            [cite_start]const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]"); [cite: 203]
-            [cite_start]const billTotal = bills.reduce((sum, b) => sum + b.amt, 0); [cite: 204]
+            const config = JSON.parse(localStorage.getItem(`config-${curMonth}-${curYear}`) || '{"salary":0,"rn":50,"rw":30,"rs":20}');
+            const salary = parseFloat(config.salary) || 0;
+            const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
+            const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]");
+            const billTotal = bills.reduce((sum, b) => sum + b.amt, 0);
 
-            [cite_start]let spentN = billTotal, spentW = 0, spentS = 0; [cite: 204]
-            [cite_start]let lifeS = 0, lifeE = 0; [cite: 205]
+            let spentN = billTotal, spentW = 0, spentS = 0;
+            let lifeS = 0, lifeE = 0;
             
             for(let i=0; i<localStorage.length; i++) {
-                [cite_start]const k = localStorage.key(i); [cite: 205]
-                [cite_start]if(k.startsWith('budget-')) { [cite: 206]
-                    [cite_start]const data = JSON.parse(localStorage.getItem(k)); [cite: 206]
-                    [cite_start]if(Array.isArray(data)) { [cite: 207]
+                const k = localStorage.key(i);
+                if(k.startsWith('budget-')) {
+                    const data = JSON.parse(localStorage.getItem(k));
+                    if(Array.isArray(data)) {
                         data.forEach(e => {
-                            [cite_start]if(e.type === 'saving') lifeS += e.amt; else lifeE += e.amt; [cite: 207]
+                            if(e.type === 'saving') lifeS += e.amt; else lifeE += e.amt;
                         });
                     }
                 }
             }
 
-            [cite_start]const history = document.getElementById('history'); [cite: 208]
-            [cite_start]history.innerHTML = ''; [cite: 209]
+            const history = document.getElementById('history');
+            history.innerHTML = '';
             entries.forEach(e => {
-                [cite_start]if(e.type === 'need') spentN += e.amt; [cite: 209]
-                [cite_start]else if(e.type === 'want') spentW += e.amt; [cite: 209]
-                [cite_start]else spentS += e.amt; [cite: 209]
+                if(e.type === 'need') spentN += e.amt;
+                else if(e.type === 'want') spentW += e.amt;
+                else spentS += e.amt;
             });
 
-            [cite_start]const tNeeds = salary * (config.rn/100); [cite: 210]
-            [cite_start]const tWants = salary * (config.rw/100); [cite: 210]
-            [cite_start]const tSavings = salary * (config.rs/100); [cite: 210]
+            const tNeeds = salary * (config.rn/100);
+            const tWants = salary * (config.rw/100);
+            const tSavings = salary * (config.rs/100);
 
-            [cite_start]document.getElementById('labelNeeds').innerText = '₹' + tNeeds.toLocaleString(); [cite: 211]
-            [cite_start]document.getElementById('labelWants').innerText = '₹' + tWants.toLocaleString(); [cite: 211]
-            [cite_start]document.getElementById('labelSavings').innerText = '₹' + tSavings.toLocaleString(); [cite: 211]
+            document.getElementById('labelNeeds').innerText = '₹' + tNeeds.toLocaleString();
+            document.getElementById('labelWants').innerText = '₹' + tWants.toLocaleString();
+            document.getElementById('labelSavings').innerText = '₹' + tSavings.toLocaleString();
 
-            [cite_start]const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate(); [cite: 212]
-            [cite_start]const todayDate = new Date(); [cite: 212]
-            [cite_start]const viewingCurrentMonth = (todayDate.getMonth() === curMonth && todayDate.getFullYear() === curYear); [cite: 213]
-            [cite_start]const currentDay = todayDate.getDate(); [cite: 213]
-            const daysLeft = viewingCurrentMonth ? [cite_start]Math.max(1, daysInMonth - currentDay + 1) : daysInMonth; [cite: 214]
+            const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
+            const todayDate = new Date();
+            const viewingCurrentMonth = (todayDate.getMonth() === curMonth && todayDate.getFullYear() === curYear);
+            const currentDay = todayDate.getDate();
+            const daysLeft = viewingCurrentMonth ? Math.max(1, daysInMonth - currentDay + 1) : daysInMonth;
             
-            [cite_start]const remainingWants = tWants - spentW; [cite: 214]
-            [cite_start]const safeDaily = remainingWants > 0 ? remainingWants / daysLeft : 0; [cite: 215]
-            [cite_start]document.getElementById('dailyLimit').innerText = '₹' + Math.floor(safeDaily).toLocaleString(); [cite: 215]
+            const remainingWants = tWants - spentW;
+            const safeDaily = remainingWants > 0 ? remainingWants / daysLeft : 0;
+            document.getElementById('dailyLimit').innerText = '₹' + Math.floor(safeDaily).toLocaleString();
 
-            [cite_start]const totalOutflow = spentN + spentW + spentS; [cite: 216]
-            [cite_start]const balance = salary - totalOutflow; [cite: 216]
-            [cite_start]document.getElementById('accountBalance').innerText = '₹' + balance.toLocaleString(); [cite: 216]
-            [cite_start]document.getElementById('ytdSavings').innerText = '₹' + lifeS.toLocaleString(); [cite: 217]
-            [cite_start]document.getElementById('ytdExpenses').innerText = '₹' + lifeE.toLocaleString(); [cite: 217]
+            // Feature 2: Velocity/Burn Rate Tracker
+            const velocity = (spentW / tWants) * 100;
+            const monthElapsed = (currentDay / daysInMonth) * 100;
+            const vIndicator = document.getElementById('velocityIndicator');
+            if (velocity > monthElapsed + 10) {
+                vIndicator.innerText = "⚠️ High Spending Velocity";
+                vIndicator.className = "text-[8px] font-black uppercase mt-1 text-red-500 animate-pulse";
+            } else {
+                vIndicator.innerText = "✅ Stable Velocity";
+                vIndicator.className = "text-[8px] font-black uppercase mt-1 text-emerald-500";
+            }
 
-            [cite_start]updateBar('fillNeeds', 'statNeeds', spentN, tNeeds); [cite: 218]
-            [cite_start]updateBar('fillWants', 'statWants', spentW, tWants); [cite: 218]
-            [cite_start]updateBar('fillSavings', 'statSavings', spentS, tSavings); [cite: 218]
+            const burnPct = salary > 0 ? (billTotal / salary) * 100 : 0;
+            document.getElementById('burnRate').innerText = `Burn: ${burnPct.toFixed(1)}%`;
+
+            const totalOutflow = spentN + spentW + spentS;
+            const balance = salary - totalOutflow;
+            document.getElementById('accountBalance').innerText = '₹' + balance.toLocaleString();
+            document.getElementById('ytdSavings').innerText = '₹' + lifeS.toLocaleString();
+            document.getElementById('ytdExpenses').innerText = '₹' + lifeE.toLocaleString();
+            document.getElementById('viewingDateDisplay').innerText = document.getElementById('selectMonth').options[curMonth].text + " Audit " + curYear;
+
+            updateBar('fillNeeds', 'statNeeds', spentN, tNeeds);
+            updateBar('fillWants', 'statWants', spentW, tWants);
+            updateBar('fillSavings', 'statSavings', spentS, tSavings);
 
             entries.sort((a,b) => b.id - a.id).forEach(e => {
-                [cite_start]const color = e.type === 'need' ? 'text-blue-500' : e.type === 'want' ? 'text-purple-500' : 'text-emerald-500'; [cite: 219]
+                const color = e.type === 'need' ? 'text-blue-500' : e.type === 'want' ? 'text-purple-500' : 'text-emerald-500';
                 if(editingId === e.id) {
                     history.innerHTML += `
                     <div class="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-[1.5rem] border-2 border-blue-400 space-y-3">
@@ -385,97 +409,97 @@
                             <button onclick="saveEdit(${e.id})" class="flex-1 bg-emerald-600 text-white font-black py-3 rounded-xl text-[10px] uppercase">Update</button>
                             <button onclick="deleteEntry(${e.id})" class="flex-1 bg-red-600 text-white font-black py-3 rounded-xl text-[10px] uppercase">Remove</button>
                         </div>
-                    [cite_start]</div>`; [cite: 221]
+                    </div>`;
                 } else {
                     history.innerHTML += `
-                    <div onclick="startEdit(${e.id})" class="bg-white dark:bg-slate-800 p-5 rounded-[1.5rem] flex justify-between items-center border shadow-sm cursor-pointer hover:border-indigo-500 transition-all group">
+                    <div onclick="startEdit(${e.id})" class="bg-white dark:bg-slate-800 p-5 rounded-[1.5rem] flex justify-between items-center border shadow-sm cursor-pointer hover:border-indigo-500 hover:shadow-md transition-all group">
                         <div class="flex flex-col">
-                            [cite_start]<span class="text-[8px] font-black uppercase tracking-widest ${color}">Day ${e.date} • ${e.type}</span> [cite: 224]
-                            [cite_start]<span class="text-xs font-black text-slate-700 dark:text-slate-200 uppercase mt-1">${e.desc}</span> [cite: 224]
+                            <span class="text-[8px] font-black uppercase tracking-widest ${color}">Day ${e.date} • ${e.type}</span>
+                            <span class="text-xs font-black text-slate-700 dark:text-slate-200 uppercase mt-1">${e.desc}</span>
                         </div>
                         <div class="text-right">
-                            [cite_start]<span class="text-sm font-black text-slate-800 dark:text-white">₹${e.amt.toLocaleString()}</span> [cite: 225]
+                            <span class="text-sm font-black text-slate-800 dark:text-white group-hover:text-indigo-600 transition-colors">₹${e.amt.toLocaleString()}</span>
                         </div>
-                    [cite_start]</div>`; [cite: 225]
+                    </div>`;
                 }
             });
-            [cite_start]calculateGoalTime(); [cite: 226]
+            calculateGoalTime();
         }
 
         function updateBar(barId, statId, spent, target) {
-            const pct = target > 0 ? (spent / target) [cite_start]* 100 : 0; [cite: 228]
-            [cite_start]const bar = document.getElementById(barId); [cite: 228]
-            [cite_start]bar.style.width = Math.min(pct, 100) + '%'; [cite: 228]
-            bar.className = `progress-fill ${pct > 100 ? [cite_start]'bg-red-600' : (barId.includes('Needs') ? 'bg-blue-500' : (barId.includes('Wants') ? 'bg-purple-500' : 'bg-emerald-500'))}`; [cite: 229]
-            [cite_start]document.getElementById(statId).innerText = `Utilized: ${pct.toFixed(0)}% (₹${spent.toLocaleString()})`; [cite: 230]
+            const pct = target > 0 ? (spent / target) * 100 : 0;
+            const bar = document.getElementById(barId);
+            bar.style.width = Math.min(pct, 100) + '%';
+            bar.className = `progress-fill ${pct > 100 ? 'bg-red-600' : (barId.includes('Needs') ? 'bg-blue-500' : (barId.includes('Wants') ? 'bg-purple-500' : 'bg-emerald-500'))}`;
+            document.getElementById(statId).innerText = `Utilized: ${pct.toFixed(0)}% (₹${spent.toLocaleString()})`;
         }
 
         function saveGoal() {
-            [cite_start]localStorage.setItem('goalN', document.getElementById('goalName').value); [cite: 230]
-            [cite_start]localStorage.setItem('goalA', document.getElementById('goalAmount').value); [cite: 231]
-            [cite_start]calculateGoalTime(); [cite: 231]
+            localStorage.setItem('goalN', document.getElementById('goalName').value);
+            localStorage.setItem('goalA', document.getElementById('goalAmount').value);
+            calculateGoalTime();
         }
 
         function calculateGoalTime() {
-            const name = document.getElementById('goalName').value || [cite_start]'Set an Asset Goal'; [cite: 232]
-            const amt = parseFloat(document.getElementById('goalAmount').value) || [cite_start]0; [cite: 232]
-            const salary = parseFloat(document.getElementById('monthlySalary').value) || [cite_start]0; [cite: 232]
-            const savPct = parseFloat(document.getElementById('rSavings').value) || [cite_start]0; [cite: 233]
-            [cite_start]const monthlySaving = salary * (savPct / 100); [cite: 233]
+            const name = document.getElementById('goalName').value || 'Set an Asset Goal';
+            const amt = parseFloat(document.getElementById('goalAmount').value) || 0;
+            const salary = parseFloat(document.getElementById('monthlySalary').value) || 0;
+            const savPct = parseFloat(document.getElementById('rSavings').value) || 0;
+            const monthlySaving = salary * (savPct / 100);
             
-            [cite_start]document.getElementById('goalDisplayName').innerText = name; [cite: 233]
-            [cite_start]const res = document.getElementById('goalResult'); [cite: 234]
+            document.getElementById('goalDisplayName').innerText = name;
+            const res = document.getElementById('goalResult');
             if(monthlySaving > 0 && amt > 0) {
-                [cite_start]const mo = Math.ceil(amt / monthlySaving); [cite: 234]
-                [cite_start]res.innerText = mo + (mo === 1 ? " Month" : " Months") + " to Target"; [cite: 235]
-            [cite_start]} else res.innerText = "— Months left"; [cite: 236]
+                const mo = Math.ceil(amt / monthlySaving);
+                res.innerText = mo + (mo === 1 ? " Month" : " Months") + " to Target";
+            } else res.innerText = "— Months left";
         }
 
-        [cite_start]function startEdit(id) { editingId = id; render(); [cite: 237] }
+        function startEdit(id) { editingId = id; render(); }
         function saveEdit(id) {
-            [cite_start]let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]"); [cite: 237]
-            [cite_start]const idx = entries.findIndex(e => e.id === id); [cite: 238]
+            let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
+            const idx = entries.findIndex(e => e.id === id);
             if(idx > -1) {
-                [cite_start]entries[idx].desc = document.getElementById('editDesc').value; [cite: 238]
-                [cite_start]entries[idx].amt = parseFloat(document.getElementById('editAmt').value); [cite: 239]
-                [cite_start]localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries)); [cite: 239]
+                entries[idx].desc = document.getElementById('editDesc').value;
+                entries[idx].amt = parseFloat(document.getElementById('editAmt').value);
+                localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries));
             }
-            [cite_start]editingId = null; render(); [cite: 240]
+            editingId = null; render();
         }
         function deleteEntry(id) {
-            [cite_start]let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]"); [cite: 240]
-            [cite_start]entries = entries.filter(e => e.id !== id); [cite: 241]
-            [cite_start]localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries)); [cite: 241]
-            [cite_start]editingId = null; render(); [cite: 241]
+            let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
+            entries = entries.filter(e => e.id !== id);
+            localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries));
+            editingId = null; render();
         }
 
         function toggleMonthView(show) { 
-            [cite_start]const modal = document.getElementById('monthModal'); [cite: 242]
-            [cite_start]if(show) { modal.classList.replace('hidden', 'flex'); renderFullReport(); [cite: 243] }
-            [cite_start]else modal.classList.replace('flex', 'hidden'); [cite: 243]
+            const modal = document.getElementById('monthModal');
+            if(show) { modal.classList.replace('hidden', 'flex'); renderFullReport(); }
+            else modal.classList.replace('flex', 'hidden');
         }
 
         function renderFullReport() {
-            [cite_start]const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]"); [cite: 244]
-            [cite_start]const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]"); [cite: 245]
-            [cite_start]const config = JSON.parse(localStorage.getItem(`config-${curMonth}-${curYear}`) || '{"salary":0}'); [cite: 245]
-            const salary = parseFloat(config.salary) || [cite_start]0; [cite: 245]
-            [cite_start]const table = document.getElementById('monthTable'); [cite: 246]
-            [cite_start]table.innerHTML = ''; [cite: 246]
+            const entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
+            const bills = JSON.parse(localStorage.getItem(`bills-${curMonth}-${curYear}`) || "[]");
+            const config = JSON.parse(localStorage.getItem(`config-${curMonth}-${curYear}`) || '{"salary":0}');
+            const salary = parseFloat(config.salary) || 0;
+            const table = document.getElementById('monthTable'); 
+            table.innerHTML = '';
             
-            [cite_start]let sums = { need: 0, want: 0, saving: 0 }; [cite: 246]
+            let sums = { need: 0, want: 0, saving: 0 };
             bills.forEach(b => { 
                 sums.need += b.amt; 
-                [cite_start]table.innerHTML += `<tr class="bg-slate-50"><td class="p-4 opacity-50 font-black">FIXED</td><td class="p-4 text-blue-500">NEED</td><td class="p-4 uppercase">${b.desc}</td><td class="p-4 text-right">₹${b.amt.toLocaleString()}</td></tr>`; [cite: 247]
+                table.innerHTML += `<tr class="bg-slate-50"><td class="p-4 opacity-50 font-black">FIXED</td><td class="p-4 text-blue-500">NEED</td><td class="p-4 uppercase">${b.desc}</td><td class="p-4 text-right">₹${b.amt.toLocaleString()}</td></tr>`; 
             });
             entries.sort((a,b) => a.date - b.date).forEach(e => {
-                [cite_start]sums[e.type] += e.amt; [cite: 248]
-                const color = e.type === 'need' ? 'text-blue-500' : e.type === 'want' ? [cite_start]'text-purple-500' : 'text-emerald-500'; [cite: 248]
-                [cite_start]table.innerHTML += `<tr><td class="p-4">Day ${e.date}</td><td class="p-4 uppercase ${color}">${e.type}</td><td class="p-4 uppercase">${e.desc}</td><td class="p-4 text-right">₹${e.amt.toLocaleString()}</td></tr>`; [cite: 248]
+                sums[e.type] += e.amt;
+                const color = e.type === 'need' ? 'text-blue-500' : e.type === 'want' ? 'text-purple-500' : 'text-emerald-500';
+                table.innerHTML += `<tr><td class="p-4">Day ${e.date}</td><td class="p-4 uppercase ${color}">${e.type}</td><td class="p-4 uppercase">${e.desc}</td><td class="p-4 text-right">₹${e.amt.toLocaleString()}</td></tr>`;
             });
-            [cite_start]const totalOutflow = sums.need + sums.want + sums.saving; [cite: 249]
-            [cite_start]const net = salary - totalOutflow; [cite: 249]
-            [cite_start]document.getElementById('reportTitle').innerText = document.getElementById('selectMonth').options[curMonth].text + " " + curYear; [cite: 250]
+            const totalOutflow = sums.need + sums.want + sums.saving;
+            const net = salary - totalOutflow;
+            document.getElementById('reportTitle').innerText = document.getElementById('selectMonth').options[curMonth].text + " " + curYear;
             document.getElementById('reportSummary').innerHTML = `
                 <div class="bg-slate-900 text-white p-5 rounded-2xl text-center"><p class="text-[8px] opacity-60 uppercase mb-1">Income</p><p class="font-black">₹${salary.toLocaleString()}</p></div>
                 <div class="bg-blue-50 p-5 rounded-2xl text-center"><p class="text-[8px] text-blue-500 uppercase mb-1">Essentials</p><p class="font-black">₹${sums.need.toLocaleString()}</p></div>
@@ -484,21 +508,21 @@
                 <div class="md:col-span-4 mt-4 bg-indigo-600 text-white p-5 rounded-2xl flex justify-between items-center font-black">
                     <span class="text-[10px] uppercase">Net Monthly Delta</span>
                     <span class="text-2xl">₹${net.toLocaleString()}</span>
-                [cite_start]</div>`; [cite: 251]
+                </div>`;
         }
 
         function exportData() {
-            [cite_start]const data = JSON.stringify(localStorage); [cite: 253]
-            [cite_start]const blob = new Blob([data], { type: 'application/json' }); [cite: 254]
-            [cite_start]const a = document.createElement('a'); [cite: 254]
-            [cite_start]a.href = URL.createObjectURL(blob); [cite: 254]
-            [cite_start]a.download = `Neorah_Financial_Backup.json`; [cite: 254]
-            [cite_start]a.click(); [cite: 254]
+            const data = JSON.stringify(localStorage);
+            const blob = new Blob([data], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `Neorah_Financial_Backup.json`;
+            a.click();
         }
 
         function toggleTheme() {
-            [cite_start]const isDark = document.documentElement.classList.toggle('dark'); [cite: 255]
-            [cite_start]localStorage.setItem('theme', isDark ? 'dark' : 'light'); [cite: 256]
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
     </script>
 </body>
