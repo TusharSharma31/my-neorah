@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neorah - Budget OS PRO</title>
+    <title>Neorah - Budget OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
@@ -21,9 +21,23 @@
         .progress-fill { height: 100%; transition: width 0.6s ease; }
 
         @media (max-width: 1024px) {
-            .mobile-nav { display: grid !important; grid-template-cols: repeat(4, 1fr); gap: 5px; width: 100%; }
-            .mobile-nav a { font-size: 10px; padding: 8px 2px !important; text-align: center; border-radius: 8px; }
-            .active-mobile { color: var(--accent) !important; background: rgba(255,255,255,0.1); font-weight: 900; }
+            .mobile-nav { 
+                display: grid !important;
+                grid-template-cols: repeat(4, 1fr); 
+                gap: 5px; 
+                width: 100%;
+            }
+            .mobile-nav a { 
+                font-size: 10px;
+                padding: 8px 2px !important; 
+                text-align: center;
+                border-radius: 8px;
+            }
+            .active-mobile { 
+                color: var(--accent) !important;
+                background: rgba(255,255,255,0.1); 
+                font-weight: 900; 
+            }
             main { margin-top: 10px; }
         }
         @media print { .no-print { display: none !important; } main { margin-left: 0 !important; } }
@@ -64,20 +78,21 @@
                     <option value="9">October</option><option value="10">November</option><option value="11">December</option>
                 </select>
                 <select id="selectYear" onchange="changeDate()" class="font-black text-xs bg-transparent outline-none cursor-pointer text-slate-600 dark:text-slate-300">
-                    <option value="2025">2025</option><option value="2026" selected>2026</option>
+                    <option value="2026" selected>2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
                 </select>
             </div>
 
             <div class="bg-emerald-600 text-white p-4 rounded-2xl shadow-lg relative overflow-hidden">
                 <p class="text-[9px] font-black uppercase opacity-80 tracking-widest">Available Balance</p>
                 <h3 id="accountBalance" class="text-2xl font-black">₹0</h3>
-                <div class="absolute right-2 bottom-2 text-[8px] font-bold bg-black/20 px-2 py-1 rounded italic">LIVE DELTA</div>
+                <div class="absolute right-2 bottom-2 text-[8px] font-bold bg-black/20 px-2 py-1 rounded">LIVE</div>
             </div>
 
             <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border shadow-sm flex flex-col justify-center">
-                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Daily Limit (Wants)</p>
+                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Daily Safe Limit (Wants)</p>
                 <h3 id="dailyLimit" class="text-xl font-black text-slate-800 dark:text-white">₹0</h3>
-                <div id="velocityIndicator" class="text-[8px] font-black uppercase mt-1">Calculating Velocity...</div>
             </div>
         </section>
 
@@ -122,13 +137,10 @@
             </section>
 
             <section class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                <div class="flex justify-between items-start mb-6">
-                    <h4 class="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em]">2. Fixed Overheads</h4>
-                    <span id="burnRate" class="text-[8px] font-black bg-rose-100 text-rose-600 px-2 py-1 rounded">Burn: 0%</span>
-                </div>
+                <h4 class="text-[10px] font-black uppercase mb-6 text-slate-400 tracking-[0.2em]">2. Fixed Overheads</h4>
                 <div class="flex gap-2 mb-4">
-                    <input id="billDesc" type="text" placeholder="Rent, Subscription..." class="flex-1 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none">
-                    <input id="billAmt" type="number" placeholder="₹" class="w-24 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none font-black">
+                    <input id="billDesc" type="text" placeholder="Rent, Subscription..." class="flex-1 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none text-slate-900 dark:text-white">
+                    <input id="billAmt" type="number" placeholder="₹" class="w-24 bg-slate-50 dark:bg-slate-900 p-3 rounded-xl text-xs outline-none font-black text-slate-900 dark:text-white">
                     <button onclick="addBill()" class="bg-slate-900 text-white px-5 rounded-xl text-lg font-black hover:bg-custom-accent transition-colors">+</button>
                 </div>
                 <div id="billList" class="flex flex-wrap gap-2"></div>
@@ -162,16 +174,16 @@
                     <option value="want">🍿 Personal Want</option>
                     <option value="saving">🏦 Asset/Saving</option>
                 </select>
-                <input id="entryDesc" type="text" oninput="smartTag(this.value)" placeholder="e.g. Netflix, Rent, Food" class="bg-slate-800 rounded-xl p-4 text-xs outline-none border border-transparent focus:border-indigo-400 transition-all">
+                <input id="entryDesc" type="text" placeholder="Item/Service Description" class="bg-slate-800 rounded-xl p-4 text-xs outline-none">
                 <input id="entryAmt" type="number" placeholder="Value (₹)" class="bg-slate-800 rounded-xl p-4 text-xs outline-none font-black">
                 <button onclick="addEntry()" class="sm:col-span-4 bg-indigo-600 py-4 rounded-xl text-xs font-black uppercase tracking-[0.4em] hover:bg-custom-accent transition-all transform hover:scale-[1.01] active:scale-95">Commit Transaction</button>
             </div>
         </section>
 
         <section class="bg-indigo-600 text-white p-5 rounded-[2rem] mb-12 flex flex-col md:flex-row gap-4 items-center no-print shadow-lg border-l-8 border-white">
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">Goal Objective:</span>
-            <input id="goalName" oninput="saveGoal()" type="text" placeholder="e.g. Real Estate Downpayment" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-bold text-white border-none">
-            <input id="goalAmount" oninput="saveGoal()" type="number" placeholder="Target ₹" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-black text-white border-none">
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">Primary Accumulation Goal:</span>
+            <input id="goalName" oninput="saveGoal()" type="text" placeholder="e.g. Real Estate Downpayment" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-bold text-white">
+            <input id="goalAmount" oninput="saveGoal()" type="number" placeholder="Target ₹" class="bg-white/10 rounded-xl p-3 text-xs w-full outline-none placeholder:text-white/30 font-black text-white">
         </section>
 
         <div class="flex justify-between items-center mb-6">
@@ -196,6 +208,7 @@
             
             <div class="bg-white rounded-[3rem] p-10 text-slate-900 shadow-2xl border-t-[12px] border-indigo-600">
                 <div id="reportSummary" class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12"></div>
+                
                 <table class="w-full text-left">
                     <thead class="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-400">
                         <tr class="border-b">
@@ -217,7 +230,7 @@
         let editingId = null;
 
         window.onload = init;
-
+        
         function init() {
             document.getElementById('selectMonth').value = curMonth;
             document.getElementById('selectYear').value = curYear;
@@ -225,17 +238,6 @@
             document.getElementById('goalAmount').value = localStorage.getItem('goalA') || '';
             setupDateDropdown();
             loadMonthData();
-        }
-
-        // Feature 1: Smart Category Tagging Logic
-        function smartTag(val) {
-            const needs = ['rent', 'food', 'petrol', 'gas', 'electric', 'bill', 'grocery', 'medicine', 'hospital'];
-            const wants = ['netflix', 'spotify', 'zomato', 'swiggy', 'movie', 'party', 'clothes', 'game', 'cafe'];
-            const entryType = document.getElementById('entryType');
-            const cleanVal = val.toLowerCase();
-            
-            if (needs.some(word => cleanVal.includes(word))) entryType.value = 'need';
-            else if (wants.some(word => cleanVal.includes(word))) entryType.value = 'want';
         }
 
         function setupDateDropdown() {
@@ -353,15 +355,12 @@
                 else if(e.type === 'want') spentW += e.amt;
                 else spentS += e.amt;
             });
-
             const tNeeds = salary * (config.rn/100);
             const tWants = salary * (config.rw/100);
             const tSavings = salary * (config.rs/100);
-
             document.getElementById('labelNeeds').innerText = '₹' + tNeeds.toLocaleString();
             document.getElementById('labelWants').innerText = '₹' + tWants.toLocaleString();
             document.getElementById('labelSavings').innerText = '₹' + tSavings.toLocaleString();
-
             const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
             const todayDate = new Date();
             const viewingCurrentMonth = (todayDate.getMonth() === curMonth && todayDate.getFullYear() === curYear);
@@ -371,33 +370,15 @@
             const remainingWants = tWants - spentW;
             const safeDaily = remainingWants > 0 ? remainingWants / daysLeft : 0;
             document.getElementById('dailyLimit').innerText = '₹' + Math.floor(safeDaily).toLocaleString();
-
-            // Feature 2: Velocity/Burn Rate Tracker
-            const velocity = (spentW / tWants) * 100;
-            const monthElapsed = (currentDay / daysInMonth) * 100;
-            const vIndicator = document.getElementById('velocityIndicator');
-            if (velocity > monthElapsed + 10) {
-                vIndicator.innerText = "⚠️ High Spending Velocity";
-                vIndicator.className = "text-[8px] font-black uppercase mt-1 text-red-500 animate-pulse";
-            } else {
-                vIndicator.innerText = "✅ Stable Velocity";
-                vIndicator.className = "text-[8px] font-black uppercase mt-1 text-emerald-500";
-            }
-
-            const burnPct = salary > 0 ? (billTotal / salary) * 100 : 0;
-            document.getElementById('burnRate').innerText = `Burn: ${burnPct.toFixed(1)}%`;
-
             const totalOutflow = spentN + spentW + spentS;
             const balance = salary - totalOutflow;
             document.getElementById('accountBalance').innerText = '₹' + balance.toLocaleString();
             document.getElementById('ytdSavings').innerText = '₹' + lifeS.toLocaleString();
             document.getElementById('ytdExpenses').innerText = '₹' + lifeE.toLocaleString();
             document.getElementById('viewingDateDisplay').innerText = document.getElementById('selectMonth').options[curMonth].text + " Audit " + curYear;
-
             updateBar('fillNeeds', 'statNeeds', spentN, tNeeds);
             updateBar('fillWants', 'statWants', spentW, tWants);
             updateBar('fillSavings', 'statSavings', spentS, tSavings);
-
             entries.sort((a,b) => b.id - a.id).forEach(e => {
                 const color = e.type === 'need' ? 'text-blue-500' : e.type === 'want' ? 'text-purple-500' : 'text-emerald-500';
                 if(editingId === e.id) {
@@ -406,7 +387,7 @@
                         <input id="editDesc" value="${e.desc}" class="w-full p-3 rounded-xl text-xs font-bold border outline-none">
                         <input id="editAmt" type="number" value="${e.amt}" class="w-full p-3 rounded-xl text-xs font-black border outline-none">
                         <div class="flex gap-2">
-                            <button onclick="saveEdit(${e.id})" class="flex-1 bg-emerald-600 text-white font-black py-3 rounded-xl text-[10px] uppercase">Update</button>
+                           <button onclick="saveEdit(${e.id})" class="flex-1 bg-emerald-600 text-white font-black py-3 rounded-xl text-[10px] uppercase">Update</button>
                             <button onclick="deleteEntry(${e.id})" class="flex-1 bg-red-600 text-white font-black py-3 rounded-xl text-[10px] uppercase">Remove</button>
                         </div>
                     </div>`;
@@ -464,7 +445,8 @@
                 entries[idx].amt = parseFloat(document.getElementById('editAmt').value);
                 localStorage.setItem(`budget-${curMonth}-${curYear}`, JSON.stringify(entries));
             }
-            editingId = null; render();
+            editingId = null;
+            render();
         }
         function deleteEntry(id) {
             let entries = JSON.parse(localStorage.getItem(`budget-${curMonth}-${curYear}`) || "[]");
@@ -508,7 +490,8 @@
                 <div class="md:col-span-4 mt-4 bg-indigo-600 text-white p-5 rounded-2xl flex justify-between items-center font-black">
                     <span class="text-[10px] uppercase">Net Monthly Delta</span>
                     <span class="text-2xl">₹${net.toLocaleString()}</span>
-                </div>`;
+                </div>
+            `;
         }
 
         function exportData() {
