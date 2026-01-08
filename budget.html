@@ -130,9 +130,9 @@
                         <input id="monthlySalary" type="number" oninput="calculateTargets()" placeholder="0.00" class="text-3xl font-black w-full border-b-2 pl-6 pb-1 outline-none focus:border-custom-accent bg-transparent text-slate-900 dark:text-white">
                     </div>
                     <div class="flex gap-4">
-                        <div class="flex-1"><p class="text-[8px] font-black text-blue-500 uppercase mb-1">Needs %</p><input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold" value="50"></div>
-                        <div class="flex-1"><p class="text-[8px] font-black text-purple-500 uppercase mb-1">Wants %</p><input id="rWants" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold" value="30"></div>
-                        <div class="flex-1"><p class="text-[8px] font-black text-emerald-500 uppercase mb-1">Saving %</p><input id="rSavings" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold" value="20"></div>
+                        <div class="flex-1"><p class="text-[8px] font-black text-blue-500 uppercase mb-1">Needs %</p><input id="rNeeds" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold text-slate-900 dark:text-white" value="50"></div>
+                        <div class="flex-1"><p class="text-[8px] font-black text-purple-500 uppercase mb-1">Wants %</p><input id="rWants" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold text-slate-900 dark:text-white" value="30"></div>
+                        <div class="flex-1"><p class="text-[8px] font-black text-emerald-500 uppercase mb-1">Saving %</p><input id="rSavings" type="number" oninput="calculateTargets()" class="w-full bg-slate-50 dark:bg-slate-900 p-2 rounded-lg text-xs font-bold text-slate-900 dark:text-white" value="20"></div>
                     </div>
                 </div>
             </section>
@@ -150,17 +150,17 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
             <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Needs</span><span id="labelNeeds" class="text-[10px] font-black">₹0</span></div>
+                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Needs</span><span id="labelNeeds" class="text-[10px] font-black text-slate-900 dark:text-white">₹0</span></div>
                 <div class="progress-bg"><div id="fillNeeds" class="progress-fill bg-blue-500" style="width:0%"></div></div>
                 <p id="statNeeds" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
             <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-purple-500 uppercase tracking-widest">Wants</span><span id="labelWants" class="text-[10px] font-black">₹0</span></div>
+                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-purple-500 uppercase tracking-widest">Wants</span><span id="labelWants" class="text-[10px] font-black text-slate-900 dark:text-white">₹0</span></div>
                 <div class="progress-bg"><div id="fillWants" class="progress-fill bg-purple-500" style="width:0%"></div></div>
                 <p id="statWants" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
             <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm">
-                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Savings</span><span id="labelSavings" class="text-[10px] font-black">₹0</span></div>
+                <div class="flex justify-between mb-3"><span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Savings</span><span id="labelSavings" class="text-[10px] font-black text-slate-900 dark:text-white">₹0</span></div>
                 <div class="progress-bg"><div id="fillSavings" class="progress-fill bg-emerald-500" style="width:0%"></div></div>
                 <p id="statSavings" class="text-[9px] mt-3 font-black text-slate-400 uppercase">Utilized: 0%</p>
             </div>
