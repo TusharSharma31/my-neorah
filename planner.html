@@ -14,7 +14,6 @@
         .text-custom-accent { color: var(--accent) !important; }
         .text-custom-primary { color: var(--primary) !important; }
         
-        /* Dark Mode Utility */
         .dark body { background-color: #020617; color: #f1f5f9; }
         .dark .bg-white { background-color: #1e293b; border-color: #334155; }
         .dark input, .dark textarea { color: white; }
@@ -22,6 +21,10 @@
         .mood-btn { opacity: 0.4; transition: all 0.2s; cursor: pointer; filter: grayscale(1); }
         .mood-btn.active { opacity: 1; filter: grayscale(0); transform: scale(1.2); }
         
+        /* Energy Dots Styling */
+        .energy-dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid #cbd5e1; cursor: pointer; transition: 0.2s; }
+        .energy-dot.active { background-color: #10b981; border-color: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+
         @media (max-width: 1024px) {
             nav { width: 100% !important; height: auto !important; position: sticky !important; top: 0; padding: 15px !important; border-bottom: 1px solid rgba(255,255,255,0.1); }
             main { margin-left: 0 !important; padding: 15px !important; }
@@ -60,6 +63,30 @@
             </div>
         </header>
 
+        <div class="mb-10 bg-custom-sidebar text-white p-6 lg:p-8 rounded-[2.5rem] shadow-xl border-b-8 border-custom-primary">
+            <h3 class="text-[9px] font-black uppercase text-custom-accent mb-6 tracking-widest">Core Weekly Targets</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <label class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-2 block">📚 Study / Skills</label>
+                    <textarea id="weekStudy" oninput="saveWeeklyTarget('study', this.value)" 
+                        class="w-full bg-transparent border-b border-white/10 outline-none text-sm font-bold h-20 resize-none leading-relaxed" 
+                        placeholder="Weekly learning goal..."></textarea>
+                </div>
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <label class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-2 block">🏃 Health / Fitness</label>
+                    <textarea id="weekHealth" oninput="saveWeeklyTarget('health', this.value)" 
+                        class="w-full bg-transparent border-b border-white/10 outline-none text-sm font-bold h-20 resize-none leading-relaxed" 
+                        placeholder="Weekly activity goal..."></textarea>
+                </div>
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <label class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-2 block">💼 Career / Projects</label>
+                    <textarea id="weekCareer" oninput="saveWeeklyTarget('career', this.value)" 
+                        class="w-full bg-transparent border-b border-white/10 outline-none text-sm font-bold h-20 resize-none leading-relaxed" 
+                        placeholder="Weekly work outcome..."></textarea>
+                </div>
+            </div>
+        </div>
+
         <div id="plannerGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 pb-20"></div>
     </main>
 
@@ -74,6 +101,22 @@
         function setMood(dateKey, mood) {
             localStorage.setItem(dateKey + '-mood', mood);
             render();
+        }
+
+        function setEnergy(dateKey, level) {
+            localStorage.setItem(dateKey + '-energy', level);
+            render();
+        }
+
+        function getWeekKey() {
+            let start = new Date(pivot);
+            start.setDate(pivot.getDate() - pivot.getDay() + 1);
+            return start.toISOString().split('T')[0];
+        }
+
+        function saveWeeklyTarget(type, value) {
+            const weekKey = getWeekKey();
+            localStorage.setItem(`week-${weekKey}-${type}`, value);
         }
 
         function exportData() {
@@ -91,8 +134,14 @@
             
             let start = new Date(pivot);
             start.setDate(pivot.getDate() - pivot.getDay() + 1);
+            const weekKey = start.toISOString().split('T')[0];
             
             document.getElementById('weekDisplay').innerText = `Week of ${start.toLocaleDateString('en-US', {month:'long', day:'numeric'})}`;
+
+            // Load Weekly Targets
+            document.getElementById('weekStudy').value = localStorage.getItem(`week-${weekKey}-study`) || '';
+            document.getElementById('weekHealth').value = localStorage.getItem(`week-${weekKey}-health`) || '';
+            document.getElementById('weekCareer').value = localStorage.getItem(`week-${weekKey}-career`) || '';
 
             for(let i=0; i<7; i++) {
                 let d = new Date(start);
@@ -100,23 +149,40 @@
                 const dKey = d.toISOString().split('T')[0];
                 const isToday = new Date().toISOString().split('T')[0] === dKey;
                 const savedMood = localStorage.getItem(dKey + '-mood');
+                const savedEnergy = parseInt(localStorage.getItem(dKey + '-energy')) || 0;
+                const isSunday = d.getDay() === 0;
 
                 grid.innerHTML += `
-                    <div class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border ${isToday ? 'border-custom-accent ring-4 ring-red-50 dark:ring-red-900/20' : 'border-slate-100 dark:border-slate-700'} shadow-sm flex flex-col h-[520px] transition-all">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border ${isToday ? 'border-custom-accent ring-4 ring-red-50 dark:ring-red-900/20' : 'border-slate-100 dark:border-slate-700'} shadow-sm flex flex-col h-[580px] transition-all">
                         <div class="flex justify-between items-start mb-4">
                             <div>
                                 <p class="text-[9px] font-black uppercase tracking-widest ${isToday ? 'text-custom-accent' : 'text-slate-400'}">${d.toLocaleDateString('en-US', {weekday:'long'})}</p>
                                 <h3 class="text-lg font-black text-slate-800 dark:text-white">${d.toLocaleDateString('en-US', {day:'numeric', month:'short'})}</h3>
                             </div>
-                            <div class="flex gap-1">
-                                <span onclick="setMood('${dKey}', '🔥')" class="mood-btn ${savedMood === '🔥' ? 'active' : ''}">🔥</span>
-                                <span onclick="setMood('${dKey}', '😊')" class="mood-btn ${savedMood === '😊' ? 'active' : ''}">😊</span>
-                                <span onclick="setMood('${dKey}', '😐')" class="mood-btn ${savedMood === '😐' ? 'active' : ''}">😐</span>
-                                <span onclick="setMood('${dKey}', '😴')" class="mood-btn ${savedMood === '😴' ? 'active' : ''}">😴</span>
+                            <div class="flex flex-col items-end gap-2">
+                                <div class="flex gap-1">
+                                    <span onclick="setMood('${dKey}', '🔥')" class="mood-btn ${savedMood === '🔥' ? 'active' : ''}">🔥</span>
+                                    <span onclick="setMood('${dKey}', '😊')" class="mood-btn ${savedMood === '😊' ? 'active' : ''}">😊</span>
+                                    <span onclick="setMood('${dKey}', '😐')" class="mood-btn ${savedMood === '😐' ? 'active' : ''}">😐</span>
+                                    <span onclick="setMood('${dKey}', '😴')" class="mood-btn ${savedMood === '😴' ? 'active' : ''}">😴</span>
+                                </div>
+                                <div class="flex gap-1 items-center">
+                                    <span class="text-[7px] font-bold text-slate-300 uppercase mr-1">Energy</span>
+                                    ${[1,2,3,4,5].map(num => `<div onclick="setEnergy('${dKey}', ${num})" class="energy-dot ${savedEnergy >= num ? 'active' : ''}"></div>`).join('')}
+                                </div>
                             </div>
                         </div>
                         
                         <div class="flex-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+                            <div class="flex gap-2">
+                                ${['AM', 'PM', 'EVE'].map(slot => `
+                                    <div class="flex-1 bg-slate-50 dark:bg-slate-900/50 p-2 rounded-xl border border-slate-100 dark:border-slate-700">
+                                        <label class="text-[7px] font-black text-slate-400 uppercase block mb-1">${slot}</label>
+                                        <input oninput="localStorage.setItem('${dKey}-slot-${slot}', this.value)" value="${localStorage.getItem(dKey+'-slot-'+slot)||''}" class="w-full bg-transparent text-[10px] outline-none font-bold" placeholder="...">
+                                    </div>
+                                `).join('')}
+                            </div>
+
                             <div class="bg-amber-50 dark:bg-amber-900/10 p-3 rounded-xl border border-amber-100 dark:border-amber-900/30">
                                 <label class="text-[8px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest mb-1 block">🏆 Win of the Day</label>
                                 <input oninput="localStorage.setItem('${dKey}-win', this.value)" 
@@ -127,22 +193,31 @@
                             <div>
                                 <label class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 block">💡 Reflection</label>
                                 <textarea oninput="localStorage.setItem('${dKey}-note', this.value)" 
-                                    class="w-full text-xs h-20 outline-none bg-transparent resize-none italic text-slate-600 dark:text-slate-300 leading-relaxed border-b border-slate-50 dark:border-slate-700" 
-                                    placeholder="Thoughts on today...">${localStorage.getItem(dKey+'-note')||''}</textarea>
+                                    class="w-full text-xs h-16 outline-none bg-transparent resize-none italic text-slate-600 dark:text-slate-300 leading-relaxed border-b border-slate-50 dark:border-slate-700" 
+                                    placeholder="Thoughts...">${localStorage.getItem(dKey+'-note')||''}</textarea>
                             </div>
 
+                            ${isSunday ? `
+                            <div class="bg-custom-sidebar text-white p-4 rounded-2xl border-l-4 border-custom-accent">
+                                <label class="text-[8px] font-black text-custom-accent uppercase tracking-widest mb-2 block">📊 Weekly Performance Audit</label>
+                                <textarea oninput="localStorage.setItem('${weekKey}-audit', this.value)" 
+                                    class="w-full bg-transparent text-[10px] h-12 outline-none resize-none leading-tight border-none" 
+                                    placeholder="How was your discipline this week?">${localStorage.getItem(weekKey+'-audit')||''}</textarea>
+                            </div>
+                            ` : `
                             <div>
                                 <label class="text-[8px] font-black text-red-400 uppercase tracking-widest mb-1 block">⚠️ Challenge</label>
                                 <textarea oninput="localStorage.setItem('${dKey}-challenge', this.value)" 
                                     class="w-full text-xs h-12 outline-none bg-transparent resize-none text-slate-700 dark:text-slate-400 leading-relaxed" 
-                                    placeholder="Obstacles faced...">${localStorage.getItem(dKey+'-challenge')||''}</textarea>
+                                    placeholder="Obstacles...">${localStorage.getItem(dKey+'-challenge')||''}</textarea>
                             </div>
+                            `}
 
                             <div class="pt-3 border-t border-dashed border-slate-200 dark:border-slate-700">
-                                <label class="text-[8px] font-black text-emerald-600 uppercase tracking-widest mb-1 block">🎯 Progress Made</label>
+                                <label class="text-[8px] font-black text-emerald-600 uppercase tracking-widest mb-1 block">🎯 Next Steps</label>
                                 <textarea oninput="localStorage.setItem('${dKey}-goal', this.value)" 
                                     class="w-full text-xs h-12 outline-none bg-transparent resize-none font-bold text-slate-800 dark:text-slate-200 leading-relaxed" 
-                                    placeholder="Next steps...">${localStorage.getItem(dKey+'-goal')||''}</textarea>
+                                    placeholder="Plan for tomorrow...">${localStorage.getItem(dKey+'-goal')||''}</textarea>
                             </div>
                         </div>
                     </div>`;
