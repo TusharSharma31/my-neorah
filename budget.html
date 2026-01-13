@@ -33,6 +33,19 @@
     </style>
 </head>
 <body class="bg-slate-50 flex flex-col lg:flex-row min-h-screen transition-colors duration-300">
+<button onclick="toggleMobileMenu()" class="fixed top-4 right-4 z-50 p-2 bg-custom-sidebar text-white rounded-lg md:hidden shadow-lg">
+    <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="4 6h16M4 12h16m-7 6h7" />
+    </svg>
+</button>
+
+<div id="mobileMenu" class="fixed inset-0 bg-custom-sidebar z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col items-center justify-center space-y-8 text-xl font-bold text-white">
+    <a href="index.html" class="hover:text-custom-accent">Roadmap</a>
+    <a href="planner.html" class="hover:text-custom-accent">Journal</a>
+    <a href="habits.html" class="hover:text-custom-accent">Habits</a>
+    <a href="budget.html" class="hover:text-custom-accent">Budget</a>
+    <button onclick="toggleMobileMenu()" class="absolute top-4 right-4 text-slate-400">✕ Close</button>
+</div>
 
     <nav class="w-64 bg-custom-sidebar text-white p-6 fixed h-full flex flex-col z-50 no-print hidden lg:flex">
         <h1 class="text-2xl font-bold mb-10 text-custom-accent tracking-tighter italic uppercase text-center lg:text-left">NEORAH</h1>
