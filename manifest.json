@@ -1,0 +1,17 @@
+
+{
+  "name": "Neorah 2026",
+  "short_name": "Soul Planner",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#7f1d1d",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/4345/4345573.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
