@@ -108,7 +108,6 @@
         function calculateStreak(habitName) {
             let streak = 0;
             let checkDate = new Date();
-            // Start checking from yesterday backwards
             checkDate.setDate(checkDate.getDate() - 1);
             
             while (true) {
@@ -120,7 +119,6 @@
                     break;
                 }
             }
-            // Check if today is done to add to streak
             if (localStorage.getItem(`h-${habitName}-${curM}-${curD}`) === 'true') streak++;
             return streak;
         }
@@ -169,7 +167,7 @@
                     const isToday = d === curD;
                     
                     html += `
-                        <div onclick="toggleCircle(this, '${k}')" 
+                        <div onclick="toggleCircle(this, '${k}', ${d})" 
                              class="circle ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}">
                             ${d}
                         </div>`;
@@ -178,12 +176,17 @@
             });
         }
 
-        function toggleCircle(el, key) {
+        // Modified toggleCircle to lock non-today dates
+        function toggleCircle(el, key, day) {
+            if (day !== curD) {
+                alert("You can only update today's progress! Stay disciplined.");
+                return;
+            }
             const newState = !el.classList.contains('done');
             if (newState) el.classList.add('done');
             else el.classList.remove('done');
             localStorage.setItem(key, newState);
-            render(); // Re-render to update streak and progress
+            render(); 
         }
 
         function addH() { 
@@ -226,4 +229,3 @@
     </script>
 </body>
 </html>
-
